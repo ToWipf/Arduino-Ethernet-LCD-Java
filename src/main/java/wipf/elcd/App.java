@@ -2,6 +2,13 @@ package wipf.elcd;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+
+import com.profesorfalken.jsensors.JSensors;
+import com.profesorfalken.jsensors.model.components.Components;
+import com.profesorfalken.jsensors.model.components.Cpu;
+import com.profesorfalken.jsensors.model.sensors.Fan;
+import com.profesorfalken.jsensors.model.sensors.Temperature;
 
 /**
  * Hello world!
@@ -12,6 +19,38 @@ public class App {
 	public static void main(String[] args) {
 		System.out.println("Hello World!");
 
+		// testLcd();
+		testSens();
+	}
+
+	private static void testSens() {
+		Components components = JSensors.get.components();
+
+		List<Cpu> cpus = components.cpus;
+		if (cpus != null) {
+			for (final Cpu cpu : cpus) {
+				System.out.println("Found CPU component: " + cpu.name);
+				if (cpu.sensors != null) {
+					System.out.println("Sensors: ");
+
+					// Print temperatures
+					List<Temperature> temps = cpu.sensors.temperatures;
+					for (final Temperature temp : temps) {
+						System.out.println(temp.name + ": " + temp.value + " C");
+					}
+
+					// Print fan speed
+					List<Fan> fans = cpu.sensors.fans;
+					for (final Fan fan : fans) {
+						System.out.println(fan.name + ": " + fan.value + " RPM");
+					}
+				}
+			}
+		}
+
+	}
+
+	private static void testLcd() {
 		// dlcd.testRest();
 		dlcd.clear();
 		dlcd.goToLine(0);
