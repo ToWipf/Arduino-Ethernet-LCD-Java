@@ -10,19 +10,25 @@ import com.profesorfalken.jsensors.model.components.Cpu;
 import com.profesorfalken.jsensors.model.sensors.Fan;
 import com.profesorfalken.jsensors.model.sensors.Temperature;
 
-/**
- * Hello world!
- *
- */
-
 public class App {
+
+	/**
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		System.out.println("Hello World!");
 
 		// testLcd();
-		testSens();
+		// testSens();
+		testSensCpu();
+
+		System.exit(0);
 	}
 
+	/**
+	 * 
+	 */
+	@SuppressWarnings("unused")
 	private static void testSens() {
 		Components components = JSensors.get.components();
 
@@ -47,9 +53,41 @@ public class App {
 				}
 			}
 		}
-
 	}
 
+	/**
+	 * 
+	 */
+	private static void testSensCpu() {
+		Components components = JSensors.get.components();
+
+		List<Cpu> cpus = components.cpus;
+		if (cpus != null) {
+			for (final Cpu cpu : cpus) {
+				System.out.println("Found CPU component: " + cpu.name);
+				if (cpu.sensors != null) {
+					System.out.println("Sensors: ");
+
+					// Print temperatures
+					List<Temperature> temps = cpu.sensors.temperatures;
+
+					if (temps.size() != 0) {
+						for (Temperature temp : temps) {
+							System.out.println(temp.name + ": " + temp.value + " C");
+						}
+
+					}
+
+				}
+			}
+		}
+		System.out.println(components);
+	}
+
+	/**
+	 * 
+	 */
+	@SuppressWarnings("unused")
 	private static void testLcd() {
 		// dlcd.testRest();
 		dlcd.clear();

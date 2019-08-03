@@ -6,6 +6,9 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 
 public class dlcd {
 
+	/**
+	 * 
+	 */
 	public static void testRest() {
 		HttpResponse<String> response;
 		try {
@@ -18,6 +21,9 @@ public class dlcd {
 
 	}
 
+	/**
+	 * @param n
+	 */
 	public static void goToLine(Integer n) {
 		try {
 			Unirest.get("http://192.168.2.242/gL" + n).asString();
@@ -27,6 +33,9 @@ public class dlcd {
 		}
 	}
 
+	/**
+	 * 
+	 */
 	public static void clear() {
 		try {
 			Unirest.get("http://192.168.2.242/cls").asString();
@@ -36,6 +45,9 @@ public class dlcd {
 		}
 	}
 
+	/**
+	 * @param s
+	 */
 	public static void text(String s) {
 		try {
 			Unirest.get("http://192.168.2.242/" + s).asString();
