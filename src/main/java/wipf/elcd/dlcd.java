@@ -6,17 +6,14 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 
 public class dlcd {
 
-	/**
-	 * 
-	 */
-	public static void testRest() {
+	private static Boolean restLcd(String sCall) {
 		HttpResponse<String> response;
 		try {
-			response = Unirest.get("http://192.168.2.242/testText").asString();
-			System.out.println(response.getBody());
+			response = Unirest.put("http://192.168.2.242/" + sCall).asString();
+			return (response.getBody().equals("{}"));
 		} catch (UnirestException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return false;
 		}
 
 	}
@@ -24,36 +21,36 @@ public class dlcd {
 	/**
 	 * @param n
 	 */
-	public static void goToLine(Integer n) {
-		try {
-			Unirest.get("http://192.168.2.242/gL" + n).asString();
-		} catch (UnirestException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	public static void goTo(Integer nCol, Integer nRow) {
+
+		if (nCol > 20 || nCol < 0 || nRow < 0 || nRow > 4) {
+			return;
 		}
+		String sCol;
+		if (nCol < 10) {
+			sCol = '0' + nCol.toString();
+		} else {
+			sCol = nCol.toString();
+		}
+
+		restLcd("!~" + sCol + nRow);
+
+		System.out.println("col: " + sCol + " row: " + nRow);
 	}
 
 	/**
 	 * 
 	 */
 	public static void clear() {
-		try {
-			Unirest.get("http://192.168.2.242/cls").asString();
-		} catch (UnirestException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		restLcd("cls");
+		System.out.println("cls");
 	}
 
 	/**
 	 * @param s
 	 */
 	public static void text(String s) {
-		try {
-			Unirest.get("http://192.168.2.242/" + s).asString();
-		} catch (UnirestException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		restLcd(s);
+		System.out.println("text: " + s);
 	}
 }

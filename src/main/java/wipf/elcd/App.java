@@ -17,10 +17,12 @@ public class App {
 	 */
 	public static void main(String[] args) {
 		System.out.println("Hello World!");
+		dlcd.clear();
 
 		// testLcd();
+		testuhr();
 		// testSens();
-		testSensCpu();
+		// testSensCpu();
 
 		System.exit(0);
 	}
@@ -91,37 +93,39 @@ public class App {
 	private static void testLcd() {
 		// dlcd.testRest();
 		dlcd.clear();
-		dlcd.goToLine(0);
-		dlcd.text(" W I P F");
-		dlcd.goToLine(1);
-		dlcd.text("  W I P F");
-		dlcd.goToLine(2);
-		dlcd.text("   W I P F");
-		dlcd.goToLine(3);
-		dlcd.text("    W I P F");
+		dlcd.goTo(0, 0);
+		dlcd.text("Hallo1");
+		dlcd.goTo(1, 1);
+		dlcd.text("Hallo2");
+		dlcd.goTo(2, 2);
+		dlcd.text("Hallo3");
+		dlcd.goTo(3, 3);
+		dlcd.text("Hallo4");
+//		dlcd.goTo(0, 1);
+//		dlcd.text("  W I P F");
+//		dlcd.goTo(0, 2);
+//		dlcd.text("1234567890abcdefge");
+//		dlcd.goTo(5, 3);
+//		dlcd.text("W I P F");
 
-		SimpleDateFormat date = new SimpleDateFormat("HH:mm");
-		String date1 = date.format(new Date());
-		System.out.println(date1);
+		for (Integer i = 0; i < 100; i++) {
+			// dlcd.goToLine(2);
+			dlcd.text("Wipf Nr." + i + "!");
+			System.out.println(i);
+		}
+	}
 
-		dlcd.goToLine(0);
-		dlcd.text(date1);
-
-		for (Integer n = 0; n < 100; n++) {
+	private static void testuhr() {
+		dlcd.goTo(2, 3);
+		dlcd.text("Uhr:");
+		for (Integer n = 0; n < 1000; n++) {
+			dlcd.goTo(6, 3);
 			// SimpleDateFormat date2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 			SimpleDateFormat date2 = new SimpleDateFormat("HH:mm:ss");
 			String datess = date2.format(new Date());
-			System.out.println(datess);
 
-			dlcd.goToLine(1);
-			dlcd.text("Uhr:." + datess + " bei " + n);
+			dlcd.text(datess);
 			System.out.println(n);
-		}
-
-		for (Integer i = 0; i < 100; i++) {
-			dlcd.goToLine(2);
-			dlcd.text("Wipf Nr." + i + "!");
-			System.out.println(i);
 		}
 	}
 
