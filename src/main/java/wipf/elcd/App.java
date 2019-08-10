@@ -101,6 +101,8 @@ public class App {
 		dlcd.text("Hallo3");
 		dlcd.goTo(3, 3);
 		dlcd.text("Hallo4");
+		dlcd.goTo(19, 2);
+		dlcd.text("p");
 //		dlcd.goTo(0, 1);
 //		dlcd.text("  W I P F");
 //		dlcd.goTo(0, 2);
@@ -113,6 +115,7 @@ public class App {
 			dlcd.text("Wipf Nr." + i + "!");
 			System.out.println(i);
 		}
+
 	}
 
 	private static void testuhr() {
