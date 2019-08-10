@@ -1,12 +1,10 @@
 package wipf.elcd;
 
-import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 
-@ApplicationPath("/")
-@Path("/")
+@Path("/test")
 public class rest {
 
 	@GET

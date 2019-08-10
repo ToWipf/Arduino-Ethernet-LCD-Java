@@ -1,7 +1,5 @@
 package wipf.elcd;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import com.profesorfalken.jsensors.JSensors;
@@ -17,10 +15,10 @@ public class App {
 	 */
 	public static void main(String[] args) {
 		System.out.println("Hello World!");
-		dlcd.clear();
+//		dlcd.clear();
 
 		// testLcd();
-		testuhr();
+//		testuhr();
 		// testSens();
 		// testSensCpu();
 
@@ -89,47 +87,47 @@ public class App {
 	/**
 	 * 
 	 */
-	@SuppressWarnings("unused")
-	private static void testLcd() {
-		// dlcd.testRest();
-		dlcd.clear();
-		dlcd.goTo(0, 0);
-		dlcd.text("Hallo1");
-		dlcd.goTo(1, 1);
-		dlcd.text("Hallo2");
-		dlcd.goTo(2, 2);
-		dlcd.text("Hallo3");
-		dlcd.goTo(3, 3);
-		dlcd.text("Hallo4");
-		dlcd.goTo(19, 2);
-		dlcd.text("p");
-//		dlcd.goTo(0, 1);
-//		dlcd.text("  W I P F");
-//		dlcd.goTo(0, 2);
-//		dlcd.text("1234567890abcdefge");
-//		dlcd.goTo(5, 3);
-//		dlcd.text("W I P F");
-
-		for (Integer i = 0; i < 100; i++) {
-			// dlcd.goToLine(2);
-			dlcd.text("Wipf Nr." + i + "!");
-			System.out.println(i);
-		}
-
-	}
-
-	private static void testuhr() {
-		dlcd.goTo(2, 3);
-		dlcd.text("Uhr:");
-		for (Integer n = 0; n < 1000; n++) {
-			dlcd.goTo(6, 3);
-			// SimpleDateFormat date2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-			SimpleDateFormat date2 = new SimpleDateFormat("HH:mm:ss");
-			String datess = date2.format(new Date());
-
-			dlcd.text(datess);
-			System.out.println(n);
-		}
-	}
+//	@SuppressWarnings("unused")
+//	private static void testLcd() {
+//		// dlcd.testRest();
+//		dlcd.clear();
+//		dlcd.goTo(0, 0);
+//		dlcd.text("Hallo1");
+//		dlcd.goTo(1, 1);
+//		dlcd.text("Hallo2");
+//		dlcd.goTo(2, 2);
+//		dlcd.text("Hallo3");
+//		dlcd.goTo(3, 3);
+//		dlcd.text("Hallo4");
+//		dlcd.goTo(19, 2);
+//		dlcd.text("p");
+////		dlcd.goTo(0, 1);
+////		dlcd.text("  W I P F");
+////		dlcd.goTo(0, 2);
+////		dlcd.text("1234567890abcdefge");
+////		dlcd.goTo(5, 3);
+////		dlcd.text("W I P F");
+//
+//		for (Integer i = 0; i < 100; i++) {
+//			// dlcd.goToLine(2);
+//			dlcd.text("Wipf Nr." + i + "!");
+//			System.out.println(i);
+//		}
+//
+//	}
+//
+//	private static void testuhr() {
+//		dlcd.goTo(2, 3);
+//		dlcd.text("Uhr:");
+//		for (Integer n = 0; n < 1000; n++) {
+//			dlcd.goTo(6, 3);
+//			// SimpleDateFormat date2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+//			SimpleDateFormat date2 = new SimpleDateFormat("HH:mm:ss");
+//			String datess = date2.format(new Date());
+//
+//			dlcd.text(datess);
+//			System.out.println(n);
+//		}
+//	}
 
 }
