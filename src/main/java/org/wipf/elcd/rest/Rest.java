@@ -10,20 +10,20 @@
 
 package org.wipf.elcd.rest;
 
-import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
 import org.glassfish.jersey.process.internal.RequestScoped;
-import org.wipf.elcd.model.mElcd;
 
+@Singleton
 @RequestScoped
 @Path("abc")
 public class Rest {
 
-	@Inject
-	private mElcd melcd;
+//	@Inject
+//	private mElcd melcd;
 
 //	@GET
 //	@Path("b")
