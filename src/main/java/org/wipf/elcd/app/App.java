@@ -20,9 +20,6 @@ import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.wipf.elcd.rest.Rest;
 
-/**
- * Hello world!
- */
 public class App {
 
 	private static final URI BASE_URI = URI.create("http://localhost:8080/wipf/");

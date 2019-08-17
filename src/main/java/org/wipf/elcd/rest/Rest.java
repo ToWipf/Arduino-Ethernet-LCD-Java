@@ -10,20 +10,17 @@
 
 package org.wipf.elcd.rest;
 
-import javax.inject.Singleton;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
 import org.glassfish.jersey.process.internal.RequestScoped;
+import org.wipf.elcd.model.mElcd;
+import org.wipf.elcd.model.mElcd2;
 
-@Singleton
 @RequestScoped
-@Path("abc")
+@Path("/")
 public class Rest {
-
-//	@Inject
-//	private mElcd melcd;
 
 //	@GET
 //	@Path("b")
@@ -33,9 +30,17 @@ public class Rest {
 //	}
 
 	@GET
+	@Path("xxx")
 	@Produces("text/plain")
 	public String test() {
-		return melcd.test();
+		return mElcd.test();
+	}
+
+	@GET
+	@Path("s")
+	@Produces("text/plain")
+	public void startLcd() {
+		mElcd2.start();
 	}
 
 }
