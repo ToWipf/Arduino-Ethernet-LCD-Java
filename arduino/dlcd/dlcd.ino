@@ -17,12 +17,42 @@ String readString = String(20);
 
 void setup() {
   Ethernet.begin(mac, ip);
-  server.begin();
+
   pinMode(4, OUTPUT);
   lcd.begin();
   lcd.clear();
+  lcd.print("B");
+  sendaMsg();
 
-  lcd.print("Wipf");
+  server.begin();
+  lcd.print("S");
+}
+
+void sendaMsg() {
+
+  EthernetClient client;
+
+  if (client.connect(IPAddress(192, 168, 2, 43), 8080)) {
+    while ((client.available()) < 0) {
+      lcd.print("c");
+    }
+    lcd.print("x");
+    //client.println(F("Content-Type: text/html"));
+    // ERROR 406
+    client.println(F("GET /wipf/s HTTP/1.1\r\nHost: 192.168.2.43:8080\r\nAccept: text/html\r\nConnection: keep-alive\r\n"));
+    //    client.println(F("GET /wipf/s HTTP/1.1\r\nUser-Agent: Mozilla/5.0\r\nHost: 192.168.2.43:8080\r\nAccept: text/html\r\nConnection: keep-alive\r\n"));
+ 
+//    client.println(F("GET /wipf/s HTTP/1.1\r\n"));
+//    client.println(F("Host: 192.168.2.43:8080\r\n"));
+//    client.println(F("Accept: text/html\r\n"));
+//    client.println(F("Connection: keep-alive\r\n"));
+
+    //delay(500);
+    client.stop();
+    client.flush();
+    digitalWrite(4, HIGH);
+
+  }
 }
 
 void loop() {
