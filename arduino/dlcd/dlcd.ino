@@ -17,12 +17,35 @@ String readString = String(20);
 
 void setup() {
   Ethernet.begin(mac, ip);
-  server.begin();
+
   pinMode(4, OUTPUT);
   lcd.begin();
   lcd.clear();
+  sendaMsg();
 
+  server.begin();
   lcd.print("Wipf");
+}
+
+void sendaMsg() {
+  //  EthernetClient client;
+  //  client.connect((192, 168, 2, 43), 8080);
+  //  client.write("/wipf/s");
+  //
+  //  while (client.available() > 0) {
+  //    client.write("/wipf/s");
+  //    break;
+  //  }
+  //  client.stop();
+  EthernetUDP udp;
+  int success;
+
+  success = udp.beginPacket(IPAddress(192, 168, 2, 43), 8080);
+  if (success) {
+    success = udp.write("/wipf/s");
+    success = udp.endPacket();
+  }
+
 }
 
 void loop() {

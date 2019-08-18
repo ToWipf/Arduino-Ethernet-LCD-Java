@@ -8,6 +8,7 @@ public class mToElcd {
 
 	private static Boolean restLcd(String sCall) {
 		HttpResponse<String> response;
+		// TODO Timeoutzeit auf minimal stellen
 		try {
 			response = Unirest.put("http://192.168.2.242/" + sCall).asString();
 			return (response.getBody().equals("{}"));
