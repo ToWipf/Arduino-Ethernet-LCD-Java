@@ -20,6 +20,8 @@ import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.wipf.elcd.rest.Rest;
 
+import com.mashape.unirest.http.Unirest;
+
 public class App {
 
 	private static final URI BASE_URI = URI.create("http://192.168.2.43:8080/wipf/");
@@ -28,7 +30,8 @@ public class App {
 
 	public static void main(String[] args) {
 		try {
-			System.out.println("Start");
+			System.out.println("Start Wipf App");
+			Unirest.setTimeouts(3000, 5000);
 
 			final ResourceConfig resourceConfig = new ResourceConfig(Rest.class);
 			final HttpServer server = GrizzlyHttpServerFactory.createHttpServer(BASE_URI, resourceConfig, false);

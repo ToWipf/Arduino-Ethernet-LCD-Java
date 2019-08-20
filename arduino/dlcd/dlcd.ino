@@ -2,10 +2,9 @@
 #include <LiquidCrystal_I2C.h>
 
 /*
-  RestClient GET
-
+  Rest
   Tobias Fritsch
-  02.08.2019
+  20.08.2019
 */
 
 byte mac[] = { 0x12, 0x34, 0x56, 0x78, 0x90, 0x12 };
@@ -21,31 +20,33 @@ void setup() {
   pinMode(4, OUTPUT);
   lcd.begin();
   lcd.clear();
+  lcd.print("W");
   sendaMsg();
 
   server.begin();
-  lcd.print("Wipf");
+  lcd.print("F");
 }
 
 void sendaMsg() {
-  //  EthernetClient client;
-  //  client.connect((192, 168, 2, 43), 8080);
-  //  client.write("/wipf/s");
-  //
-  //  while (client.available() > 0) {
-  //    client.write("/wipf/s");
-  //    break;
-  //  }
-  //  client.stop();
-  EthernetUDP udp;
-  int success;
+  lcd.print("I");
+  EthernetClient client;
 
-  success = udp.beginPacket(IPAddress(192, 168, 2, 43), 8080);
-  if (success) {
-    success = udp.write("/wipf/s");
-    success = udp.endPacket();
+  if (client.connect(IPAddress(192, 168, 2, 43), 8080)) {
+    
+    while ((client.available()) < 0) {
+      delay(10);
+      lcd.print(".");
+    }
+    client.println(F("GET /wipf/s HTTP/1.1\r\nHost: 192.168.2.43:8080\r\n\r\n"));
+    //delay(1000);
+    client.stop();
+    //client.flush();
+    lcd.print("P");
   }
-
+  else {
+    delay(1000);
+    sendaMsg();
+  }
 }
 
 void loop() {

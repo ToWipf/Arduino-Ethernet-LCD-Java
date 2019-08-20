@@ -9,7 +9,8 @@ public class mElcd2 {
 	 * @param args
 	 */
 	public static void start() {
-		System.out.println("Hello World!");
+		System.out.println("Es Startet!");
+		mToElcd.clear();
 		mToElcd.clear();
 
 		// testLcd();

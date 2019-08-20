@@ -16,7 +16,6 @@ public class mToElcd {
 			e.printStackTrace();
 			return false;
 		}
-
 	}
 
 	/**
