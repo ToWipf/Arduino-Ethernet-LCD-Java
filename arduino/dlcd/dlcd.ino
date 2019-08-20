@@ -7,6 +7,7 @@
   20.08.2019
 */
 
+
 byte mac[] = { 0x12, 0x34, 0x56, 0x78, 0x90, 0x12 };
 IPAddress ip(192, 168, 2, 242);
 EthernetServer server(80);
