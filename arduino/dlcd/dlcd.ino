@@ -5,11 +5,16 @@
   Rest
   Tobias Fritsch
   20.08.2019
+
 */
 
+#define OKT1 192
+#define OKT2 168
+#define OKT3 2
+#define MACBYTE 0x11
 
-byte mac[] = { 0x12, 0x34, 0x56, 0x78, 0x90, 0x12 };
-IPAddress ip(192, 168, 2, 242);
+byte mac[] = { MACBYTE, MACBYTE, MACBYTE, MACBYTE, MACBYTE, MACBYTE };
+IPAddress ip(OKT1, OKT2, OKT3, 242);
 EthernetServer server(80);
 LiquidCrystal_I2C lcd(0x3F, 20, 4);
 
@@ -19,34 +24,43 @@ void setup() {
   Ethernet.begin(mac, ip);
 
   pinMode(4, OUTPUT);
+  pinMode(5, INPUT);
   lcd.begin();
   lcd.clear();
   lcd.print("W");
-  sendaMsg();
+  sendaMsg(false);
 
   server.begin();
   lcd.print("F");
 }
 
-void sendaMsg() {
+void sendaMsg(boolean bUseBackupAddr) {
   lcd.print("I");
   EthernetClient client;
+  IPAddress IP;
 
-  if (client.connect(IPAddress(192, 168, 2, 43), 8080)) {
+  if (bUseBackupAddr) {
+    IP = IPAddress(OKT1, OKT2, OKT3, 43);
+  } else {
+    IP = IPAddress(OKT1, OKT2, OKT3, 10);
+  }
+
+  if (client.connect(IP, 8080)) {
     
     while ((client.available()) < 0) {
       delay(10);
       lcd.print(".");
     }
-    client.println(F("GET /wipf/s HTTP/1.1\r\nHost: 192.168.2.43:8080\r\n\r\n"));
+    lcd.print("P");
+    
+    client.println(("GET /wipf/s HTTP/1.1\r\nHost: 0.0.0.0:8080\r\n\r\n"));
     //delay(1000);
     client.stop();
-    //client.flush();
-    lcd.print("P");
+
   }
   else {
     delay(1000);
-    sendaMsg();
+    sendaMsg(true);
   }
 }
 
@@ -65,7 +79,9 @@ void loop() {
           client.println("Content-Type: text/html");
           client.println();
 
-          client.println("{}");
+          client.print("{");
+          client.print(digitalRead(5));
+          client.println("}");
 
           // Nur PUT zulassen
           if (readString.indexOf("PUT /") > -1) {
@@ -110,7 +126,6 @@ void loop() {
           else {
             lcd.print("E1");
           }
-          //client.print("}");
           readString = "";
 
           //stopping client

@@ -4,13 +4,14 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
-public class mToElcd {
+public class MToElcd {
 
 	private static Boolean restLcd(String sCall) {
 		HttpResponse<String> response;
 		// TODO Timeoutzeit auf minimal stellen
 		try {
 			response = Unirest.put("http://192.168.2.242/" + sCall).asString();
+			System.out.println(response.getBody());
 			return (response.getBody().equals("{}"));
 		} catch (UnirestException e) {
 			e.printStackTrace();
