@@ -4,8 +4,7 @@
 /*
   Rest
   Tobias Fritsch
-  20.08.2019
-
+  23.08.2019
 */
 
 #define OKT1 192
@@ -21,6 +20,7 @@ LiquidCrystal_I2C lcd(0x3F, 20, 4);
 String readString = String(20);
 
 void setup() {
+  // Pin 10 bis 13 nicht verwenden
   Ethernet.begin(mac, ip);
 
   pinMode(4, OUTPUT);
@@ -28,41 +28,28 @@ void setup() {
   lcd.begin();
   lcd.clear();
   lcd.print("W");
-  sendaMsg(false);
-
+  sendaMsg();
+  delay(500);
   server.begin();
   lcd.print("F");
 }
 
-void sendaMsg(boolean bUseBackupAddr) {
+void sendaMsg() {
   lcd.print("I");
   EthernetClient client;
-  IPAddress IP;
 
-  if (bUseBackupAddr) {
-    IP = IPAddress(OKT1, OKT2, OKT3, 43);
-  } else {
-    IP = IPAddress(OKT1, OKT2, OKT3, 10);
-  }
-
-  if (client.connect(IP, 8080)) {
-    
-    while ((client.available()) < 0) {
-      delay(10);
-      lcd.print(".");
-    }
+  if (client.connect(IPAddress(OKT1, OKT2, OKT3, 43), 8080)) {
     lcd.print("P");
-    
-    client.println(("GET /wipf/s HTTP/1.1\r\nHost: 0.0.0.0:8080\r\n\r\n"));
-    //delay(1000);
+    client.println("GET /wipf/s HTTP/1.1\r\nHost: 0.0.0.0:8080\r\n\r\n");
+    delay(500);
     client.stop();
-
   }
   else {
     delay(1000);
-    sendaMsg(true);
+    sendaMsg();
   }
 }
+
 
 void loop() {
   EthernetClient client = server.available();
@@ -70,13 +57,13 @@ void loop() {
     while (client.connected()) {
       if (client.available()) {
         char c = client.read();
-        if (readString.length() < 55) {
+        if (readString.length() < 35) {
           readString = readString + c;
         }
         if (c == '\n') {
 
           client.println("HTTP/1.1 200 OK");
-          client.println("Content-Type: text/html");
+          //client.println("Content-Type: text/html");
           client.println();
 
           client.print("{");
@@ -99,29 +86,42 @@ void loop() {
               lcd.clear();
               lcd.setCursor(0, 0);
             }
-            else if (readString.indexOf("/!~") == 4) {
-              // Jede Position ansteuern mit z.B. /!~103
-              int col = (readString.substring(7, 9).toInt());
-              int row = readString.substring(9, 10).toInt();
-
-              lcd.setCursor(col, row);
-
-            }
-
             else {
-              String ss = readString;
-              ss.replace("%20", " ");
+              // Format: 103/text
+              // row 1
+              // col 03
+              lcd.setCursor(readString.substring(6, 8).toInt(), readString.substring(5, 6).toInt());
 
-              // GET /xxx HTTP/1.1
-              //      xxx
-              String s = ss.substring(ss.indexOf("/") + 1, ss.lastIndexOf("HTTP/1.1") - 1);
+              String s = readString.substring(8, readString.lastIndexOf("HTTP/1.1") - 1);
+              s.replace("%20", " ");
               s.remove(s.length());
-              if (s.length() <= 20) {
-                lcd.print(s);
-              } else {
-                lcd.print("E2");
-              }
+
+              lcd.print(s);
+
             }
+            //            else if (readString.indexOf("/!~") == 4) {
+            //              // Jede Position ansteuern mit z.B. /!~103
+            //              int col = (readString.substring(7, 9).toInt());
+            //              int row = readString.substring(9, 10).toInt();
+            //
+            //              lcd.setCursor(col, row);
+            //
+            //            }
+            //
+            //            else {
+            //              String ss = readString;
+            //              ss.replace("%20", " ");
+            //
+            //              // GET /xxx HTTP/1.1
+            //              //      xxx
+            //              String s = ss.substring(ss.indexOf("/") + 1, ss.lastIndexOf("HTTP/1.1") - 1);
+            //              s.remove(s.length());
+            //              if (s.length() <= 20) {
+            //                lcd.print(s);
+            //              } else {
+            //                lcd.print("E2");
+            //              }
+            //            }
           }
           else {
             lcd.print("E1");

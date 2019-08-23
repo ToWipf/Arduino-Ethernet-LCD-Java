@@ -15,7 +15,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
 import org.glassfish.jersey.process.internal.RequestScoped;
-import org.wipf.elcd.model.MElcd;
+import org.wipf.elcd.model.MShow;
 
 @RequestScoped
 @Path("/")
@@ -33,7 +33,7 @@ public class Rest {
 	@Path("s")
 	@Produces("text/plain")
 	public void startLcd() {
-		MElcd.start();
+		MShow.start();
 	}
 
 }
