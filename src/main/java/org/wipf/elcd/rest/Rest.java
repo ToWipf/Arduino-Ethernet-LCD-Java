@@ -16,6 +16,7 @@ import javax.ws.rs.Produces;
 
 import org.glassfish.jersey.process.internal.RequestScoped;
 import org.wipf.elcd.model.MShow;
+import org.wipf.elcd.model.MWipf;
 
 @RequestScoped
 @Path("/")
@@ -28,12 +29,26 @@ public class Rest {
 //		return "Hello World!";
 //	}
 
+	@GET
+	@Path("/")
+	@Produces("text/plain")
+	public String testRest() {
+		return MWipf.testRest();
+	}
+
 	// Start Senden
 	@GET
 	@Path("s")
 	@Produces("text/plain")
 	public void startLcd() {
 		MShow.start();
+	}
+
+	@GET
+	@Path("r")
+	@Produces("text/plain")
+	public String zufall() {
+		return MWipf.zufall();
 	}
 
 }
