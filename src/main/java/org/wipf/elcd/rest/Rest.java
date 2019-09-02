@@ -10,7 +10,6 @@
 
 package org.wipf.elcd.rest;
 
-import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -26,8 +25,8 @@ import org.wipf.elcd.model.MWipf;
 @Path("/")
 public class Rest {
 
-	@Inject
-	private ELcd eLcd;
+//	@Inject
+//	private ELcd eLcd;
 
 //	@GET
 //	@Path("b")
@@ -48,7 +47,7 @@ public class Rest {
 	@Path("wipf/s")
 	@Produces("text/plain")
 	public void startLcd() {
-		eLcd.start();
+		ELcd.run();
 	}
 
 	@GET
