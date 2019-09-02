@@ -10,17 +10,24 @@
 
 package org.wipf.elcd.rest;
 
+import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
 import org.glassfish.jersey.process.internal.RequestScoped;
-import org.wipf.elcd.model.MShow;
+import org.wipf.elcd.app.ELcd;
 import org.wipf.elcd.model.MWipf;
+
+//@XmlRootElement
+//@JsonIgnoreProperties(ignoreUnknown = true)
 
 @RequestScoped
 @Path("/")
 public class Rest {
+
+	@Inject
+	private ELcd eLcd;
 
 //	@GET
 //	@Path("b")
@@ -38,10 +45,10 @@ public class Rest {
 
 	// Start Senden
 	@GET
-	@Path("s")
+	@Path("wipf/s")
 	@Produces("text/plain")
 	public void startLcd() {
-		MShow.start();
+		eLcd.start();
 	}
 
 	@GET

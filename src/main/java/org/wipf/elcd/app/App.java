@@ -24,7 +24,7 @@ import com.mashape.unirest.http.Unirest;
 
 public class App {
 
-	private static final URI BASE_URI = URI.create("http://192.168.2.43:8080/wipf/");
+	private static final URI BASE_URI = URI.create("http://0.0.0.0:8080/");
 	// private static final URI BASE_URI =
 	// URI.create("http://localhost:8080/wipf/");
 
