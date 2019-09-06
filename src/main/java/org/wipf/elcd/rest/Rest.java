@@ -28,13 +28,6 @@ public class Rest {
 //	@Inject
 //	private ELcd eLcd;
 
-//	@GET
-//	@Path("b")
-//	@Produces("text/plain")
-//	public String getHello() {
-//		return "Hello World!";
-//	}
-
 	@GET
 	@Path("/")
 	@Produces("text/plain")
@@ -44,10 +37,12 @@ public class Rest {
 
 	// Start Senden
 	@GET
-	@Path("wipf/s")
+	@Path("s")
 	@Produces("text/plain")
-	public void startLcd() {
-		ELcd.run();
+	public String startLcd() {
+		ELcd.startElcd();
+		System.out.println("Send to LCD");
+		return "RUN";
 	}
 
 	@GET

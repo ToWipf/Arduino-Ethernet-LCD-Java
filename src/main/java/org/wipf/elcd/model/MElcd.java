@@ -8,15 +8,17 @@ public class MElcd {
 
 	private static Boolean restLcd(String sCall) {
 		HttpResponse<String> response;
-		// TODO Timeoutzeit auf minimal stellen
 		try {
 			response = Unirest.put("http://192.168.2.242/" + sCall).asString();
-			System.out.println(response.getBody());
+			if (response.getBody().indexOf("0") == -1) {
+				System.out.println(response.getBody());
+			}
 			// return (response.getBody().equals("{}"));
 			// TODO: sezte taster
 			return true;
 		} catch (UnirestException e) {
-			e.printStackTrace();
+			// e.printStackTrace();
+			System.out.println("Sendefehler");
 			return false;
 		}
 	}
@@ -45,7 +47,8 @@ public class MElcd {
 			sCol = nCol.toString();
 		}
 
-		System.out.println("Zeile: " + nRow + " Zeichen: " + sCol + " Text: " + sText);
+		// System.out.println("Zeile: " + nRow + " Zeichen: " + sCol + " Text: " +
+		// sText);
 		return restLcd(nRow + sCol + sText);
 	}
 

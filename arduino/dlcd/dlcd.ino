@@ -38,9 +38,9 @@ void sendaMsg() {
   lcd.print("I");
   EthernetClient client;
 
-  if (client.connect(IPAddress(OKT1, OKT2, OKT3, 43), 8080)) {
+  if (client.connect(IPAddress(OKT1, OKT2, OKT3, 10), 8080)) {
     lcd.print("P");
-    client.println("GET /wipf/s HTTP/1.1\r\nHost: 0.0.0.0:8080\r\n\r\n");
+    client.println("GET /s HTTP/1.1\r\nHost: 0.0.0.0:8080\r\n\r\n");
     delay(500);
     client.stop();
   }
@@ -99,29 +99,6 @@ void loop() {
               lcd.print(s);
 
             }
-            //            else if (readString.indexOf("/!~") == 4) {
-            //              // Jede Position ansteuern mit z.B. /!~103
-            //              int col = (readString.substring(7, 9).toInt());
-            //              int row = readString.substring(9, 10).toInt();
-            //
-            //              lcd.setCursor(col, row);
-            //
-            //            }
-            //
-            //            else {
-            //              String ss = readString;
-            //              ss.replace("%20", " ");
-            //
-            //              // GET /xxx HTTP/1.1
-            //              //      xxx
-            //              String s = ss.substring(ss.indexOf("/") + 1, ss.lastIndexOf("HTTP/1.1") - 1);
-            //              s.remove(s.length());
-            //              if (s.length() <= 20) {
-            //                lcd.print(s);
-            //              } else {
-            //                lcd.print("E2");
-            //              }
-            //            }
           }
           else {
             lcd.print("E1");
