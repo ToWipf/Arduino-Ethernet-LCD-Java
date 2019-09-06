@@ -4,8 +4,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import org.wipf.elcd.model.MElcd;
-import org.wipf.elcd.model.MUhr;
-import org.wipf.elcd.model.MWipf;
+import org.wipf.elcd.model.show.MUhr;
+import org.wipf.elcd.model.show.MWipf;
 
 public class ELcd {
 
@@ -17,10 +17,14 @@ public class ELcd {
 		service.submit(new Runnable() {
 			public void run() {
 				System.out.println("Start send to Lcd");
+				App.FailCont = 0;
 				MWipf.sleep(1000);
 				MElcd.clear();
 				MWipf.sleep(1000);
-				MUhr.uhr();
+				while (App.FailCont < 10) {
+					// Apps Starten
+					MUhr.uhrOneLine();
+				}
 			}
 		});
 

@@ -1,12 +1,17 @@
 package org.wipf.elcd.model;
 
+import org.wipf.elcd.app.App;
+
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
 public class MElcd {
 
-	private static Boolean restLcd(String sCall) {
+	/**
+	 * @param sCall
+	 */
+	private static void restLcd(String sCall) {
 		HttpResponse<String> response;
 		try {
 			response = Unirest.put("http://192.168.2.242/" + sCall).asString();
@@ -15,20 +20,21 @@ public class MElcd {
 			}
 			// return (response.getBody().equals("{}"));
 			// TODO: sezte taster
-			return true;
+			App.FailCont = 0;
+
 		} catch (UnirestException e) {
 			// e.printStackTrace();
 			System.out.println("Sendefehler");
-			return false;
+			App.FailCont++;
 		}
 	}
 
 	/**
 	 * 
 	 */
-	public static Boolean clear() {
+	public static void clear() {
 		System.out.println("cls");
-		return restLcd("cls");
+		restLcd("cls");
 	}
 
 	/**
@@ -36,10 +42,12 @@ public class MElcd {
 	 * @param nRow
 	 * @param Text
 	 */
-	public static Boolean write(Integer nRow, Integer nCol, String sText) {
+	public static void write(Integer nRow, Integer nCol, String sText) {
+
 		if (nCol > 20 || nCol < 0 || nRow < 0 || nRow > 4 || sText.length() > 20 || sText.indexOf(' ') == 0) {
-			return null;
+			return;
 		}
+
 		String sCol;
 		if (nCol < 10) {
 			sCol = '0' + nCol.toString();
@@ -47,9 +55,7 @@ public class MElcd {
 			sCol = nCol.toString();
 		}
 
-		// System.out.println("Zeile: " + nRow + " Zeichen: " + sCol + " Text: " +
-		// sText);
-		return restLcd(nRow + sCol + sText);
+		restLcd(nRow + sCol + sText);
 	}
 
 }

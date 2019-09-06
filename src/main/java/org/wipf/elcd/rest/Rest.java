@@ -16,7 +16,7 @@ import javax.ws.rs.Produces;
 
 import org.glassfish.jersey.process.internal.RequestScoped;
 import org.wipf.elcd.app.ELcd;
-import org.wipf.elcd.model.MWipf;
+import org.wipf.elcd.model.show.MWipf;
 
 //@XmlRootElement
 //@JsonIgnoreProperties(ignoreUnknown = true)
