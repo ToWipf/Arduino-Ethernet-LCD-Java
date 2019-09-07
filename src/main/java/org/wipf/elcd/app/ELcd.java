@@ -21,9 +21,10 @@ public class ELcd {
 				MWipf.sleep(1000);
 				MElcd.clear();
 				MWipf.sleep(1000);
+				MUhr.date();
 				while (App.FailCont < 10) {
 					// Apps Starten
-					MUhr.uhrOneLine();
+					MUhr.uhr();
 				}
 			}
 		});

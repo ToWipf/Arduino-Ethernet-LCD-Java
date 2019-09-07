@@ -13,8 +13,8 @@ public class MUhr {
 		MElcd.write(0, 0, "Uhr: "); // TODO init
 
 		MWipf.sleep(1000);
-		SimpleDateFormat date2 = new SimpleDateFormat("HH:mm:ss");
-		String datess = date2.format(new Date());
+		SimpleDateFormat date = new SimpleDateFormat("HH:mm:ss");
+		String datess = date.format(new Date());
 
 		MElcd.write(0, 5, datess);
 	}
@@ -22,15 +22,20 @@ public class MUhr {
 	/**
 	 * 
 	 */
-	public static void uhrAndDate() {
-		MElcd.write(0, 0, "Uhr: ");
-
-		// SimpleDateFormat date2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-		SimpleDateFormat date2 = new SimpleDateFormat("HH:mm:ss");
-		String datess = date2.format(new Date());
-
-		MElcd.write(0, 5, datess);
-
+	public static void uhr() {
+		SimpleDateFormat uhr = new SimpleDateFormat("HH:mm:ss");
+		String sUhr = uhr.format(new Date());
+		MElcd.write(0, 6, sUhr);
 		MWipf.sleep(1000);
+	}
+
+	/**
+	 * 
+	 */
+	public static void date() {
+
+		SimpleDateFormat date = new SimpleDateFormat("dd MM yyyy");
+		String sDate = date.format(new Date());
+		MElcd.write(2, 5, sDate);
 	}
 }
