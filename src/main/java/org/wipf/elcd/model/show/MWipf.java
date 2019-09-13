@@ -1,5 +1,9 @@
 package org.wipf.elcd.model.show;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -17,11 +21,25 @@ public class MWipf {
 		}
 	}
 
+	public static String testRest() {
+		// return getFile("web/index.html");
+		return "wipf";
+	}
+
 	/**
+	 * TODO ungetestet
+	 * 
+	 * @param sFile
 	 * @return
 	 */
-	public static String testRest() {
-		return "Wipf";
+	private String getFile(String sFile) {
+		try {
+			return new String(Files.readAllBytes(Paths.get(getClass().getResource(sFile).toURI())));
+		} catch (IOException | URISyntaxException e) {
+			e.printStackTrace();
+			return "fehler";
+		}
+
 	}
 
 	/**

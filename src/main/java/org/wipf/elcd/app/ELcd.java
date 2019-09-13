@@ -17,13 +17,14 @@ public class ELcd {
 		service.submit(new Runnable() {
 			public void run() {
 				System.out.println("Start send to Lcd");
+				// Start
 				App.FailCont = 0;
 				MWipf.sleep(1000);
 				MElcd.clear();
 				MWipf.sleep(1000);
 				MUhr.date();
-				while (App.FailCont < 10) {
-					// Apps Starten
+				while (App.FailCont < 3) {
+					// Loop
 					MUhr.uhr();
 				}
 			}

@@ -29,7 +29,7 @@ public class Rest {
 //	private ELcd eLcd;
 
 	@GET
-	@Path("/")
+	@Path("/t")
 	@Produces("text/plain")
 	public String testRest() {
 		return MWipf.testRest();
