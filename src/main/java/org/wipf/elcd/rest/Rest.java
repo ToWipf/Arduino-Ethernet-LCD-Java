@@ -10,6 +10,7 @@
 
 package org.wipf.elcd.rest;
 
+import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -25,14 +26,14 @@ import org.wipf.elcd.model.show.MWipf;
 @Path("/")
 public class Rest {
 
-//	@Inject
-//	private ELcd eLcd;
+	@Inject
+	private MWipf mWipf;
 
 	@GET
 	@Path("/t")
 	@Produces("text/plain")
 	public String testRest() {
-		return MWipf.testRest();
+		return mWipf.testRest();
 	}
 
 	// Start Senden
@@ -49,7 +50,7 @@ public class Rest {
 	@Path("r")
 	@Produces("text/plain")
 	public String zufall() {
-		return MWipf.zufall();
+		return mWipf.zufall();
 	}
 
 }

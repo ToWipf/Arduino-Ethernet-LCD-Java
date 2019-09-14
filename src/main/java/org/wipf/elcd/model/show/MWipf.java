@@ -8,12 +8,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import org.glassfish.jersey.process.internal.RequestScoped;
+
+@RequestScoped
 public class MWipf {
 
 	/**
 	 * @param i
 	 */
-	public static void sleep(Integer i) {
+	public void sleep(Integer i) {
 		try {
 			Thread.sleep(i);
 		} catch (InterruptedException e) {
@@ -21,9 +24,9 @@ public class MWipf {
 		}
 	}
 
-	public static String testRest() {
-		// return getFile("web/index.html");
-		return "wipf";
+	public String testRest() {
+		return getFile("web/index.html");
+		// return "wipf";
 	}
 
 	/**
@@ -45,7 +48,7 @@ public class MWipf {
 	/**
 	 * @return
 	 */
-	public static String zufall() {
+	public String zufall() {
 		Random wuerfel = new Random();
 		Integer nZahl;
 		Integer nAnzahl = 0;

@@ -12,7 +12,7 @@ public class MUhr {
 	public static void uhrOneLine() {
 		MElcd.write(0, 0, "Uhr: "); // TODO init
 
-		MWipf.sleep(1000);
+		// MWipf.sleep(1000);
 		SimpleDateFormat date = new SimpleDateFormat("HH:mm:ss");
 		String datess = date.format(new Date());
 
@@ -26,7 +26,7 @@ public class MUhr {
 		SimpleDateFormat uhr = new SimpleDateFormat("HH:mm:ss");
 		String sUhr = uhr.format(new Date());
 		MElcd.write(0, 6, sUhr);
-		MWipf.sleep(1000);
+		// MWipf.sleep(1000);
 	}
 
 	/**
