@@ -6,6 +6,10 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
+/**
+ * @author wipf
+ *
+ */
 public class MSendToELcd {
 
 	/**
@@ -43,7 +47,6 @@ public class MSendToELcd {
 	 * @param Text
 	 */
 	public static void write(Integer nRow, Integer nCol, String sText) {
-
 		if (nCol > 20 || nCol < 0 || nRow < 0 || nRow > 4 || sText.length() > 20 || sText.indexOf(' ') == 0) {
 			return;
 		}
@@ -54,7 +57,6 @@ public class MSendToELcd {
 		} else {
 			sCol = nCol.toString();
 		}
-
 		restLcd(nRow + sCol + sText);
 	}
 

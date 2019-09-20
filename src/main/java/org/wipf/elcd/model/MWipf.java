@@ -6,6 +6,10 @@ import java.util.Random;
 
 import org.glassfish.jersey.process.internal.RequestScoped;
 
+/**
+ * @author wipf
+ *
+ */
 @RequestScoped
 public class MWipf {
 
@@ -21,52 +25,60 @@ public class MWipf {
 	}
 
 	/**
+	 * @param nWuerfelBis
+	 * @param nAnzahlWuerfel
 	 * @return
 	 */
-	public static String zufall() {
+	public static String zufall(Integer nWuerfelBis, Integer nAnzahlWuerfel) {
+
+		if (nAnzahlWuerfel > 10000 || nWuerfelBis > 10000) {
+			return "zu viel";
+		}
+
 		Random wuerfel = new Random();
 		Integer nZahl;
 		Integer nAnzahl = 0;
+		Integer nSumme = 0;
+		StringBuilder sb = new StringBuilder();
 
 		List<Integer> li = new ArrayList<>();
 
-		for (int i = 0; i < 10; i++) {
-			nZahl = 1 + wuerfel.nextInt(60);
+		for (int i = 0; i < nAnzahlWuerfel; i++) {
+			nZahl = wuerfel.nextInt(nWuerfelBis + 1);
+			nSumme += nZahl;
 			li.add(nZahl);
 		}
 
-		StringBuilder sb = new StringBuilder();
+		sb.append("Summe:" + nSumme + "\n");
+		sb.append("Avg:" + nSumme / nAnzahlWuerfel + "\n");
 
+		// Cont jede Zahl
+		for (int i = 0; i <= nWuerfelBis; i++) {
+			int nMerke = 0;
+			for (Integer n : li) {
+				if (n == i) {
+					nMerke++;
+				}
+			}
+			if (nMerke > 0) {
+				sb.append("Anzahl Nr." + i + " :" + nMerke + "\n");
+			}
+		}
+
+		// Alle ausgeben
 		for (Integer n : li) {
-			sb.append(nAnzahl + ": " + n.toString() + "\n");
+			sb.append(nAnzahl + 1 + ": " + n.toString() + "\n");
 			nAnzahl++;
 		}
 
 		return sb.toString();
 	}
 
+	/**
+	 * @return
+	 */
 	public static String testRest() {
 		return "WIPF";
 	}
-
-//	public static String testRest() {
-//		return getFile("web/index.html");
-//		// return "wipf";
-//	}
-	/**
-	 * TODO ungetestet
-	 * 
-	 * @param sFile
-	 * @return
-	 */
-//	private String getFile(String sFile) {
-//		try {
-//			return new String(Files.readAllBytes(Paths.get(getClass().getResource(sFile).toURI())));
-//		} catch (IOException | URISyntaxException e) {
-//			e.printStackTrace();
-//			return "fehler";
-//		}
-//
-//	}
 
 }

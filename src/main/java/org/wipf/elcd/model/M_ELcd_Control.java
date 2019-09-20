@@ -5,10 +5,14 @@ import java.util.concurrent.Executors;
 
 import org.wipf.elcd.app.App;
 
+/**
+ * @author wipf
+ *
+ */
 public class M_ELcd_Control {
 
 	/**
-	 * Start ///TODO Telegramm
+	 * Start
 	 */
 	public static void startElcd() {
 		ExecutorService service = Executors.newFixedThreadPool(4);
@@ -21,7 +25,7 @@ public class M_ELcd_Control {
 				MSendToELcd.clear();
 				displayLoopRare();
 
-				while (App.FailCont < 3) {
+				while (App.FailCont < 1) {
 					displayLoop();
 					if (sendCounter > 100) {
 						displayLoopRare();
