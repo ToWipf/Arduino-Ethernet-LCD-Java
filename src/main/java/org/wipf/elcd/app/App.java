@@ -30,13 +30,15 @@ import com.mashape.unirest.http.Unirest;
 public class App {
 
 	private static final URI BASE_URI = URI.create("http://0.0.0.0:8080/");
-	public static Integer FailCont;
+	public static Integer FailCount;
+	public static Boolean RunLock;
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
 		try {
+			RunLock = false;
 			System.out.println("Start Wipf App");
 			Unirest.setTimeouts(3000, 5000);
 

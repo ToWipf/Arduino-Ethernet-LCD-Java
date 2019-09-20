@@ -13,27 +13,6 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 public class MSendToELcd {
 
 	/**
-	 * @param sCall
-	 */
-	private static void restLcd(String sCall) {
-		HttpResponse<String> response;
-		try {
-			response = Unirest.put("http://192.168.2.242/" + sCall).asString();
-			if (response.getBody().indexOf("0") == -1) {
-				System.out.println(response.getBody());
-			}
-			// return (response.getBody().equals("{}"));
-			// TODO: sezte taster
-			App.FailCont = 0;
-
-		} catch (UnirestException e) {
-			// e.printStackTrace();
-			System.out.println("Sendefehler");
-			App.FailCont++;
-		}
-	}
-
-	/**
 	 * 
 	 */
 	public static void clear() {
@@ -58,6 +37,27 @@ public class MSendToELcd {
 			sCol = nCol.toString();
 		}
 		restLcd(nRow + sCol + sText);
+	}
+
+	/**
+	 * @param sCall
+	 */
+	private static void restLcd(String sCall) {
+		HttpResponse<String> response;
+		try {
+			response = Unirest.put("http://192.168.2.242/" + sCall).asString();
+			if (response.getBody().indexOf("0") == -1) {
+				System.out.println(response.getBody());
+			}
+			// return (response.getBody().equals("{}"));
+			// TODO: sezte taster
+			App.FailCount = 0;
+
+		} catch (UnirestException e) {
+			// e.printStackTrace();
+			System.out.println("Sendefehler");
+			App.FailCount++;
+		}
 	}
 
 }

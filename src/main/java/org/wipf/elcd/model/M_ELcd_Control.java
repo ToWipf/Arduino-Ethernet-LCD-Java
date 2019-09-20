@@ -14,18 +14,24 @@ public class M_ELcd_Control {
 	/**
 	 * Start
 	 */
-	public static void startElcd() {
+	public static String startElcd() {
+		if (App.RunLock) {
+			System.out.println("Runlock is on");
+		} else {
+			System.out.println("Set Runlock on");
+			App.RunLock = true;
+		}
 		ExecutorService service = Executors.newFixedThreadPool(4);
 		service.submit(new Runnable() {
 			public void run() {
 				Integer sendCounter = 0;
 				System.out.println("Start send to Lcd");
 				MWipf.sleep(1000);
-				App.FailCont = 0;
+				App.FailCount = 0;
 				MSendToELcd.clear();
 				displayLoopRare();
 
-				while (App.FailCont < 1) {
+				while (App.FailCount < 1) {
 					displayLoop();
 					if (sendCounter > 100) {
 						displayLoopRare();
@@ -34,8 +40,11 @@ public class M_ELcd_Control {
 					MWipf.sleep(500);
 					sendCounter++;
 				}
+				System.out.println("Set Runlock off");
+				App.RunLock = false;
 			}
 		});
+		return "LCD RUN";
 	}
 
 	/**

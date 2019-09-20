@@ -74,11 +74,4 @@ public class MWipf {
 		return sb.toString();
 	}
 
-	/**
-	 * @return
-	 */
-	public static String testRest() {
-		return "WIPF";
-	}
-
 }

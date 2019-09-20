@@ -6,6 +6,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import org.glassfish.jersey.process.internal.RequestScoped;
+import org.wipf.elcd.model.MPing;
 import org.wipf.elcd.model.MTime;
 import org.wipf.elcd.model.MWipf;
 import org.wipf.elcd.model.M_ELcd_Control;
@@ -18,10 +19,10 @@ public class Rest {
 //	private MWipf mWipf;
 
 	@GET
-	@Path("/t")
+	@Path("/ping/{ip}")
 	@Produces("text/plain")
-	public String testRest() {
-		return MWipf.testRest();
+	public String ping(@PathParam("ip") String sIP) {
+		return MPing.ping(sIP).toString();
 	}
 
 	@GET
@@ -36,9 +37,8 @@ public class Rest {
 	@Path("s")
 	@Produces("text/plain")
 	public String startLcd() {
-		M_ELcd_Control.startElcd();
-		System.out.println("Send to LCD");
-		return "RUN";
+		System.out.println(M_ELcd_Control.startElcd());
+		return "X";
 	}
 
 	@GET
