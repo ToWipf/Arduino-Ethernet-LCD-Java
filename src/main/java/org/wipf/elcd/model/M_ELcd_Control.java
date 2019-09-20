@@ -25,8 +25,9 @@ public class M_ELcd_Control {
 					displayLoop();
 					if (sendCounter > 100) {
 						displayLoopRare();
+						sendCounter = 0;
 					}
-					MWipf.sleep(100);
+					MWipf.sleep(500);
 					sendCounter++;
 				}
 			}
@@ -37,14 +38,16 @@ public class M_ELcd_Control {
 	 * 
 	 */
 	public static void displayLoopRare() {
-		MTime.date();
+		String sDayname = MTime.dayName();
+		String sDate = MTime.date();
+		MSendToELcd.write(1, ((20 - sDayname.length()) / 2), sDayname);
+		MSendToELcd.write(2, ((20 - sDate.length()) / 2), sDate);
 	}
 
 	/**
 	 * 
 	 */
 	public static void displayLoop() {
-		MTime.uhr();
-
+		MSendToELcd.write(0, 6, MTime.uhr());
 	}
 }

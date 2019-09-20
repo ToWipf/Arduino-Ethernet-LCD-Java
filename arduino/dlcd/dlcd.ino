@@ -57,7 +57,7 @@ void loop() {
     while (client.connected()) {
       if (client.available()) {
         char c = client.read();
-        if (readString.length() < 36) {
+        if (readString.length() < 40) {
           readString = readString + c;
         }
         if (c == '\n') {

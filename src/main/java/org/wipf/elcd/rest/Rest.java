@@ -15,6 +15,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
 import org.glassfish.jersey.process.internal.RequestScoped;
+import org.wipf.elcd.model.MTime;
 import org.wipf.elcd.model.MWipf;
 import org.wipf.elcd.model.M_ELcd_Control;
 
@@ -33,6 +34,13 @@ public class Rest {
 	@Produces("text/plain")
 	public String testRest() {
 		return MWipf.testRest();
+	}
+
+	@GET
+	@Path("/date")
+	@Produces("text/plain")
+	public String date() {
+		return MTime.date();
 	}
 
 	// Start Senden

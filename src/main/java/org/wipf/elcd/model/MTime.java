@@ -3,23 +3,28 @@ package org.wipf.elcd.model;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class MTime{
+public class MTime {
 
 	/**
 	 * 
 	 */
-	public static void uhr() {
+	public static String uhr() {
 		SimpleDateFormat uhr = new SimpleDateFormat("HH:mm:ss");
-		String sUhr = uhr.format(new Date());
-		MSendToELcd.write(0, 6, sUhr);
+		return uhr.format(new Date());
 	}
 
 	/**
 	 * 
 	 */
-	public static void date() {
-		SimpleDateFormat date = new SimpleDateFormat("dd MM yyyy");
-		String sDate = date.format(new Date());
-		MSendToELcd.write(2, 5, sDate);
+	public static String date() {
+		SimpleDateFormat date = new SimpleDateFormat("dd MMMM yyyy");
+		return date.format(new Date());
+
+	}
+
+	public static String dayName() {
+		SimpleDateFormat date = new SimpleDateFormat("EEEE");
+		return date.format(new Date());
+
 	}
 }

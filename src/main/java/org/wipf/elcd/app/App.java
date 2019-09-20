@@ -42,7 +42,7 @@ public class App {
 			}));
 			server.start();
 
-			System.out.println(String.format("Server aktiv.\n%s\n", BASE_URI));
+			System.out.println(String.format("Server aktiv: %s", BASE_URI));
 			Thread.currentThread().join();
 		} catch (IOException | InterruptedException ex) {
 			Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
