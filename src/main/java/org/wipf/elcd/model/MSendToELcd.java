@@ -6,7 +6,7 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
-public class MElcd {
+public class MSendToELcd {
 
 	/**
 	 * @param sCall

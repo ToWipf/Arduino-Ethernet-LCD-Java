@@ -1,9 +1,5 @@
-package org.wipf.elcd.model.show;
+package org.wipf.elcd.model;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -16,7 +12,7 @@ public class MWipf {
 	/**
 	 * @param i
 	 */
-	public void sleep(Integer i) {
+	public static void sleep(Integer i) {
 		try {
 			Thread.sleep(i);
 		} catch (InterruptedException e) {
@@ -24,31 +20,10 @@ public class MWipf {
 		}
 	}
 
-	public String testRest() {
-		return getFile("web/index.html");
-		// return "wipf";
-	}
-
-	/**
-	 * TODO ungetestet
-	 * 
-	 * @param sFile
-	 * @return
-	 */
-	private String getFile(String sFile) {
-		try {
-			return new String(Files.readAllBytes(Paths.get(getClass().getResource(sFile).toURI())));
-		} catch (IOException | URISyntaxException e) {
-			e.printStackTrace();
-			return "fehler";
-		}
-
-	}
-
 	/**
 	 * @return
 	 */
-	public String zufall() {
+	public static String zufall() {
 		Random wuerfel = new Random();
 		Integer nZahl;
 		Integer nAnzahl = 0;
@@ -69,5 +44,29 @@ public class MWipf {
 
 		return sb.toString();
 	}
+
+	public static String testRest() {
+		return "WIPF";
+	}
+
+//	public static String testRest() {
+//		return getFile("web/index.html");
+//		// return "wipf";
+//	}
+	/**
+	 * TODO ungetestet
+	 * 
+	 * @param sFile
+	 * @return
+	 */
+//	private String getFile(String sFile) {
+//		try {
+//			return new String(Files.readAllBytes(Paths.get(getClass().getResource(sFile).toURI())));
+//		} catch (IOException | URISyntaxException e) {
+//			e.printStackTrace();
+//			return "fehler";
+//		}
+//
+//	}
 
 }

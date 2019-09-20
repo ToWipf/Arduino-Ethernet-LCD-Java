@@ -10,14 +10,13 @@
 
 package org.wipf.elcd.rest;
 
-import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
 import org.glassfish.jersey.process.internal.RequestScoped;
-import org.wipf.elcd.app.ELcd;
-import org.wipf.elcd.model.show.MWipf;
+import org.wipf.elcd.model.MWipf;
+import org.wipf.elcd.model.M_ELcd_Control;
 
 //@XmlRootElement
 //@JsonIgnoreProperties(ignoreUnknown = true)
@@ -26,14 +25,14 @@ import org.wipf.elcd.model.show.MWipf;
 @Path("/")
 public class Rest {
 
-	@Inject
-	private MWipf mWipf;
+//	@Inject
+//	private MWipf mWipf;
 
 	@GET
 	@Path("/t")
 	@Produces("text/plain")
 	public String testRest() {
-		return mWipf.testRest();
+		return MWipf.testRest();
 	}
 
 	// Start Senden
@@ -41,7 +40,7 @@ public class Rest {
 	@Path("s")
 	@Produces("text/plain")
 	public String startLcd() {
-		ELcd.startElcd();
+		M_ELcd_Control.startElcd();
 		System.out.println("Send to LCD");
 		return "RUN";
 	}
@@ -50,7 +49,7 @@ public class Rest {
 	@Path("r")
 	@Produces("text/plain")
 	public String zufall() {
-		return mWipf.zufall();
+		return MWipf.zufall();
 	}
 
 }
