@@ -6,6 +6,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import org.glassfish.jersey.process.internal.RequestScoped;
+import org.wipf.elcd.model.MConfig;
 import org.wipf.elcd.model.MPing;
 import org.wipf.elcd.model.MTime;
 import org.wipf.elcd.model.MWipf;
@@ -23,6 +24,27 @@ public class Rest {
 	@Produces("text/plain")
 	public String ping(@PathParam("ip") String sIP) {
 		return MPing.ping(sIP).toString();
+	}
+
+	@GET
+	@Path("/tmp")
+	@Produces("text/plain")
+	public String tmp() {
+		return (MPing.ping(MConfig.readConfigFile("pingList"))).toString();
+	}
+
+	@GET
+	@Path("/wipf")
+	@Produces("text/html")
+	public String wipf() {
+		return MConfig.readConfigFile("wipf.html");
+	}
+
+	@GET
+	@Path("/config/{path}")
+	@Produces("text/plain")
+	public String readConfig(@PathParam("path") String sPath) {
+		return MConfig.readConfigFile(sPath);
 	}
 
 	@GET

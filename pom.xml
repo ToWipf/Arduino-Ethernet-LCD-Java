@@ -29,18 +29,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.glassfish.jersey.test-framework</groupId>
-			<artifactId>jersey-test-framework-util</artifactId>
-			<scope>test</scope>
-			<version>2.29</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.glassfish.jersey.test-framework.providers</groupId>
-			<artifactId>jersey-test-framework-provider-bundle</artifactId>
-			<type>pom</type>
-			<scope>test</scope>
-			<version>2.29</version>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>28.1-jre</version>
 		</dependency>
 
 		<dependency>

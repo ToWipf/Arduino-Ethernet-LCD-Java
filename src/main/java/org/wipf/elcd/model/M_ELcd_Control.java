@@ -31,7 +31,7 @@ public class M_ELcd_Control {
 				MSendToELcd.clear();
 				displayLoopRare();
 
-				while (App.FailCount < 1) {
+				while (App.FailCount < 3) {
 					displayLoop();
 					if (sendCounter > 100) {
 						displayLoopRare();
@@ -53,8 +53,10 @@ public class M_ELcd_Control {
 	public static void displayLoopRare() {
 		String sDayname = MTime.dayName();
 		String sDate = MTime.date();
+
 		MSendToELcd.write(1, ((20 - sDayname.length()) / 2), sDayname);
 		MSendToELcd.write(2, ((20 - sDate.length()) / 2), sDate);
+
 	}
 
 	/**
