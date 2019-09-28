@@ -1,1 +1,3 @@
 /target/
+/angular/node-modules/
+/angular/dist/
