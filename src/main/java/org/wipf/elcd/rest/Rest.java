@@ -6,6 +6,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import org.glassfish.jersey.process.internal.RequestScoped;
+import org.wipf.elcd.model.MBlowfish;
 import org.wipf.elcd.model.MConfig;
 import org.wipf.elcd.model.MPing;
 import org.wipf.elcd.model.MTime;
@@ -68,6 +69,21 @@ public class Rest {
 	@Produces("text/plain")
 	public String zufall(@PathParam("bis") Integer nBis, @PathParam("anzahl") Integer nAnzahl) {
 		return MWipf.zufall(nBis, nAnzahl);
+	}
+
+	// Cryp
+	@GET
+	@Path("/cr/{txt}")
+	@Produces("text/plain")
+	public String cr(@PathParam("txt") String sIn) throws Exception {
+		return MBlowfish.encrypt(sIn);
+	}
+
+	@GET
+	@Path("/dc/{txt}")
+	@Produces("text/plain")
+	public String dc(@PathParam("txt") String sIn) throws Exception {
+		return MBlowfish.decrypt(sIn);
 	}
 
 }
