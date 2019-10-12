@@ -12,24 +12,15 @@ export class WipfComponent implements OnInit {
     private http: HttpClient,
   ) { }
 
+  public txt: string;
+
   ngOnInit() {
   }
 
-
-  public test(): void {
-    console.log('test');
-  }
-
   public sendMsg(): void {
-    this.http.put('http://192.168.2.10:8080/msg/blub', null).subscribe(data => {
+    console.log(this.txt);
+    this.http.put('http://192.168.2.10:8080/msg/' + this.txt, null).subscribe((data) =>{
       console.log(data);
     });
   }
-
-  public sendMsg2(): void {
-    this.http.put('http://localhost:8080/msg/blub', null).subscribe(data => {
-      console.log(data);
-    });
-  }
-
 }

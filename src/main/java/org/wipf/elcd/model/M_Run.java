@@ -17,6 +17,7 @@ public class M_Run {
 	public static String startElcd() {
 		if (App.RunLock) {
 			System.out.println("Runlock is on");
+			return "F";
 		} else {
 			System.out.println("Set Runlock on");
 			App.RunLock = true;
@@ -47,7 +48,7 @@ public class M_Run {
 				App.RunLock = false;
 			}
 		});
-		return "LCD RUN";
+		return "K";
 	}
 
 	/**

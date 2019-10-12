@@ -1,6 +1,5 @@
 <div class="wipf">
-    <p>wipf works!</p>
-    <button (click)="test()">Test</button>
-    <button (click)="sendMsg()">Test1</button>
-    <button (click)="sendMsg2()">Test2</button>
+    <p>Senden:</p>
+    <input (input)="txt=$event.target.value" type="text" class="form-control">
+    <button (click)="sendMsg()">Send</button>
 </div>

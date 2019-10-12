@@ -2,6 +2,7 @@ package org.wipf.elcd.rest;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.OPTIONS;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -80,17 +81,17 @@ public class Rest {
 		return MBlowfish.decrypt(sIn);
 	}
 
-	// Start Senden
+	// Start Send to
 	@GET
 	@Path("s")
 	@Produces("text/plain")
 	public String startLcd() {
-		System.out.println(M_Run.startElcd());
-		return "X";
+		return M_Run.startElcd();
 	}
 
-	@GET
+	@PUT
 	@Path("msg/{msg}")
+	@Produces("text/plain")
 	public String sendMsg(@PathParam("msg") String sMsg) {
 		MelcdConnect.write(3, 0, sMsg);
 		return "ok";
@@ -99,7 +100,6 @@ public class Rest {
 	@OPTIONS
 	@Path("msg/{msg}")
 	public Response getOptions() {
-		System.out.println("opt");
 		return Response.ok().header("Access-Control-Allow-Origin", "*")
 				.header("Access-Control-Allow-Methods", "POST, GET, PUT, UPDATE, OPTIONS")
 				.header("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With").build();
