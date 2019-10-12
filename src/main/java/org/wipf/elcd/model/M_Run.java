@@ -9,7 +9,7 @@ import org.wipf.elcd.app.App;
  * @author wipf
  *
  */
-public class M_ELcd_Control {
+public class M_Run {
 
 	/**
 	 * Start
@@ -28,8 +28,11 @@ public class M_ELcd_Control {
 				System.out.println("Start send to Lcd");
 				MWipf.sleep(1000);
 				App.FailCount = 0;
-				MSendToELcd.clear();
+				MelcdConnect.clear();
 				displayLoopRare();
+				if (App.FailCount > 0) {
+					MWipf.sleep(500);
+				}
 
 				while (App.FailCount < 3) {
 					displayLoop();
@@ -54,8 +57,8 @@ public class M_ELcd_Control {
 		String sDayname = MTime.dayName();
 		String sDate = MTime.date();
 
-		MSendToELcd.write(1, ((20 - sDayname.length()) / 2), sDayname);
-		MSendToELcd.write(2, ((20 - sDate.length()) / 2), sDate);
+		MelcdConnect.write(1, ((20 - sDayname.length()) / 2), sDayname);
+		MelcdConnect.write(2, ((20 - sDate.length()) / 2), sDate);
 
 	}
 
@@ -63,6 +66,6 @@ public class M_ELcd_Control {
 	 * 
 	 */
 	public static void displayLoop() {
-		MSendToELcd.write(0, 6, MTime.uhr());
+		MelcdConnect.write(0, 6, MTime.uhr());
 	}
 }

@@ -10,7 +10,7 @@ import com.mashape.unirest.http.exceptions.UnirestException;
  * @author wipf
  *
  */
-public class MSendToELcd {
+public class MelcdConnect {
 
 	/**
 	 * 

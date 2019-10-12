@@ -1,9 +1,11 @@
 package org.wipf.elcd.rest;
 
 import javax.ws.rs.GET;
+import javax.ws.rs.OPTIONS;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.process.internal.RequestScoped;
 import org.wipf.elcd.model.MBlowfish;
@@ -11,7 +13,8 @@ import org.wipf.elcd.model.MConfig;
 import org.wipf.elcd.model.MPing;
 import org.wipf.elcd.model.MTime;
 import org.wipf.elcd.model.MWipf;
-import org.wipf.elcd.model.M_ELcd_Control;
+import org.wipf.elcd.model.M_Run;
+import org.wipf.elcd.model.MelcdConnect;
 
 @RequestScoped
 @Path("/")
@@ -55,15 +58,6 @@ public class Rest {
 		return MTime.date();
 	}
 
-	// Start Senden
-	@GET
-	@Path("s")
-	@Produces("text/plain")
-	public String startLcd() {
-		System.out.println(M_ELcd_Control.startElcd());
-		return "X";
-	}
-
 	@GET
 	@Path("r/{bis}/{anzahl}")
 	@Produces("text/plain")
@@ -84,6 +78,31 @@ public class Rest {
 	@Produces("text/plain")
 	public String dc(@PathParam("txt") String sIn) throws Exception {
 		return MBlowfish.decrypt(sIn);
+	}
+
+	// Start Senden
+	@GET
+	@Path("s")
+	@Produces("text/plain")
+	public String startLcd() {
+		System.out.println(M_Run.startElcd());
+		return "X";
+	}
+
+	@GET
+	@Path("msg/{msg}")
+	public String sendMsg(@PathParam("msg") String sMsg) {
+		MelcdConnect.write(3, 0, sMsg);
+		return "ok";
+	}
+
+	@OPTIONS
+	@Path("msg/{msg}")
+	public Response getOptions() {
+		System.out.println("opt");
+		return Response.ok().header("Access-Control-Allow-Origin", "*")
+				.header("Access-Control-Allow-Methods", "POST, GET, PUT, UPDATE, OPTIONS")
+				.header("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With").build();
 	}
 
 }

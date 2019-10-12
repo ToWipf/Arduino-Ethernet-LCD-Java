@@ -4,7 +4,7 @@
 /*
   Rest
   Tobias Fritsch
-  23.08.2019
+  12.10.2019
 */
 
 #define OKT1 192
@@ -57,13 +57,13 @@ void loop() {
     while (client.connected()) {
       if (client.available()) {
         char c = client.read();
-        if (readString.length() < 40) {
+        if (readString.length() < 60) {
           readString = readString + c;
         }
         if (c == '\n') {
 
           client.println("HTTP/1.1 200 OK");
-          //client.println("Content-Type: text/html");
+          // client.println("Content-Type: text/html");
           client.println();
 
           client.print("{");
@@ -72,7 +72,6 @@ void loop() {
 
           // Nur PUT zulassen
           if (readString.indexOf("PUT /") > -1) {
-
 
             if (readString.indexOf("doOn")  > -1) {
               digitalWrite(4, HIGH);
@@ -101,7 +100,7 @@ void loop() {
             }
           }
           else {
-            lcd.print("E1");
+            lcd.print("F");
           }
           readString = "";
 

@@ -9,6 +9,10 @@ public class MBlowfish {
 
 	public static String sKey = "superKey42";
 
+	/**
+	 * @param sIn
+	 * @return
+	 */
 	public static String encrypt(String sIn) {
 		try {
 			SecretKeySpec secretKeySpec = new SecretKeySpec((sKey).getBytes(), "Blowfish");
@@ -21,6 +25,10 @@ public class MBlowfish {
 		}
 	}
 
+	/**
+	 * @param string
+	 * @return
+	 */
 	public static String decrypt(String string) {
 		try {
 			SecretKeySpec secretKeySpec = new SecretKeySpec((sKey).getBytes(), "Blowfish");
