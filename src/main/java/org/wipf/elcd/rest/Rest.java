@@ -15,7 +15,6 @@ import org.wipf.elcd.model.MPing;
 import org.wipf.elcd.model.MTime;
 import org.wipf.elcd.model.MWipf;
 import org.wipf.elcd.model.M_Run;
-import org.wipf.elcd.model.MelcdConnect;
 
 @RequestScoped
 @Path("/")
@@ -92,9 +91,9 @@ public class Rest {
 	@PUT
 	@Path("msg/{msg}")
 	@Produces("text/plain")
-	public String sendMsg(@PathParam("msg") String sMsg) {
-		MelcdConnect.write(3, 0, sMsg);
-		return "ok";
+	public Response sendMsg(@PathParam("msg") String sMsg) {
+		Boolean bStatus = M_Run.sendMsg(sMsg);
+		return Response.ok().entity(bStatus).build();
 	}
 
 	@OPTIONS

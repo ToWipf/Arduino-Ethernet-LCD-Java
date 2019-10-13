@@ -24,6 +24,7 @@ public class M_Run {
 		}
 		ExecutorService service = Executors.newFixedThreadPool(4);
 		service.submit(new Runnable() {
+			@Override
 			public void run() {
 				Integer sendCounter = 0;
 				System.out.println("Start send to Lcd");
@@ -60,7 +61,6 @@ public class M_Run {
 
 		MelcdConnect.write(1, ((20 - sDayname.length()) / 2), sDayname);
 		MelcdConnect.write(2, ((20 - sDate.length()) / 2), sDate);
-
 	}
 
 	/**
@@ -68,5 +68,14 @@ public class M_Run {
 	 */
 	public static void displayLoop() {
 		MelcdConnect.write(0, 6, MTime.uhr());
+	}
+
+	public static Boolean sendMsg(String sMsg) {
+		try {
+			MelcdConnect.write(3, 0, sMsg);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
 	}
 }
