@@ -1,5 +1,6 @@
 package org.wipf.elcd.rest;
 
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.OPTIONS;
 import javax.ws.rs.PUT;
@@ -9,6 +10,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.process.internal.RequestScoped;
+import org.wipf.elcd.app.App;
 import org.wipf.elcd.model.MBlowfish;
 import org.wipf.elcd.model.MConfig;
 import org.wipf.elcd.model.MPing;
@@ -88,6 +90,21 @@ public class Rest {
 		return M_Run.startElcd();
 	}
 
+	@GET
+	@Path("status")
+	@Produces("text/plain")
+	public String status() {
+		return App.RunLock.toString();
+	}
+
+	@OPTIONS
+	@Path("status")
+	public Response options() {
+		return Response.ok().header("Access-Control-Allow-Origin", "*")
+				.header("Access-Control-Allow-Methods", "POST, GET, PUT, UPDATE, OPTIONS")
+				.header("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With").build();
+	}
+
 	@PUT
 	@Path("msg/{msg}")
 	@Produces("text/plain")
@@ -98,10 +115,16 @@ public class Rest {
 
 	@OPTIONS
 	@Path("msg/{msg}")
-	public Response getOptions() {
+	public Response msgOptions() {
 		return Response.ok().header("Access-Control-Allow-Origin", "*")
 				.header("Access-Control-Allow-Methods", "POST, GET, PUT, UPDATE, OPTIONS")
 				.header("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With").build();
+	}
+
+	@DELETE
+	@Path("sysHalt")
+	public void sysHalt() {
+		System.exit(0);
 	}
 
 }
