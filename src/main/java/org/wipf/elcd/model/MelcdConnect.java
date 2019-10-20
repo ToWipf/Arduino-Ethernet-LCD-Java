@@ -13,11 +13,16 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 public class MelcdConnect {
 
 	/**
+	 * @return
 	 * 
 	 */
-	public static void clear() {
-		System.out.println("cls");
-		restLcd("cls");
+	public static boolean clear() {
+		try {
+			restLcd("cls");
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 	/**
@@ -54,7 +59,6 @@ public class MelcdConnect {
 			App.FailCount = 0;
 
 		} catch (UnirestException e) {
-			// e.printStackTrace();
 			System.out.println("Sendefehler");
 			App.FailCount++;
 		}

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import javax.ws.rs.core.Response;
+
 import org.glassfish.jersey.process.internal.RequestScoped;
 
 /**
@@ -12,6 +14,16 @@ import org.glassfish.jersey.process.internal.RequestScoped;
  */
 @RequestScoped
 public class MWipf {
+
+	/**
+	 * @param sInput
+	 * @return
+	 */
+	public static Response genResponse(String sInput) {
+		return Response.ok(sInput).header("Access-Control-Allow-Origin", "*")
+				.header("Access-Control-Allow-Methods", "POST, GET, PUT, UPDATE, OPTIONS")
+				.header("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With").build();
+	}
 
 	/**
 	 * @param i

@@ -17,6 +17,7 @@ import org.wipf.elcd.model.MPing;
 import org.wipf.elcd.model.MTime;
 import org.wipf.elcd.model.MWipf;
 import org.wipf.elcd.model.M_Run;
+import org.wipf.elcd.model.MelcdConnect;
 
 @RequestScoped
 @Path("/")
@@ -56,8 +57,8 @@ public class Rest {
 	@GET
 	@Path("/date")
 	@Produces("text/plain")
-	public String date() {
-		return MTime.date();
+	public Response date() {
+		return MWipf.genResponse(MTime.date());
 	}
 
 	@GET
@@ -93,16 +94,16 @@ public class Rest {
 	@GET
 	@Path("status")
 	@Produces("text/plain")
-	public String status() {
-		return App.RunLock.toString();
+	public Response status() {
+		return MWipf.genResponse(App.RunLock.toString());
 	}
 
-	@OPTIONS
-	@Path("status")
-	public Response options() {
-		return Response.ok().header("Access-Control-Allow-Origin", "*")
-				.header("Access-Control-Allow-Methods", "POST, GET, PUT, UPDATE, OPTIONS")
-				.header("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With").build();
+	@PUT
+	@Path("cls")
+	@Produces("text/plain")
+	public Response cls() {
+		Boolean bStatus = MelcdConnect.clear();
+		return MWipf.genResponse(bStatus.toString());
 	}
 
 	@PUT
@@ -110,7 +111,15 @@ public class Rest {
 	@Produces("text/plain")
 	public Response sendMsg(@PathParam("msg") String sMsg) {
 		Boolean bStatus = M_Run.sendMsg(sMsg);
-		return Response.ok().entity(bStatus).build();
+		return MWipf.genResponse(bStatus.toString());
+	}
+
+	@OPTIONS
+	@Path("cls")
+	public Response clsOptions() {
+		return Response.ok().header("Access-Control-Allow-Origin", "*")
+				.header("Access-Control-Allow-Methods", "POST, GET, PUT, UPDATE, OPTIONS")
+				.header("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With").build();
 	}
 
 	@OPTIONS
@@ -124,6 +133,7 @@ public class Rest {
 	@DELETE
 	@Path("sysHalt")
 	public void sysHalt() {
+		System.out.println("SysHalt");
 		System.exit(0);
 	}
 
