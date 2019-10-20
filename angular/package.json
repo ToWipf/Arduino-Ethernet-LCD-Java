@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --host localhost",
+    "start": "ng serve --host localhost --aot --port 3000",
     "builddev": "ng build",
     "build": "ng build --prod --base-href /wipf-app/",
     "test": "ng test",

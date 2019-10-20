@@ -13,7 +13,7 @@ export class WipfComponent implements OnInit {
   ) { }
 
   public txt: string;
-  public online: string = "ff";
+  public online: string = 'ff';
 
   ngOnInit() {
     this.http.get('http://192.168.2.10:8080/status/').subscribe((data) =>{
