@@ -9,7 +9,6 @@ public class MTelegram {
 		try {
 
 			Unirest.post("https://api.telegram.org/" + sKey + "&text=" + sMsg).asString();
-
 		} catch (UnirestException e) {
 			System.out.println("Telefehler");
 		}
