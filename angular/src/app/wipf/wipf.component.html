@@ -13,8 +13,12 @@
         </div>
         {{STATUS}}
     </ng-container>
-    <ng-container *ngIf="online!=='true'">
-        <h3> E-LCD ist offline</h3>
+    <ng-container *ngIf="online==='false'">
+        <h3>E-LCD ist offline</h3>
+    </ng-container>
+    <hr>
+    <ng-container *ngIf="online!=='false' && online!=='true'">
+        <h3>Bitte Warten</h3>
     </ng-container>
     <hr>
 </div>

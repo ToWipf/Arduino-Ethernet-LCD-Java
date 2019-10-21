@@ -13,7 +13,7 @@ export class WipfComponent implements OnInit {
   ) { }
 
   public txt: string;
-  public STATUS: string; //TODO: dialogfenster
+  public STATUS: string; // TODO: dialogfenster
   public online: string = 'ff';
 
   ngOnInit() {

@@ -4,11 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --host localhost --aot --port 3000",
-    "builddev": "ng build",
-    "build": "ng build --prod --base-href /wipf-app/",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e"
+    "build": "ng build --prod --base-href /wipf-app/"
   },
   "private": true,
   "dependencies": {

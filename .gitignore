@@ -1,3 +1,4 @@
 /target/
-/angular/node-modules/
+/angular/node_modules/
 /angular/dist/
+/angular/package-lock.json
