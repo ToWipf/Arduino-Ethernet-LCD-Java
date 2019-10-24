@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
+import org.wipf.elcd.model.MsqlLite;
 import org.wipf.elcd.rest.Rest;
 
 import com.mashape.unirest.http.Unirest;
@@ -37,7 +38,12 @@ public class App {
 	 */
 	public static void main(String[] args) {
 		System.out.println("Starte Wipf App 24.10.2019");
-		StartTasks.StartTask();
+		// StartTasks.StartTask();
+
+		MsqlLite.startDB();
+		MsqlLite.toWorte("x");
+		MsqlLite.getWorte();
+
 		try {
 			RunLock = false;
 			Unirest.setTimeouts(3000, 5000);
