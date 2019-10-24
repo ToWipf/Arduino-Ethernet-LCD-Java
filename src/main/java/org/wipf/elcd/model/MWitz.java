@@ -1,16 +1,11 @@
 package org.wipf.elcd.model;
 
-import java.io.StringReader;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import org.w3c.dom.CharacterData;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
+//import javax.xml.stream.XMLStreamException;
+//import javax.xml.stream.XMLStreamReader;
+//
+//import com.mashape.unirest.http.Unirest;
+//import com.mashape.unirest.http.exceptions.UnirestException;
+import javax.xml.stream.XMLStreamException;
 
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
@@ -19,68 +14,62 @@ public class MWitz {
 //
 
 	public static void main(String[] args) {
-		System.out.println(getWitz());
+		try {
+			System.out.println(getWitz());
+		} catch (XMLStreamException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
-	public static String getWitz() {
+	public static String getWitz() throws XMLStreamException {
 		try {
 			String xml = Unirest.get("http://witze.net/witze.rss?cfg=000000410").asString().getBody();
 			return parse(xml);
 
 		} catch (UnirestException e) {
 			System.out.println("Witzfehler");
-			return null;
 		}
-	}
-
-	public static String parse(String sWitzXml) {
-		System.out.println(sWitzXml);
-
-		try {
-			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-			DocumentBuilder db = dbf.newDocumentBuilder();
-			InputSource is = new InputSource();
-			is.setCharacterStream(new StringReader(sWitzXml));
-
-			Document doc = db.parse(is);
-			NodeList nodes = doc.getElementsByTagName("channel");
-
-			// String sWitz = doc.getElementsByTagName("channel").toString();
-
-			// return sWitz;
-
-			// iterate the employees
-			for (int i = 0; i < nodes.getLength(); i++) {
-				System.out.println("1");
-				Element element = (Element) nodes.item(i);
-
-				NodeList name = element.getElementsByTagName("channel");
-				Element line = (Element) name.item(0);
-				System.out.println("Witz: " + getCharacterDataFromElement(line));
-				// return ("x");
-
-//				NodeList title = element.getElementsByTagName("title");
-//				line = (Element) title.item(0);
-//				System.out.println("Title: " + getCharacterDataFromElement(line));
-			}
-			return "e";
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		/*
-		 * output : Name: John Title: Manager Name: Sara Title: Clerk
-		 */
 		return null;
-
 	}
 
-	public static String getCharacterDataFromElement(Element e) {
-		Node child = e.getFirstChild();
-		if (child instanceof CharacterData) {
-			CharacterData cd = (CharacterData) child;
-			return cd.getData();
-		}
-		return "?";
+	private static String parse(String xml) {
+		// TODO Auto-generated method stub
+		return null;
 	}
-
 }
+//	public static String parse(String sWitz) throws XMLStreamException {
+//
+//		XMLInputFactory inputFactory = XMLInputFactory.newInstance();
+//		XMLStreamReader stax = (XMLStreamReader) sWitz;
+//		StringBuffer sb = new StringBuffer();
+//		int state = 0;
+//		while (stax.hasNext()) {
+//			stax.next();
+//			String name = (stax.hasName()) ? stax.getName().getLocalPart().trim() : null;
+//			String text = (stax.hasText()) ? stax.getText().trim() : null;
+//			boolean b1 = stax.hasName() && name.equals("rss"); // <ParentElem>
+//			boolean b2 = stax.hasName() && name.equals("channel"); // <ChildElem>
+//			boolean b3 = stax.hasText() && text.equals("item"); // <FindText>
+//			boolean b4 = stax.hasName() && name.equals("description"); // <DataElem>
+//			if (b1 && stax.isStartElement())
+//				state = 1; // <ParentElem>
+//			if (b1 && stax.isEndElement())
+//				state = 0;
+//			if (state == 1 && b2 && stax.isStartElement())
+//				state = 2; // <ChildElem>
+//			if (state == 2 && b2 && stax.isEndElement())
+//				state = 1;
+//			if (state == 2 && b3)
+//				state = 3; // <FindText>
+//			if (state == 3 && b4 && stax.isStartElement())
+//				state = 4; // <DataElem>
+//			if (state == 4 && b4 && stax.isEndElement())
+//				break;
+//			if (state == 4 && stax.hasText())
+//				sb.append(stax.getText()); // gesuchtes Ergebnis
+//		}
+//		System.out.println(sb);
+//		return sWitz;
+//	}
+//}
