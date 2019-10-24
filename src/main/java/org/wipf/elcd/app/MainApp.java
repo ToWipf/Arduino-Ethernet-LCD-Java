@@ -27,17 +27,19 @@ import com.mashape.unirest.http.Unirest;
  * @author wipf
  *
  */
-public class App {
+public class MainApp {
 
 	private static final URI BASE_URI = URI.create("http://0.0.0.0:8080/");
 	public static Integer FailCount;
 	public static Boolean RunLock;
+	public static Integer TelegramOffsetID;
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
 		System.out.println("Starte Wipf App 24.10.2019");
+		TelegramOffsetID = 0;
 		MsqlLite.startDB();
 		StartTasks.StartTask();
 
@@ -58,7 +60,7 @@ public class App {
 			System.out.println(String.format("Server aktiv: %s", BASE_URI));
 			Thread.currentThread().join();
 		} catch (IOException | InterruptedException ex) {
-			Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(MainApp.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
 

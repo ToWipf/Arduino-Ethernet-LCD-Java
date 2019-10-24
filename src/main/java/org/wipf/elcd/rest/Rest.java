@@ -10,7 +10,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.process.internal.RequestScoped;
-import org.wipf.elcd.app.App;
+import org.wipf.elcd.app.MainApp;
 import org.wipf.elcd.model.MBlowfish;
 import org.wipf.elcd.model.MConfig;
 import org.wipf.elcd.model.MPing;
@@ -95,7 +95,7 @@ public class Rest {
 	@Path("status")
 	@Produces("text/plain")
 	public Response status() {
-		return MWipf.genResponse(App.RunLock.toString());
+		return MWipf.genResponse(MainApp.RunLock.toString());
 	}
 
 	@PUT

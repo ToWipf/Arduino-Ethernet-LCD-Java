@@ -3,6 +3,7 @@ package org.wipf.elcd.model;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
+import org.wipf.elcd.app.MainApp;
 import org.wipf.elcd.model.struct.Telegram;
 import org.wipf.elcd.model.task.TaskTelegram;
 
@@ -37,19 +38,28 @@ public class MTelegram {
 	 */
 	public static String leseTele() {
 		try {
-			String sJson = Unirest.post("https://api.telegram.org/" + TaskTelegram.BOTKEY + "getUpdates").asString()
-					.getBody();
+			String sJson;
+			if (MainApp.TelegramOffsetID == 0) {
+				sJson = Unirest.post("https://api.telegram.org/" + TaskTelegram.BOTKEY + "getUpdates").asString()
+						.getBody();
+			} else {
+				sJson = Unirest.post("https://api.telegram.org/" + TaskTelegram.BOTKEY + "getUpdates?offset="
+						+ MainApp.TelegramOffsetID).asString().getBody();
+			}
 
 			// parse josn
 			ObjectMapper mapper = new ObjectMapper();
-
 			ArrayList<Telegram> li = new ArrayList<>();
 
 			JsonNode jn = mapper.readTree(sJson);
+
+			System.out.println(MainApp.TelegramOffsetID);
+
 			for (JsonNode n : jn) {
 				for (JsonNode nn : n) {
 					Telegram t = new Telegram();
 					try {
+						MainApp.TelegramOffsetID = nn.get("update_id").asInt() + 1; // Nachricht gelesen -> löschen
 						t.setMid(nn.get("message").get("message_id").asInt());
 						t.setMessage(nn.get("message").get("text").asText());
 						li.add(t);

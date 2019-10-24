@@ -3,7 +3,7 @@ package org.wipf.elcd.model;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import org.wipf.elcd.app.App;
+import org.wipf.elcd.app.MainApp;
 
 /**
  * @author wipf
@@ -15,12 +15,12 @@ public class M_Run {
 	 * Start
 	 */
 	public static String startElcd() {
-		if (App.RunLock) {
+		if (MainApp.RunLock) {
 			System.out.println("Runlock is on");
 			return "F";
 		} else {
 			System.out.println("Set Runlock on");
-			App.RunLock = true;
+			MainApp.RunLock = true;
 		}
 		ExecutorService service = Executors.newFixedThreadPool(4);
 		service.submit(new Runnable() {
@@ -29,14 +29,14 @@ public class M_Run {
 				Integer sendCounter = 0;
 				System.out.println("Start send to Lcd");
 				MWipf.sleep(1000);
-				App.FailCount = 0;
+				MainApp.FailCount = 0;
 				MelcdConnect.clear();
 				displayLoopRare();
-				if (App.FailCount > 0) {
+				if (MainApp.FailCount > 0) {
 					MWipf.sleep(500);
 				}
 
-				while (App.FailCount < 3) {
+				while (MainApp.FailCount < 3) {
 					displayLoop();
 					if (sendCounter > 100) {
 						displayLoopRare();
@@ -46,7 +46,7 @@ public class M_Run {
 					sendCounter++;
 				}
 				System.out.println("Set Runlock off");
-				App.RunLock = false;
+				MainApp.RunLock = false;
 			}
 		});
 		return "K";
