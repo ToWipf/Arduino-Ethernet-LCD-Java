@@ -1,6 +1,6 @@
 package org.wipf.elcd.model;
 
-import org.wipf.elcd.app.App;
+import org.wipf.elcd.app.MainApp;
 
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
@@ -55,12 +55,12 @@ public class MelcdConnect {
 				System.out.println(response.getBody());
 			}
 			// return (response.getBody().equals("{}"));
-			// TODO: sezte taster
-			App.FailCount = 0;
+			// TODO: setze taster
+			MainApp.FailCount = 0;
 
 		} catch (UnirestException e) {
 			System.out.println("Sendefehler");
-			App.FailCount++;
+			MainApp.FailCount++;
 		}
 	}
 
