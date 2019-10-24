@@ -36,7 +36,8 @@ public class App {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		System.out.println("Starte Wipf App 21.10.2019");
+		System.out.println("Starte Wipf App 24.10.2019");
+		StartTasks.StartTask();
 		try {
 			RunLock = false;
 			Unirest.setTimeouts(3000, 5000);
