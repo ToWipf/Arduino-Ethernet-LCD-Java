@@ -29,16 +29,18 @@ import com.mashape.unirest.http.Unirest;
  */
 public class MainApp {
 
+	// TODO: alle in db:
 	private static final URI BASE_URI = URI.create("http://0.0.0.0:8080/");
 	public static Integer FailCount;
 	public static Boolean RunLock;
 	public static Integer TelegramOffsetID;
+	public static String BOTKEY;
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		System.out.println("Starte Wipf App 24.10.2019");
+		System.out.println("Starte WipfApp 24.10.2019");
 		TelegramOffsetID = 0;
 		MsqlLite.startDB();
 		StartTasks.StartTask();

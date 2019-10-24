@@ -1,11 +1,9 @@
 package org.wipf.elcd.model;
 
-import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import org.wipf.elcd.app.MainApp;
 import org.wipf.elcd.model.struct.Telegram;
-import org.wipf.elcd.model.task.TaskTelegram;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,19 +11,22 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
+/**
+ * @author wipf
+ *
+ */
 public class MTelegram {
 
 	/**
-	 * @param sMsg
-	 * @param sChatId
+	 * @param t
 	 * @return
 	 */
-	public static String sendeTele(String sMsg, String sChatId) {
+	public static String sendToTelegram(Telegram t) {
 		try {
 
 			HttpResponse<String> res;
-			res = Unirest.post("https://api.telegram.org/" + TaskTelegram.BOTKEY + "sendMessage?chat_id=" + sChatId
-					+ "&text=" + URLEncoder.encode(sMsg)).asString();
+			res = Unirest.post("https://api.telegram.org/" + MainApp.BOTKEY + "/sendMessage?chat_id=" + t.getChatID()
+					+ "&text=" + t.getAntwort()).asString();
 			return res.getBody();
 		} catch (UnirestException e) {
 			e.printStackTrace();
@@ -34,17 +35,17 @@ public class MTelegram {
 	}
 
 	/**
-	 * @return
+	 * 
 	 */
-	public static String leseTele() {
+	public static void readUpdateFromTelegram() {
 		try {
 			String sJson;
 			if (MainApp.TelegramOffsetID == 0) {
-				sJson = Unirest.post("https://api.telegram.org/" + TaskTelegram.BOTKEY + "getUpdates").asString()
-						.getBody();
+				sJson = Unirest.post("https://api.telegram.org/" + MainApp.BOTKEY + "/getUpdates").asString().getBody();
 			} else {
-				sJson = Unirest.post("https://api.telegram.org/" + TaskTelegram.BOTKEY + "getUpdates?offset="
-						+ MainApp.TelegramOffsetID).asString().getBody();
+				sJson = Unirest.post(
+						"https://api.telegram.org/" + MainApp.BOTKEY + "/getUpdates?offset=" + MainApp.TelegramOffsetID)
+						.asString().getBody();
 			}
 
 			// parse josn
@@ -53,15 +54,15 @@ public class MTelegram {
 
 			JsonNode jn = mapper.readTree(sJson);
 
-			System.out.println(MainApp.TelegramOffsetID);
-
 			for (JsonNode n : jn) {
 				for (JsonNode nn : n) {
 					Telegram t = new Telegram();
 					try {
 						MainApp.TelegramOffsetID = nn.get("update_id").asInt() + 1; // Nachricht gelesen -> löschen
-						t.setMid(nn.get("message").get("message_id").asInt());
-						t.setMessage(nn.get("message").get("text").asText());
+						JsonNode msg = nn.get("message");
+						t.setMid(msg.get("message_id").asInt());
+						t.setMessage(msg.get("text").asText());
+						t.setChatID(msg.get("chat").get("id").asInt());
 						li.add(t);
 					} catch (Exception e) {
 						// weiter da sticker oder ähnliches
@@ -70,38 +71,46 @@ public class MTelegram {
 			}
 			// ids zu db
 			for (Telegram t : li) {
-				if (!MsqlLite.getTelegram(t.getMid())) {
-					// noch nicht in db
-					System.out.println("new:" + t.getMid() + t.getMessage());
-					MsqlLite.writeTelegram(t);
-					String sAntw;
-
-					switch (t.getMessage()) {
-					case "Wipf":
-					case "wipf":
-					case "wipfe":
-					case "Wipfe":
-						sAntw = "Wipfe sind sehr schön";
-						break;
-
-					default:
-						sAntw = "Antwort auf '" + t.getMessage() + "' ist nicht vorhanden";
-						break;
-					}
-					System.out.println("snd:" + t.getMid() + t.getMessage());
-					sendeTele(sAntw, TaskTelegram.CHATID);
-				} else {
-					System.out.println("not:" + t.getMid() + t.getMessage());
-				}
+				bearbeiteMsg(t);
 			}
 
-			// action bei bestimmten txt
-
-			return "OK";
 		} catch (Exception e) {
 			e.printStackTrace();
-			return null;
 		}
+	}
+
+	/**
+	 * @param t
+	 */
+	private static void bearbeiteMsg(Telegram t) {
+		switch (t.getMessage().toLowerCase().replace("/", "").replace(".", "").replace("?", "")) {
+		case "wipf":
+		case "wipfe":
+			t.setAntwort("Wipfe sind sehr schön.");
+			break;
+		case "hi":
+		case "hallo":
+		case "hello":
+		case "hey":
+			t.setAntwort("Hallo, ich bin ein Wipf.");
+			break;
+		case "help":
+		case "hilfe":
+		case "info":
+			t.setAntwort("Ist ein Wipf gesucht?");
+			break;
+		case "rnd":
+		case "zufall":
+			t.setAntwort(MWipf.zufall(60, 10));
+			break;
+		// TODO: action bei bestimmten txt
+		default:
+			t.setAntwort("Antwort auf '" + t.getMessage() + "' ist nicht vorhanden.");
+			break;
+		}
+
+		MsqlLite.saveTelegramToDB(t);
+		sendToTelegram(t);
 	}
 
 }

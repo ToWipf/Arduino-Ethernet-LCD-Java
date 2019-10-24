@@ -13,11 +13,9 @@ public class TaskTelegram extends TimerTask {
 	@Override
 	public void run() {
 		try {
-			System.out.println("Suche nach neuen Nachrichten:");
+			MTelegram.readUpdateFromTelegram();
 			// String sWitz;
 			// sWitz = URLEncoder.encode(MWitz.getWitz(), "UTF-8");
-
-			System.out.println(MTelegram.leseTele());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

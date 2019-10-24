@@ -26,6 +26,16 @@ public class MWipf {
 	}
 
 	/**
+	 * @param b
+	 * @return
+	 */
+	public static Response genResponse(Boolean b) {
+		return Response.ok(b.toString()).header("Access-Control-Allow-Origin", "*")
+				.header("Access-Control-Allow-Methods", "POST, GET, PUT, UPDATE, OPTIONS")
+				.header("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With").build();
+	}
+
+	/**
 	 * @param i
 	 */
 	public static void sleep(Integer i) {
