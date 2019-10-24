@@ -2,6 +2,8 @@ package org.wipf.elcd.model;
 
 import org.wipf.elcd.model.task.TaskTelegram;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
@@ -31,8 +33,27 @@ public class MTelegram {
 	 */
 	public static String leseTele() {
 		try {
-			return Unirest.post("https://api.telegram.org/" + TaskTelegram.BOTKEY + "getUpdates").asString().getBody();
-		} catch (UnirestException e) {
+			String sJson = Unirest.post("https://api.telegram.org/" + TaskTelegram.BOTKEY + "getUpdates").asString()
+					.getBody();
+
+			// parse josn
+			ObjectMapper mapper = new ObjectMapper();
+
+			JsonNode jn = mapper.readTree(sJson);
+			for (JsonNode n : jn) {
+				for (JsonNode nn : n) {
+					System.out.println("xxx: " + nn);
+				}
+			}
+
+			// ids zu db
+
+			// ob in db
+
+			// action
+
+			return "OK";
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;

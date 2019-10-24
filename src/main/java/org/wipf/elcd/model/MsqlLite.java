@@ -61,7 +61,8 @@ public class MsqlLite {
 	private void createDBs() {
 		try {
 			Statement stmt = connection.createStatement();
-			stmt.executeUpdate("CREATE TABLE IF NOT EXISTS telegram(id, val);");
+			stmt.executeUpdate("CREATE TABLE IF NOT EXISTS telegramsettings(id, val);");
+			stmt.executeUpdate("CREATE TABLE IF NOT EXISTS telegrambot(msgid, status);");
 			stmt.executeUpdate("CREATE TABLE IF NOT EXISTS worte(txt);");
 
 		} catch (Exception e) {
@@ -70,6 +71,8 @@ public class MsqlLite {
 		}
 
 	}
+
+	// todo set bot id + set chat id
 
 	public static void toWorte(String s) {
 		try {
