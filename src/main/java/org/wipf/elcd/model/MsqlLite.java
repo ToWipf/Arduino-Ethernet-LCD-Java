@@ -1,5 +1,6 @@
 package org.wipf.elcd.model;
 
+import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -7,6 +8,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import org.wipf.elcd.model.struct.Telegram;
 
 public class MsqlLite {
 
@@ -74,6 +77,33 @@ public class MsqlLite {
 
 	// todo set bot id + set chat id
 
+	public static void writeTelegram(Telegram t) {
+		try {
+			Statement stmt = connection.createStatement();
+			stmt.execute("INSERT INTO telegrambot (msgid, status) VALUES ('" + t.getMid() + "','"
+					+ URLEncoder.encode(t.getMessage()) + "')");
+		} catch (Exception e) {
+			System.err.println(e);
+		}
+	}
+
+	public static boolean getTelegram(Integer nID) {
+		try {
+			Statement stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM telegrambot WHERE msgid = '" + nID + "';");
+			while (rs.next()) {
+				return true;
+			}
+			rs.close();
+		} catch (Exception e) {
+			return false;
+		}
+		return false;
+	}
+
+	/**
+	 * @param s
+	 */
 	public static void toWorte(String s) {
 		try {
 			Statement stmt = connection.createStatement();
@@ -83,6 +113,9 @@ public class MsqlLite {
 		}
 	}
 
+	/**
+	 * 
+	 */
 	public static void getWorte() {
 		try {
 			Statement stmt = connection.createStatement();

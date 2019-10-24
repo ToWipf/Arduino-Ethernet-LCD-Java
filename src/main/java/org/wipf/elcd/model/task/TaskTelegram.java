@@ -17,7 +17,6 @@ public class TaskTelegram extends TimerTask {
 			// String sWitz;
 			// sWitz = URLEncoder.encode(MWitz.getWitz(), "UTF-8");
 
-			System.out.println(MTelegram.sendeTele("Wipf", CHATID));
 			System.out.println(MTelegram.leseTele());
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -38,10 +38,8 @@ public class App {
 	 */
 	public static void main(String[] args) {
 		System.out.println("Starte Wipf App 24.10.2019");
-		StartTasks.StartTask();
 		MsqlLite.startDB();
-		MsqlLite.toWorte("x");
-		MsqlLite.getWorte();
+		StartTasks.StartTask();
 
 		try {
 			RunLock = false;

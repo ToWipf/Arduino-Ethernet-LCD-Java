@@ -9,8 +9,8 @@ public class StartTasks {
 
 		Timer t = new Timer();
 		TaskTelegram mTask = new TaskTelegram();
-		// This task is scheduled to run every 100 seconds
+		// This task is scheduled to run every 20 seconds
 
-		t.scheduleAtFixedRate(mTask, 0, 100000);
+		t.scheduleAtFixedRate(mTask, 0, 20000);
 	}
 }

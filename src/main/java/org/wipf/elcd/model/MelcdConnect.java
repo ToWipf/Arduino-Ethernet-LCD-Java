@@ -55,7 +55,7 @@ public class MelcdConnect {
 				System.out.println(response.getBody());
 			}
 			// return (response.getBody().equals("{}"));
-			// TODO: sezte taster
+			// TODO: setze taster
 			App.FailCount = 0;
 
 		} catch (UnirestException e) {
