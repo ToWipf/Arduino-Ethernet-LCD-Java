@@ -69,6 +69,8 @@ public class MTelegram {
 					switch (t.getMessage()) {
 					case "Wipf":
 					case "wipf":
+					case "wipfe":
+					case "Wipfe":
 						sAntw = "Wipfe sind sehr schön";
 						break;
 
