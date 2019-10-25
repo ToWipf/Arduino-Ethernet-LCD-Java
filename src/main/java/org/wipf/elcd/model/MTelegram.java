@@ -117,15 +117,25 @@ public class MTelegram {
 		case "pinguin":
 		case "pinguine":
 		case "🐧":
-			t.setAntwortPlain("%F0%9F%90%A7");
+			t.setAntwortPlain("%F0%9F%90%A7"); // 🐧
+			break;
+		case "test":
+			t.setAntwortPlain("👻+🍕");
+			break;
+		case "cr":
+		case "en":
+		case "encrypt":
+			t.setAntwortPlain(MBlowfish.encrypt(t.getMessageWord(1)));
+			break;
+		case "de":
+		case "decrypt":
+			t.setAntwortPlain(MBlowfish.decrypt(t.getMessageWord(1)));
 			break;
 		// TODO: action bei bestimmten txt
 		default:
 			t.setAntwort("Antwort auf '" + t.getMessage() + "' ist nicht vorhanden.");
 			break;
 		}
-		System.out.println(
-				t.getMessageWord(0).toLowerCase().replace("/", "").replace(".", "").replace("?", "").replace("!", ""));
 
 		MsqlLite.saveTelegramToDB(t);
 		sendToTelegram(t);

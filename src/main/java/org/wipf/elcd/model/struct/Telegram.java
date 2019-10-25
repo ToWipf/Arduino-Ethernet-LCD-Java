@@ -65,6 +65,6 @@ public class Telegram {
 	}
 
 	public void setAntwortPlain(String sAntwort) {
-		this.sAntwort = sAntwort;
+		this.sAntwort = sAntwort.replace("+", "%2B");
 	}
 }

@@ -55,7 +55,7 @@ public class MWipf {
 		try {
 			return zufall(Integer.parseInt(sWuerfelBis), Integer.parseInt(sAnzahlWuerfel));
 		} catch (Exception e) {
-			return "Syntax: 'zufall WürfelBis AnzahlWürfel'\n z.B. rnd 60 10";
+			return "Syntax: 'zufall WürfelBis AnzahlWürfel'\n z.B. rnd 60 10\n rnd 6 5";
 		}
 	}
 
@@ -95,7 +95,7 @@ public class MWipf {
 				}
 			}
 			if (nMerke > 0) {
-				sb.append("Nr." + i + ": " + nMerke + "\n");
+				sb.append("Nr." + i + " " + nMerke + "x\n");
 			}
 		}
 
