@@ -106,11 +106,26 @@ public class MTelegram {
 		case "zufall":
 			t.setAntwort(MWipf.zufall(t.getMessageWord(1), t.getMessageWord(2)));
 			break;
+		case "ping":
+			t.setAntwort("Pong");
+			break;
+		case "pong":
+			t.setAntwort("Ping");
+			break;
+		case "pingu":
+		case "pingui":
+		case "pinguin":
+		case "pinguine":
+		case "🐧":
+			t.setAntwortPlain("%F0%9F%90%A7");
+			break;
 		// TODO: action bei bestimmten txt
 		default:
 			t.setAntwort("Antwort auf '" + t.getMessage() + "' ist nicht vorhanden.");
 			break;
 		}
+		System.out.println(
+				t.getMessageWord(0).toLowerCase().replace("/", "").replace(".", "").replace("?", "").replace("!", ""));
 
 		MsqlLite.saveTelegramToDB(t);
 		sendToTelegram(t);

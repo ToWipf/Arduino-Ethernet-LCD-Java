@@ -63,4 +63,8 @@ public class Telegram {
 			MLogger.err("setAntwort" + e);
 		}
 	}
+
+	public void setAntwortPlain(String sAntwort) {
+		this.sAntwort = sAntwort;
+	}
 }
