@@ -21,16 +21,15 @@ public class MTelegram {
 	 * @param t
 	 * @return
 	 */
-	public static String sendToTelegram(Telegram t) {
+	public static void sendToTelegram(Telegram t) {
 		try {
 
 			HttpResponse<String> res;
 			res = Unirest.post("https://api.telegram.org/" + MainApp.BOTKEY + "/sendMessage?chat_id=" + t.getChatID()
 					+ "&text=" + t.getAntwort()).asString();
-			return res.getBody();
+			MLogger.info(res.getBody());
 		} catch (UnirestException e) {
-			e.printStackTrace();
-			return null;
+			MLogger.err("Telegram senden" + e);
 		}
 	}
 
@@ -83,7 +82,10 @@ public class MTelegram {
 	 * @param t
 	 */
 	private static void bearbeiteMsg(Telegram t) {
-		switch (t.getMessage().toLowerCase().replace("/", "").replace(".", "").replace("?", "")) {
+		switch (t.getMessageWord(0).toLowerCase().replace("/", "").replace(".", "").replace("?", "").replace("!", "")) {
+		case "start":
+			t.setAntwort("Wipfbot ist bereit");
+			break;
 		case "wipf":
 		case "wipfe":
 			t.setAntwort("Wipfe sind sehr schön.");
@@ -94,6 +96,7 @@ public class MTelegram {
 		case "hey":
 			t.setAntwort("Hallo, ich bin ein Wipf.");
 			break;
+		case "wipfbot":
 		case "help":
 		case "hilfe":
 		case "info":
@@ -101,7 +104,7 @@ public class MTelegram {
 			break;
 		case "rnd":
 		case "zufall":
-			t.setAntwort(MWipf.zufall(60, 10));
+			t.setAntwort(MWipf.zufall(t.getMessageWord(1), t.getMessageWord(2)));
 			break;
 		// TODO: action bei bestimmten txt
 		default:

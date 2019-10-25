@@ -1,3 +1,3 @@
 #!/bin/bash
-java -jar /home/wipf/wipfapp/wipf.jar >> /home/wipf/wipfapp/log &
-tail -f /home/wipf/wipfapp/log
+java -jar /root/wipfapp/wipf.jar >> /root/wipfapp/log 2>> /root/wipfapp/log &
+tail -f /root/wipfapp/log

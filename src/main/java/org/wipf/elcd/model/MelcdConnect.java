@@ -50,7 +50,7 @@ public class MelcdConnect {
 	private static void restLcd(String sCall) {
 		HttpResponse<String> response;
 		try {
-			response = Unirest.put("http://192.168.2.242/" + sCall).asString();
+			response = Unirest.put("http://192.168.2.242/" + sCall).asString(); // TODO ip to db
 			if (response.getBody().indexOf("0") == -1) {
 				System.out.println(response.getBody());
 			}

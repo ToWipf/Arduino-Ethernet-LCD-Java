@@ -34,4 +34,13 @@ public class MTime {
 		return date.format(new Date());
 
 	}
+
+	/**
+	 * @return
+	 */
+	public static String dateTime() {
+		SimpleDateFormat date = new SimpleDateFormat("dd.MM.yyyy|HH:mm:ss");
+		return date.format(new Date());
+
+	}
 }

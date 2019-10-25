@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
+import org.wipf.elcd.model.MLogger;
 import org.wipf.elcd.model.MsqlLite;
 import org.wipf.elcd.rest.Rest;
 
@@ -40,7 +41,8 @@ public class MainApp {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		System.out.println("Starte WipfApp 24.10.2019");
+		MLogger.info("Starte WipfApp");
+		MLogger.err("Start now!");
 		TelegramOffsetID = 0;
 		MsqlLite.startDB();
 		StartTasks.StartTask();
@@ -54,12 +56,13 @@ public class MainApp {
 			Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
 				@Override
 				public void run() {
+					MLogger.info(String.format("Server beenden"));
 					server.shutdownNow();
 				}
 			}));
 			server.start();
 
-			System.out.println(String.format("Server aktiv: %s", BASE_URI));
+			MLogger.info(String.format("Server aktiv: %s", BASE_URI));
 			Thread.currentThread().join();
 		} catch (IOException | InterruptedException ex) {
 			Logger.getLogger(MainApp.class.getName()).log(Level.SEVERE, null, ex);

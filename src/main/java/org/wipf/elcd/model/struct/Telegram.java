@@ -1,6 +1,9 @@
 package org.wipf.elcd.model.struct;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+
+import org.wipf.elcd.model.MLogger;
 
 public class Telegram {
 	private Integer nMid;
@@ -15,6 +18,17 @@ public class Telegram {
 
 	public String getMessage() {
 		return sMessage;
+	}
+
+	public String getMessageWord(int nWort) {
+		int n = 0;
+		for (String part : sMessage.split(" ")) {
+			if (n == nWort) {
+				return part;
+			}
+			n++;
+		}
+		return null;
 	}
 
 	public void setMessage(String sMessage) {
@@ -42,6 +56,11 @@ public class Telegram {
 	}
 
 	public void setAntwort(String sAntwort) {
-		this.sAntwort = URLEncoder.encode(sAntwort);
+		try {
+			this.sAntwort = URLEncoder.encode(sAntwort, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			this.sAntwort = "FAIL";
+			MLogger.err("setAntwort" + e);
+		}
 	}
 }

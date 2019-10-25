@@ -6,9 +6,6 @@ import java.util.TimerTask;
 import org.wipf.elcd.model.MTelegram;
 
 public class TaskTelegram extends TimerTask {
-	public TaskTelegram() {
-		// Some stuffs
-	}
 
 	@Override
 	public void run() {

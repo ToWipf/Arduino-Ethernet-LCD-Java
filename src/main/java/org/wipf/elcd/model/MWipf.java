@@ -47,13 +47,25 @@ public class MWipf {
 	}
 
 	/**
+	 * @param sWuerfelBis
+	 * @param sAnzahlWuerfel
+	 * @return
+	 */
+	public static String zufall(String sWuerfelBis, String sAnzahlWuerfel) {
+		try {
+			return zufall(Integer.parseInt(sWuerfelBis), Integer.parseInt(sAnzahlWuerfel));
+		} catch (Exception e) {
+			return "Syntax: 'zufall WürfelBis AnzahlWürfel'\n z.B. rnd 60 10";
+		}
+	}
+
+	/**
 	 * @param nWuerfelBis
 	 * @param nAnzahlWuerfel
 	 * @return
 	 */
 	public static String zufall(Integer nWuerfelBis, Integer nAnzahlWuerfel) {
-
-		if (nAnzahlWuerfel > 10000 || nWuerfelBis > 10000) {
+		if (nAnzahlWuerfel > 100 || nWuerfelBis > 100) {
 			return "zu viel";
 		}
 
@@ -70,11 +82,11 @@ public class MWipf {
 			nSumme += nZahl;
 			li.add(nZahl);
 		}
-
-		sb.append("Summe:" + nSumme + "\n");
-		sb.append("Avg:" + nSumme / nAnzahlWuerfel + "\n");
+		sb.append("Maximale Zahl: " + nWuerfelBis + "\n");
+		sb.append("Anzahl Durchgänge: " + nAnzahlWuerfel + "\n");
 
 		// Cont jede Zahl
+		sb.append("\nWie oft wurde was gewürfelt:\n");
 		for (int i = 0; i <= nWuerfelBis; i++) {
 			int nMerke = 0;
 			for (Integer n : li) {
@@ -83,15 +95,18 @@ public class MWipf {
 				}
 			}
 			if (nMerke > 0) {
-				sb.append("Anzahl Nr." + i + " :" + nMerke + "\n");
+				sb.append("Nr." + i + ": " + nMerke + "\n");
 			}
 		}
 
 		// Alle ausgeben
+		sb.append("\nWas wurde wann gewürfelt:\n");
 		for (Integer n : li) {
 			sb.append(nAnzahl + 1 + ": " + n.toString() + "\n");
 			nAnzahl++;
 		}
+		sb.append("\nSumme aller Ergebnisse: " + nSumme + "\n");
+		sb.append("Duchschnitt aller Ergebnisse: " + nSumme / nAnzahlWuerfel + "\n");
 
 		return sb.toString();
 	}

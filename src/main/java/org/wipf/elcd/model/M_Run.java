@@ -16,10 +16,10 @@ public class M_Run {
 	 */
 	public static String startElcd() {
 		if (MainApp.RunLock) {
-			System.out.println("Runlock is on");
+			MLogger.info("Runlock is on");
 			return "F";
 		} else {
-			System.out.println("Set Runlock on");
+			MLogger.info("Set Runlock on");
 			MainApp.RunLock = true;
 		}
 		ExecutorService service = Executors.newFixedThreadPool(4);
@@ -27,7 +27,7 @@ public class M_Run {
 			@Override
 			public void run() {
 				Integer sendCounter = 0;
-				System.out.println("Start send to Lcd");
+				MLogger.info("Start send to Lcd");
 				MWipf.sleep(1000);
 				MainApp.FailCount = 0;
 				MelcdConnect.clear();
@@ -45,7 +45,7 @@ public class M_Run {
 					MWipf.sleep(500);
 					sendCounter++;
 				}
-				System.out.println("Set Runlock off");
+				MLogger.info("Set Runlock off");
 				MainApp.RunLock = false;
 			}
 		});

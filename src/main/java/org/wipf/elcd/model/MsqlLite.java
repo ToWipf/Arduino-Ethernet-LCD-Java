@@ -37,12 +37,11 @@ public class MsqlLite {
 			ResultSet rs = stmt.executeQuery("SELECT val FROM settings WHERE id = 'telegrambot';");
 
 			MainApp.BOTKEY = (rs.getString("val"));
-			System.out.println("Bot Key: " + MainApp.BOTKEY);
 
 			rs.close();
 		} catch (Exception e) {
 			System.err.println(
-					"telegrambot nicht in db gefunden. Syntax: bot00000:bAHafv4ea8oiv4tznuTpck - verwede REST /setbot/{bot}");
+					"telegrambot nicht in db gefunden. Setzen mit 'curl -X POST localhost:8080/setbot/bot2343242:ABCDEF348590247354352343345'");
 		}
 	}
 
@@ -51,6 +50,9 @@ public class MsqlLite {
 			Statement stmt = connection.createStatement();
 			stmt.execute("DELETE FROM settings WHERE id = 'telegrambot'");
 			stmt.execute("INSERT INTO settings (id, val) VALUES ('telegrambot','" + sBot + "')");
+			MainApp.BOTKEY = sBot;
+			MLogger.info("Bot Key: " + MainApp.BOTKEY);
+
 			return true;
 		} catch (Exception e) {
 			System.err.println(e);
@@ -64,7 +66,7 @@ public class MsqlLite {
 			stmt.execute("INSERT INTO telegrambot (msgid, msg, antw, chatid) VALUES ('" + t.getMid() + "','"
 					+ t.getMessage() + "','" + t.getAntwort() + "','" + t.getChatID() + "')");
 		} catch (Exception e) {
-			System.err.println(e);
+			MLogger.err(e);
 		}
 	}
 
@@ -76,7 +78,7 @@ public class MsqlLite {
 			Statement stmt = connection.createStatement();
 			stmt.execute("INSERT INTO worte (txt) VALUES ('" + s + "')");
 		} catch (Exception e) {
-			// TODO: handle exception
+			MLogger.err(e);
 		}
 	}
 
@@ -92,7 +94,7 @@ public class MsqlLite {
 			}
 			rs.close();
 		} catch (Exception e) {
-			// TODO: handle exception
+			MLogger.err(e);
 		}
 	}
 
@@ -104,8 +106,7 @@ public class MsqlLite {
 			stmt.executeUpdate("CREATE TABLE IF NOT EXISTS worte(txt);");
 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			MLogger.err(e);
 		}
 
 	}
@@ -176,8 +177,8 @@ public class MsqlLite {
 		try {
 			Class.forName("org.sqlite.JDBC");
 		} catch (ClassNotFoundException e) {
-			System.err.println("Fehler beim Laden des JDBC-Treibers");
-			e.printStackTrace();
+			MLogger.err("Fehler beim Laden des JDBC-Treibers");
+			MLogger.err(e);
 		}
 	}
 
@@ -185,10 +186,10 @@ public class MsqlLite {
 		try {
 			if (connection != null)
 				return;
-			System.out.println("Connect to Database...");
+			MLogger.info("Connect to Database...");
 			connection = DriverManager.getConnection("jdbc:sqlite:" + DB_PATH);
 			if (!connection.isClosed())
-				System.out.println("...Connection OK");
+				MLogger.info("...Connection OK");
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
@@ -200,10 +201,11 @@ public class MsqlLite {
 					if (!connection.isClosed() && connection != null) {
 						connection.close();
 						if (connection.isClosed())
-							System.out.println("Connection to Database closed");
+							MLogger.err("Connection to Database closed");
+						// TODO try to con angain
 					}
 				} catch (SQLException e) {
-					e.printStackTrace();
+					MLogger.err(e);
 				}
 			}
 		});
