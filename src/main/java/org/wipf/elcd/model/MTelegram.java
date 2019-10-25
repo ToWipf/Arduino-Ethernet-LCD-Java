@@ -7,7 +7,6 @@ import org.wipf.elcd.model.struct.Telegram;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
@@ -24,12 +23,13 @@ public class MTelegram {
 	public static void sendToTelegram(Telegram t) {
 		try {
 
-			HttpResponse<String> res;
-			res = Unirest.post("https://api.telegram.org/" + MainApp.BOTKEY + "/sendMessage?chat_id=" + t.getChatID()
+			// HttpResponse<String> res;
+			// res =
+			Unirest.post("https://api.telegram.org/" + MainApp.BOTKEY + "/sendMessage?chat_id=" + t.getChatID()
 					+ "&text=" + t.getAntwort()).asString();
-			MLogger.info(res.getBody());
+			// MLogger.info(res.getBody());
 		} catch (UnirestException e) {
-			MLogger.err("Telegram senden" + e);
+			MLogger.err("Telegram senden " + e);
 		}
 	}
 
