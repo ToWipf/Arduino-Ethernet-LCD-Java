@@ -2,6 +2,8 @@ package org.wipf.elcd.model.struct;
 
 import java.util.Random;
 
+import org.wipf.elcd.model.MWipf;
+
 /**
  * @author wipf
  *
@@ -56,6 +58,28 @@ public class TicTacToe {
 	/**
 	 * @return
 	 */
+	public String tttToNiceString() {
+		StringBuilder sb = new StringBuilder();
+		for (int x = 0; x < 3; x++) {
+			for (int y = 0; y < 3; y++) {
+				if (tttFeld[x][y].equals('X')) {
+					sb.append("🐧\t");
+				}
+				if (tttFeld[x][y].equals('O')) {
+					sb.append("👻\t");
+				}
+				if (tttFeld[x][y].equals('F')) {
+					sb.append(MWipf.numberToSymbol(koordinateToNumber(x, y)) + "\t");
+				}
+			}
+			sb.append("\n");
+		}
+		return sb.toString();
+	}
+
+	/**
+	 * @return
+	 */
 	public String getFieldString() {
 		StringBuilder sb = new StringBuilder();
 		for (int x = 0; x < 3; x++) {
@@ -78,48 +102,77 @@ public class TicTacToe {
 	 * @param y
 	 * @param s
 	 */
-	public Boolean setKordinate(int x, int y, Character c) {
-		if (this.tttFeld[x][y] == 'F') // frei char
-		{
+	public Boolean setkoordinate(int x, int y, Character c) {
+		if (this.tttFeld[x][y] != 'F') {
+			return false;
+		} else {
 			this.tttFeld[x][y] = c;
 			return true;
 		}
-		return false;
 	}
 
-	public Boolean setByNummer(int n, Character c) {
+	/**
+	 * @param x
+	 * @param y
+	 * @return
+	 */
+	private Integer koordinateToNumber(Integer x, Integer y) {
+		if (x == 0 && y == 0) {
+			return 1;
+		}
+		if (x == 0 && y == 1) {
+			return 2;
+		}
+		if (x == 0 && y == 2) {
+			return 3;
+		}
+		if (x == 1 && y == 0) {
+			return 4;
+		}
+		if (x == 1 && y == 1) {
+			return 5;
+		}
+		if (x == 1 && y == 2) {
+			return 6;
+		}
+		if (x == 2 && y == 0) {
+			return 7;
+		}
+		if (x == 2 && y == 1) {
+			return 8;
+		}
+		if (x == 2 && y == 2) {
+			return 9;
+		}
+		return null;
+	}
+
+	public Boolean setByNummer(Integer n, Character c) {
+		if (n == null) {
+			return false;
+		}
 		switch (n) {
 		case 1:
-			this.tttFeld[0][0] = c;
-			break;
+			return setkoordinate(0, 0, c);
 		case 2:
-			this.tttFeld[0][1] = c;
-			break;
+			return setkoordinate(0, 1, c);
 		case 3:
-			this.tttFeld[0][2] = c;
-			break;
+			return setkoordinate(0, 2, c);
 		case 4:
-			this.tttFeld[1][0] = c;
-			break;
+			return setkoordinate(1, 0, c);
 		case 5:
-			this.tttFeld[1][1] = c;
-			break;
+			return setkoordinate(1, 1, c);
 		case 6:
-			this.tttFeld[1][2] = c;
-			break;
+			return setkoordinate(1, 2, c);
 		case 7:
-			this.tttFeld[2][0] = c;
-			break;
+			return setkoordinate(2, 0, c);
 		case 8:
-			this.tttFeld[2][1] = c;
-			break;
+			return setkoordinate(2, 1, c);
 		case 9:
-			this.tttFeld[2][2] = c;
-			break;
+			return setkoordinate(2, 2, c);
 		default:
 			return false;
 		}
-		return true;
 	}
 
 	/**
@@ -128,38 +181,70 @@ public class TicTacToe {
 	 */
 	public Boolean cpuSetzen(Character c) {
 		Random zufall = new Random();
+		// Versuche zu Gewinnen
 		for (int x = 0; x < 3; x++) {
 			if (tttFeld[x][0] == c && c == tttFeld[x][1]) {
-				return setKordinate(x, 2, c);
+				if (setkoordinate(x, 2, c)) {
+					return true;
+				}
 			}
 			if (tttFeld[x][1] == c && c == tttFeld[x][2]) {
-				return setKordinate(x, 0, c);
+				if (setkoordinate(x, 0, c)) {
+					return true;
+				}
 			}
 			if (tttFeld[x][0] == c && c == tttFeld[x][2]) {
-				return setKordinate(x, 1, c);
+				if (setkoordinate(x, 1, c)) {
+					return true;
+				}
 			}
 		}
 		for (int y = 0; y < 3; y++) {
 			if (tttFeld[0][y] == c && c == tttFeld[1][y]) {
-				return setKordinate(2, y, c);
+				if (setkoordinate(2, y, c)) {
+					return true;
+				}
 			}
 			if (tttFeld[1][y] == c && c == tttFeld[2][y]) {
-				return setKordinate(0, y, c);
+				if (setkoordinate(0, y, c)) {
+					return true;
+				}
 			}
 			if (tttFeld[0][y] == c && c == tttFeld[2][y]) {
-				return setKordinate(1, y, c);
+				if (setkoordinate(1, y, c)) {
+					return true;
+				}
 			}
 		}
 		if (tttFeld[0][0] == c && c == tttFeld[1][1]) {
-			return setKordinate(2, 2, c);
+			if (setkoordinate(2, 2, c)) {
+				return true;
+			}
 		}
 		if (tttFeld[1][1] == c && c == tttFeld[2][2]) {
-			return setKordinate(0, 0, c);
+			if (setkoordinate(0, 0, c)) {
+				return true;
+			}
 		}
 		if (tttFeld[2][2] == c && c == tttFeld[1][1]) {
-			return setKordinate(1, 1, c);
+			if (setkoordinate(1, 1, c)) {
+				return true;
+			}
 		}
-		return setKordinate(zufall.nextInt(3), zufall.nextInt(3), c);
+
+		for (int n = 0; n < 15; n++) {
+			if (setkoordinate(zufall.nextInt(3), zufall.nextInt(3), c)) {
+				return true;
+			}
+		}
+		for (int x = 0; x < 3; x++) {
+			for (int y = 0; y < 3; y++) {
+				if (tttFeld[x][y] == 'F') {
+					return setkoordinate(x, y, c);
+				}
+			}
+		}
+		return false;
 	}
 
 	/**

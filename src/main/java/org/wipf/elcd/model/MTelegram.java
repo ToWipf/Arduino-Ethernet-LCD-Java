@@ -101,9 +101,12 @@ public class MTelegram {
 			break;
 		case "wipfbot":
 		case "help":
+		case "hlp":
+		case "ver":
+		case "version":
 		case "hilfe":
 		case "info":
-			t.setAntwort("Ist ein Wipf gesucht?");
+			t.setAntwort("Wipfbot by wipf2@web.de");
 			break;
 		case "rnd":
 		case "zufall":
@@ -137,7 +140,8 @@ public class MTelegram {
 			break;
 		case "t":
 		case "ttt":
-			t.setAntwort(MTicTacToe.input(t));
+		case "tictactoe":
+			t.setAntwortPlain(MTicTacToe.input(t));
 			break;
 		// TODO: action bei bestimmten txt
 		default:

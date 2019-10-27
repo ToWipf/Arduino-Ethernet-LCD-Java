@@ -15,7 +15,12 @@ public class MTicTacToe {
 	 */
 	public static String input(Telegram t) {
 		TicTacToe ttt = null;
-		switch (t.getMessageWord(1)) {
+		String sAction = t.getMessageWord(1);
+		if (sAction == null) {
+			return "Anleitung mit TicTacToe help";
+		}
+
+		switch (sAction) {
 		case "setze":
 		case "set":
 		case "s":
@@ -26,39 +31,47 @@ public class MTicTacToe {
 			}
 			ttt.setByTelegram(t);
 			if (!ttt.setByNummer(t.getMessageInt(2), 'X')) {
-				return "Feld ist bereits belegt";
+				return "Feld konnte nicht gesetzt werden";
+			} else {
+				// save game
+				MsqlLite.saveTicTacToe(ttt);
 			}
 			win = ttt.auswertung();
 			if (win != null && win != 'F') {
-				return "Gewonnen hat: " + win;
+				return "Du hast gewonnen:\n\n" + ttt.tttToNiceString();
 			}
-			for (int n = 0; n < 15; n++) {
-				if (ttt.cpuSetzen('O')) {
-					break;
-				}
-				if (n > 14) {
-					return "CPU konnte nicht setzen";
-				}
+
+			if (!ttt.cpuSetzen('O')) {
+				return "CPU konnte nicht setzen";
+			} else {
+				// save game
+				MsqlLite.saveTicTacToe(ttt);
 			}
+
 			win = ttt.auswertung();
 			if (win != null && win != 'F') {
-				return "Gewonnen hat: " + win;
+				return "Leider verloren\n\n" + ttt.tttToNiceString();
 			}
 			MsqlLite.saveTicTacToe(ttt);
-			break;
+
+			return ttt.tttToNiceString();
 		case "new":
 		case "neu":
 		case "n":
 			ttt = new TicTacToe("FFFFFFFFF");
 			ttt.setByTelegram(t);
 			MsqlLite.saveTicTacToe(ttt);
-			break;
-
+			return ttt.tttToString();
+		case "sh":
+		case "show":
+			ttt = MsqlLite.loadTicTacToe(t.getChatID());
+			if (ttt == null) {
+				return "Es wurde noch kein Spiel gestartet"; // Diesen fall gibt es nicht wenn autocreate new game
+			}
+			return ttt.tttToNiceString();
 		default:
-			return "Fehler:\n\n ttt neu Neues Spiel\nttt setze FELDNUMMER\n";
+			return "Anleitung:\n\nttt neu: Neues Spiel\nttt setze NR: Setzen\nttt show: Zeige feld";
 		}
-
-		return ttt.tttToString();
 
 	}
 
@@ -66,7 +79,7 @@ public class MTicTacToe {
 	 * @return
 	 */
 	private static TicTacToe setzen(TicTacToe tttFeld, int x, int y, Character c) {
-		tttFeld.setKordinate(x, y, c);
+		tttFeld.setkoordinate(x, y, c);
 		return tttFeld;
 	}
 }

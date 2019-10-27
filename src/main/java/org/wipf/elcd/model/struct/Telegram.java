@@ -95,7 +95,9 @@ public class Telegram {
 	}
 
 	public void setAntwortPlain(String sAntwort) {
-		this.sAntwort = sAntwort.replace("+", "%2B");
+		this.sAntwort = sAntwort.replace("+", "%2B").replaceAll("\n", "%0A").replaceAll(" ", "%20").replaceAll("\t",
+				"%20");
+		;
 	}
 
 	public String getType() {

@@ -111,4 +111,16 @@ public class MWipf {
 		return sb.toString();
 	}
 
+	/**
+	 * @param n
+	 * @return
+	 */
+	public static String numberToSymbol(Integer n) {
+		// 1⃣
+		if (n <= 9) {
+			return n.toString() + "%E2%83%A3";
+		}
+		return null;
+	}
+
 }
