@@ -75,11 +75,4 @@ public class MTicTacToe {
 
 	}
 
-	/**
-	 * @return
-	 */
-	private static TicTacToe setzen(TicTacToe tttFeld, int x, int y, Character c) {
-		tttFeld.setkoordinate(x, y, c);
-		return tttFeld;
-	}
 }
