@@ -131,6 +131,7 @@ public class MTelegram {
 			t.setAntwortPlain(MBlowfish.encrypt(t.getMessageWord(1)));
 			break;
 		case "de":
+		case "dc":
 		case "decrypt":
 			t.setAntwortPlain(MBlowfish.decrypt(t.getMessageWord(1)));
 			break;

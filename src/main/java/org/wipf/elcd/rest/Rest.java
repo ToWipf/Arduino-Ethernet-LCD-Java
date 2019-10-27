@@ -111,7 +111,7 @@ public class Rest {
 	@Path("telelog")
 	@Produces("text/plain")
 	public Response telelog() {
-		return MWipf.genResponse(MsqlLite.getTelegram());
+		return MWipf.genResponse(MsqlLite.getTelegramLog());
 	}
 
 	@PUT

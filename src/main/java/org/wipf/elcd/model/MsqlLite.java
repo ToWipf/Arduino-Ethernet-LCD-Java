@@ -62,7 +62,7 @@ public class MsqlLite {
 	public static void saveTelegramToDB(Telegram t) {
 		try {
 			Statement stmt = connection.createStatement();
-			stmt.execute("INSERT INTO telegrammsg (msgid, msg, antw, chatid, msgfrom, msgdate, type)" + " VALUES ('"
+			stmt.execute("INSERT INTO telegramlog (msgid, msg, antw, chatid, msgfrom, msgdate, type)" + " VALUES ('"
 					+ t.getMid() + "','" + t.getMessage() + "','" + t.getAntwort() + "','" + t.getChatID() + "','"
 					+ t.getFrom() + "','" + t.getDate() + "','" + t.getType() + "')");
 		} catch (Exception e) {
@@ -71,14 +71,17 @@ public class MsqlLite {
 	}
 
 	/**
-	 * 
+	 * Tabellen anlegen
 	 */
 	private void createDBs() {
 		try {
 			Statement stmt = connection.createStatement();
-			stmt.executeUpdate("CREATE TABLE IF NOT EXISTS settings(id, val);");
+			stmt.executeUpdate("CREATE TABLE IF NOT EXISTS settings (id, val);");
 			stmt.executeUpdate(
-					"CREATE TABLE IF NOT EXISTS telegrammsg(msgid, msg, antw, chatid, msgfrom, msgdate, type);");
+					"CREATE TABLE IF NOT EXISTS telegramlog (msgid, msg, antw, chatid, msgfrom, msgdate, type);");
+			// stmt.executeUpdate(
+			// "CREATE TABLE IF NOT EXISTS telegramlogic (restex, sendtxt, option1, option2,
+			// editby);");
 
 		} catch (Exception e) {
 			MLogger.warn("createDBs " + e);
@@ -147,14 +150,17 @@ public class MsqlLite {
 //		}
 //	}
 
-	public static String getTelegram() {
+	/**
+	 * @return log
+	 */
+	public static String getTelegramLog() {
 		try {
 			StringBuilder sb = new StringBuilder();
 			int n = 0;
 			Statement stmt = connection.createStatement();
 			// ResultSet rs = stmt.executeQuery("SELECT * FROM telegrambot WHERE msgid = '"
 			// + nID + "';");
-			ResultSet rs = stmt.executeQuery("SELECT * FROM telegrammsg");
+			ResultSet rs = stmt.executeQuery("SELECT * FROM telegramlog ORDER BY msgdate DESC");
 
 			while (rs.next()) {
 				n++;
