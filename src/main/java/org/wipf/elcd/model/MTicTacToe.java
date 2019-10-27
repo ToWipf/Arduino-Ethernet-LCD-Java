@@ -61,7 +61,7 @@ public class MTicTacToe {
 			ttt = new TicTacToe("FFFFFFFFF");
 			ttt.setByTelegram(t);
 			MsqlLite.saveTicTacToe(ttt);
-			return ttt.tttToString();
+			return ttt.tttToNiceString();
 		case "sh":
 		case "show":
 			ttt = MsqlLite.loadTicTacToe(t.getChatID());
