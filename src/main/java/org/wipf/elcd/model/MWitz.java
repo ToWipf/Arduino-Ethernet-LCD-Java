@@ -17,7 +17,7 @@ public class MWitz {
 		try {
 			System.out.println(getWitz());
 		} catch (XMLStreamException e) {
-			MLogger.err(e);
+			MLogger.warn(e);
 		}
 	}
 
@@ -27,7 +27,7 @@ public class MWitz {
 			return parse(xml);
 
 		} catch (UnirestException e) {
-			MLogger.err("Witzfehler " + e);
+			MLogger.warn("Witzfehler " + e);
 		}
 		return null;
 	}

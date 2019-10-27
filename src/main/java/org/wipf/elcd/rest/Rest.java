@@ -107,6 +107,13 @@ public class Rest {
 		return MWipf.genResponse(MainApp.RunLock.toString());
 	}
 
+	@GET
+	@Path("telelog")
+	@Produces("text/plain")
+	public Response telelog() {
+		return MWipf.genResponse(MsqlLite.getTelegram());
+	}
+
 	@PUT
 	@Path("cls")
 	@Produces("text/plain")

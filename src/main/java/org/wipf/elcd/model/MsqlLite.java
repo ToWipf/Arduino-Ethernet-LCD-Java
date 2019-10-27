@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Date;
 
 import org.wipf.elcd.app.MainApp;
 import org.wipf.elcd.model.struct.Telegram;
@@ -15,6 +16,13 @@ import org.wipf.elcd.model.struct.Telegram;
  */
 public class MsqlLite {
 
+	private static final MsqlLite dbcontroller = new MsqlLite();
+	private static Connection connection;
+	private static final String DB_PATH = System.getProperty("user.home") + "/" + "wipfapp.db";
+
+	/**
+	 * @return
+	 */
 	public static MsqlLite getInstance() {
 		return dbcontroller;
 	}
@@ -29,22 +37,10 @@ public class MsqlLite {
 		dbc.loadConfig();
 	}
 
-	// todo set bot id + set chat id
-
-	private void loadConfig() {
-		try {
-			Statement stmt = connection.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT val FROM settings WHERE id = 'telegrambot';");
-
-			MainApp.BOTKEY = (rs.getString("val"));
-
-			rs.close();
-		} catch (Exception e) {
-			System.err.println(
-					"telegrambot nicht in db gefunden. Setzen mit 'curl -X POST localhost:8080/setbot/bot2343242:ABCDEF348590247354352343345'");
-		}
-	}
-
+	/**
+	 * @param sBot
+	 * @return
+	 */
 	public static Boolean setbot(String sBot) {
 		try {
 			Statement stmt = connection.createStatement();
@@ -55,60 +51,56 @@ public class MsqlLite {
 
 			return true;
 		} catch (Exception e) {
-			System.err.println(e);
+			MLogger.warn("setbot " + e);
 			return false;
 		}
 	}
 
+	/**
+	 * @param t
+	 */
 	public static void saveTelegramToDB(Telegram t) {
 		try {
 			Statement stmt = connection.createStatement();
-			stmt.execute("INSERT INTO telegrambot (msgid, msg, antw, chatid) VALUES ('" + t.getMid() + "','"
-					+ t.getMessage() + "','" + t.getAntwort() + "','" + t.getChatID() + "')");
+			stmt.execute("INSERT INTO telegrammsg (msgid, msg, antw, chatid, msgfrom, msgdate, type)" + " VALUES ('"
+					+ t.getMid() + "','" + t.getMessage() + "','" + t.getAntwort() + "','" + t.getChatID() + "','"
+					+ t.getFrom() + "','" + t.getDate() + "','" + t.getType() + "')");
 		} catch (Exception e) {
-			MLogger.err(e);
-		}
-	}
-
-	/**
-	 * @param s
-	 */
-	public static void toWorte(String s) {
-		try {
-			Statement stmt = connection.createStatement();
-			stmt.execute("INSERT INTO worte (txt) VALUES ('" + s + "')");
-		} catch (Exception e) {
-			MLogger.err(e);
+			MLogger.warn("saveTelegramToDB " + e);
 		}
 	}
 
 	/**
 	 * 
 	 */
-	public static void getWorte() {
-		try {
-			Statement stmt = connection.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM worte;");
-			while (rs.next()) {
-				System.out.println("Text = " + rs.getString("txt"));
-			}
-			rs.close();
-		} catch (Exception e) {
-			MLogger.err(e);
-		}
-	}
-
 	private void createDBs() {
 		try {
 			Statement stmt = connection.createStatement();
 			stmt.executeUpdate("CREATE TABLE IF NOT EXISTS settings(id, val);");
-			stmt.executeUpdate("CREATE TABLE IF NOT EXISTS telegrambot(msgid, msg, antw, chatid);");
-			stmt.executeUpdate("CREATE TABLE IF NOT EXISTS worte(txt);");
+			stmt.executeUpdate(
+					"CREATE TABLE IF NOT EXISTS telegrammsg(msgid, msg, antw, chatid, msgfrom, msgdate, type);");
 
 		} catch (Exception e) {
-			MLogger.err(e);
+			MLogger.warn("createDBs " + e);
 		}
 
+	}
+
+	/**
+	 * 
+	 */
+	private void loadConfig() {
+		try {
+			Statement stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT val FROM settings WHERE id = 'telegrambot';");
+
+			MainApp.BOTKEY = (rs.getString("val"));
+
+			rs.close();
+		} catch (Exception e) {
+			MLogger.warn("telegrambot nicht in db gefunden."
+					+ " Setzen mit 'curl -X POST localhost:8080/setbot/bot2343242:ABCDEF348590247354352343345'");
+		}
 	}
 
 //	private void handleDBExample() {
@@ -155,30 +147,43 @@ public class MsqlLite {
 //		}
 //	}
 
-//	public static boolean getTelegram(Integer nID) {
-//	try {
-//		Statement stmt = connection.createStatement();
-//		ResultSet rs = stmt.executeQuery("SELECT * FROM telegrambot WHERE msgid = '" + nID + "';");
-//		while (rs.next()) {
-//			return true;
-//		}
-//		rs.close();
-//	} catch (Exception e) {
-//		return false;
-//	}
-//	return false;
-//}
+	public static String getTelegram() {
+		try {
+			StringBuilder sb = new StringBuilder();
+			int n = 0;
+			Statement stmt = connection.createStatement();
+			// ResultSet rs = stmt.executeQuery("SELECT * FROM telegrambot WHERE msgid = '"
+			// + nID + "';");
+			ResultSet rs = stmt.executeQuery("SELECT * FROM telegrammsg");
 
-	private static final MsqlLite dbcontroller = new MsqlLite();
-	private static Connection connection;
-	private static final String DB_PATH = System.getProperty("user.home") + "/" + "wipfapp.db";
+			while (rs.next()) {
+				n++;
+				Date date = new Date(rs.getLong("msgdate") * 1000);
+
+				sb.append(n + ":\n");
+				sb.append("msgid:  \t" + rs.getString("msgid") + "\n");
+				sb.append("msg in: \t" + rs.getString("msg") + "\n");
+				sb.append("msg out:\t" + rs.getString("antw") + "\n");
+				sb.append("chatid: \t" + rs.getString("chatid") + "\n");
+				sb.append("msgfrom:\t" + rs.getString("msgfrom") + "\n");
+				sb.append("msgdate:\t" + date + "\n");
+				sb.append("type:   \t" + rs.getString("type") + "\n");
+				sb.append("----------------\n\n");
+			}
+			rs.close();
+			return sb.toString();
+		} catch (Exception e) {
+			MLogger.warn("getTelegram" + e);
+			return "FAIL";
+		}
+
+	}
 
 	static {
 		try {
 			Class.forName("org.sqlite.JDBC");
 		} catch (ClassNotFoundException e) {
-			MLogger.err("Fehler beim Laden des JDBC-Treibers");
-			MLogger.err(e);
+			MLogger.warn("Fehler beim Laden des JDBC-Treibers " + e);
 		}
 	}
 
@@ -201,11 +206,11 @@ public class MsqlLite {
 					if (!connection.isClosed() && connection != null) {
 						connection.close();
 						if (connection.isClosed())
-							MLogger.err("Connection to Database closed");
+							MLogger.warn("Connection to Database closed");
 						// TODO try to con angain
 					}
 				} catch (SQLException e) {
-					MLogger.err(e);
+					MLogger.warn("initDBConnection" + e);
 				}
 			}
 		});

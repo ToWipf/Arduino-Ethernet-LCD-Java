@@ -15,7 +15,7 @@ public class MLogger {
 	/**
 	 * @param s
 	 */
-	public static void err(Object s) {
+	public static void warn(Object s) {
 		System.err.println("WARN|" + MTime.dateTime() + "| " + s);
 	}
 }

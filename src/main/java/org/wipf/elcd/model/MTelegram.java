@@ -29,7 +29,7 @@ public class MTelegram {
 					+ "&text=" + t.getAntwort()).asString();
 			// MLogger.info(res.getBody());
 		} catch (UnirestException e) {
-			MLogger.err("Telegram senden " + e);
+			MLogger.warn("Telegram senden " + e);
 		}
 	}
 
@@ -62,6 +62,9 @@ public class MTelegram {
 						t.setMid(msg.get("message_id").asInt());
 						t.setMessage(msg.get("text").asText());
 						t.setChatID(msg.get("chat").get("id").asInt());
+						t.setType(msg.get("chat").get("type").asText());
+						t.setDate(msg.get("date").asInt());
+						t.setFrom(msg.get("from").toString());
 						li.add(t);
 					} catch (Exception e) {
 						// weiter da sticker oder ähnliches

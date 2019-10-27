@@ -5,11 +5,18 @@ import java.net.URLEncoder;
 
 import org.wipf.elcd.model.MLogger;
 
+/**
+ * @author wipf
+ *
+ */
 public class Telegram {
 	private Integer nMid;
 	private String sMessage;
 	private String sAntwort;
 	private Integer nChatID;
+	private Integer nDate;
+	private String sType;
+	private String sFrom;
 
 	public Telegram() {
 		this.nMid = 0;
@@ -60,11 +67,36 @@ public class Telegram {
 			this.sAntwort = URLEncoder.encode(sAntwort, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			this.sAntwort = "FAIL";
-			MLogger.err("setAntwort" + e);
+			MLogger.warn("setAntwort" + e);
 		}
 	}
 
 	public void setAntwortPlain(String sAntwort) {
 		this.sAntwort = sAntwort.replace("+", "%2B");
 	}
+
+	public String getType() {
+		return sType;
+	}
+
+	public void setType(String sType) {
+		this.sType = sType;
+	}
+
+	public Integer getDate() {
+		return nDate;
+	}
+
+	public void setDate(Integer nDate) {
+		this.nDate = nDate;
+	}
+
+	public String getFrom() {
+		return sFrom;
+	}
+
+	public void setFrom(String sFrom) {
+		this.sFrom = sFrom;
+	}
+
 }

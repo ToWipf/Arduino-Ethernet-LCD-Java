@@ -42,7 +42,6 @@ public class MainApp {
 	 */
 	public static void main(String[] args) {
 		MLogger.info("Starte WipfApp");
-		MLogger.err("Start now!");
 		TelegramOffsetID = 0;
 		MsqlLite.startDB();
 		StartTasks.StartTask();
@@ -56,7 +55,7 @@ public class MainApp {
 			Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
 				@Override
 				public void run() {
-					MLogger.info(String.format("Server beenden"));
+					MLogger.warn(String.format("Server beenden"));
 					server.shutdownNow();
 				}
 			}));
