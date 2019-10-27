@@ -1,5 +1,7 @@
 package org.wipf.elcd.model.struct;
 
+import java.util.Random;
+
 /**
  * @author wipf
  *
@@ -76,9 +78,13 @@ public class TicTacToe {
 	 * @param y
 	 * @param s
 	 */
-	public void setKordinate(int x, int y, Character c) {
-		this.tttFeld[x][y] = c;
-
+	public Boolean setKordinate(int x, int y, Character c) {
+		if (this.tttFeld[x][y] == 'F') // frei char
+		{
+			this.tttFeld[x][y] = c;
+			return true;
+		}
+		return false;
 	}
 
 	public Boolean setByNummer(int n, Character c) {
@@ -116,12 +122,68 @@ public class TicTacToe {
 		return true;
 	}
 
-	public void cpuSetzen() {
-
+	/**
+	 * @param c
+	 * @return
+	 */
+	public Boolean cpuSetzen(Character c) {
+		Random zufall = new Random();
+		for (int x = 0; x < 3; x++) {
+			if (tttFeld[x][0] == c && c == tttFeld[x][1]) {
+				return setKordinate(x, 2, c);
+			}
+			if (tttFeld[x][1] == c && c == tttFeld[x][2]) {
+				return setKordinate(x, 0, c);
+			}
+			if (tttFeld[x][0] == c && c == tttFeld[x][2]) {
+				return setKordinate(x, 1, c);
+			}
+		}
+		for (int y = 0; y < 3; y++) {
+			if (tttFeld[0][y] == c && c == tttFeld[1][y]) {
+				return setKordinate(2, y, c);
+			}
+			if (tttFeld[1][y] == c && c == tttFeld[2][y]) {
+				return setKordinate(0, y, c);
+			}
+			if (tttFeld[0][y] == c && c == tttFeld[2][y]) {
+				return setKordinate(1, y, c);
+			}
+		}
+		if (tttFeld[0][0] == c && c == tttFeld[1][1]) {
+			return setKordinate(2, 2, c);
+		}
+		if (tttFeld[1][1] == c && c == tttFeld[2][2]) {
+			return setKordinate(0, 0, c);
+		}
+		if (tttFeld[2][2] == c && c == tttFeld[1][1]) {
+			return setKordinate(1, 1, c);
+		}
+		return setKordinate(zufall.nextInt(3), zufall.nextInt(3), c);
 	}
 
-	public void auswertung() {
-
+	/**
+	 * @return
+	 */
+	public Character auswertung() {
+		for (int x = 0; x < 3; x++) {
+			if (tttFeld[x][0] == tttFeld[x][1] && tttFeld[x][0] == tttFeld[x][2]) {
+				return tttFeld[x][0];
+			}
+		}
+		for (int y = 0; y < 3; y++) {
+			if (tttFeld[0][y] == tttFeld[1][y] && tttFeld[0][y] == tttFeld[2][y]) {
+				return tttFeld[0][y];
+			}
+		}
+		if (tttFeld[0][0] == tttFeld[1][1] && tttFeld[0][0] == tttFeld[2][2]) {
+			return tttFeld[0][0];
+		}
+		if (tttFeld[0][2] == tttFeld[1][1] && tttFeld[0][2] == tttFeld[2][0]) {
+			return tttFeld[0][2];
+		}
+		// Kein sieg
+		return null;
 	}
 
 	public String getType() {

@@ -19,19 +19,37 @@ public class MTicTacToe {
 		case "setze":
 		case "set":
 		case "s":
+			Character win;
 			ttt = MsqlLite.loadTicTacToe(t.getChatID());
 			if (ttt == null) {
 				return "Es wurde noch kein Spiel gestartet";
 			}
-			// TODO gegen cpu oder user
-			ttt.setByNummer(t.getMessageInt(2), 'X');
 			ttt.setByTelegram(t);
+			if (!ttt.setByNummer(t.getMessageInt(2), 'X')) {
+				return "Feld ist bereits belegt";
+			}
+			win = ttt.auswertung();
+			if (win != null && win != 'F') {
+				return "Gewonnen hat: " + win;
+			}
+			for (int n = 0; n < 15; n++) {
+				if (ttt.cpuSetzen('O')) {
+					break;
+				}
+				if (n > 14) {
+					return "CPU konnte nicht setzen";
+				}
+			}
+			win = ttt.auswertung();
+			if (win != null && win != 'F') {
+				return "Gewonnen hat: " + win;
+			}
 			MsqlLite.saveTicTacToe(ttt);
 			break;
 		case "new":
 		case "neu":
 		case "n":
-			ttt = new TicTacToe("123456789");
+			ttt = new TicTacToe("FFFFFFFFF");
 			ttt.setByTelegram(t);
 			MsqlLite.saveTicTacToe(ttt);
 			break;
