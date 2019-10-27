@@ -27,15 +27,35 @@ public class Telegram {
 		return sMessage;
 	}
 
-	public String getMessageWord(int nWort) {
-		int n = 0;
-		for (String part : sMessage.split(" ")) {
-			if (n == nWort) {
-				return part;
+	/**
+	 * @param nStelle
+	 * @return
+	 */
+	public String getMessageWord(int nStelle) {
+		try {
+			int n = 0;
+			for (String part : sMessage.split(" ")) {
+				if (n == nStelle) {
+					return part;
+				}
+				n++;
 			}
-			n++;
+		} catch (Exception e) {
+			MLogger.warn("sgetMessageWord" + e);
 		}
 		return null;
+	}
+
+	/**
+	 * @param nStelle
+	 * @return
+	 */
+	public Integer getMessageInt(int nStelle) {
+		try {
+			return Integer.parseInt(getMessageWord(nStelle));
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 	public void setMessage(String sMessage) {
@@ -62,6 +82,9 @@ public class Telegram {
 		return sAntwort;
 	}
 
+	/**
+	 * @param sAntwort
+	 */
 	public void setAntwort(String sAntwort) {
 		try {
 			this.sAntwort = URLEncoder.encode(sAntwort, "UTF-8");

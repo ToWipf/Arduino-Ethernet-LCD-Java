@@ -9,6 +9,7 @@ import java.util.Date;
 
 import org.wipf.elcd.app.MainApp;
 import org.wipf.elcd.model.struct.Telegram;
+import org.wipf.elcd.model.struct.TicTacToe;
 
 /**
  * @author wipf
@@ -57,6 +58,42 @@ public class MsqlLite {
 	}
 
 	/**
+	 * @param ttt
+	 * @return
+	 */
+	public static Boolean saveTicTacToe(TicTacToe ttt) {
+		try {
+			Statement stmt = connection.createStatement();
+			stmt.execute("INSERT OR REPLACE INTO ttt (chatid, feld, msgdate, type) VALUES " + "('" + ttt.getChatID()
+					+ "','" + ttt.getFieldString() + "','" + ttt.getDate() + "','" + ttt.getType() + "')");
+			return true;
+		} catch (Exception e) {
+			MLogger.warn("setTicTacToe " + e);
+			return false;
+		}
+	}
+
+	/**
+	 * @param sChatid
+	 * @return
+	 */
+	public static TicTacToe loadTicTacToe(Integer nChatid) {
+		try {
+			Statement stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM ttt WHERE chatid = '" + nChatid + "';");
+			TicTacToe ttt = new TicTacToe(rs.getString("feld"));
+			// ttt.setChatID(rs.getInt("chatid")); weitere felder sind nicht nötig -> werden
+			// neu befüllt
+			rs.close();
+			return ttt;
+		} catch (Exception e) {
+			// Kann vorkommen wenn kein spiel aktiv ist
+			// MLogger.warn("getTicTacToe " + e);
+		}
+		return null;
+	}
+
+	/**
 	 * @param t
 	 */
 	public static void saveTelegramToDB(Telegram t) {
@@ -79,6 +116,8 @@ public class MsqlLite {
 			stmt.executeUpdate("CREATE TABLE IF NOT EXISTS settings (id, val);");
 			stmt.executeUpdate(
 					"CREATE TABLE IF NOT EXISTS telegramlog (msgid, msg, antw, chatid, msgfrom, msgdate, type);");
+			stmt.executeUpdate(
+					"CREATE TABLE IF NOT EXISTS ttt (chatid INTEGER UNIQUE, feld TEXT, msgdate INTEGER, type TEXT);");
 			// stmt.executeUpdate(
 			// "CREATE TABLE IF NOT EXISTS telegramlogic (restex, sendtxt, option1, option2,
 			// editby);");

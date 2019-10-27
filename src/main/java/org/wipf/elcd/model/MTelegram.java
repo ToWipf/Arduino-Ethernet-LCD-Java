@@ -77,7 +77,7 @@ public class MTelegram {
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			MLogger.warn("readUpdateFromTelegram " + e);
 		}
 	}
 
@@ -134,6 +134,10 @@ public class MTelegram {
 		case "dc":
 		case "decrypt":
 			t.setAntwortPlain(MBlowfish.decrypt(t.getMessageWord(1)));
+			break;
+		case "t":
+		case "ttt":
+			t.setAntwort(MTicTacToe.input(t));
 			break;
 		// TODO: action bei bestimmten txt
 		default:
