@@ -1,8 +1,5 @@
 package org.wipf.elcd.model.struct;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-
 import org.wipf.elcd.model.MLogger;
 
 /**
@@ -23,6 +20,19 @@ public class Telegram {
 		this.sMessage = "";
 	}
 
+	/**
+	 * @param copy of t
+	 */
+	public Telegram(Telegram t) {
+		this.nChatID = t.nChatID;
+		this.sMessage = t.sMessage;
+		this.sAntwort = t.sAntwort;
+		this.nMid = t.nMid;
+		this.nDate = t.nDate;
+		this.sType = t.sType;
+		this.sFrom = t.sFrom;
+	}
+
 	public String getMessage() {
 		return sMessage;
 	}
@@ -32,6 +42,14 @@ public class Telegram {
 	 * @return
 	 */
 	public String getMessageWord(int nStelle) {
+		return getMessageRaw(nStelle).toLowerCase().replace("/", "").replace(".", "").replace("?", "").replace("!", "");
+	}
+
+	/**
+	 * @param nStelle
+	 * @return
+	 */
+	public String getMessageRaw(int nStelle) {
 		try {
 			int n = 0;
 			for (String part : sMessage.split(" ")) {
@@ -41,7 +59,7 @@ public class Telegram {
 				n++;
 			}
 		} catch (Exception e) {
-			MLogger.warn("sgetMessageWord" + e);
+			MLogger.warn("sgetMessageWord " + e);
 		}
 		return null;
 	}
@@ -82,22 +100,24 @@ public class Telegram {
 		return sAntwort;
 	}
 
+//	/**
+//	 * @param sAntwort
+//	 */
+//	public void setAntwortOld(String sAntwort) {
+//		try {
+//			this.sAntwort = URLEncoder.encode(sAntwort, "UTF-8");
+//		} catch (UnsupportedEncodingException e) {
+//			this.sAntwort = "FAIL";
+//			MLogger.warn("setAntwort" + e);
+//		}
+//	}
+
 	/**
 	 * @param sAntwort
 	 */
 	public void setAntwort(String sAntwort) {
-		try {
-			this.sAntwort = URLEncoder.encode(sAntwort, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			this.sAntwort = "FAIL";
-			MLogger.warn("setAntwort" + e);
-		}
-	}
-
-	public void setAntwortPlain(String sAntwort) {
-		this.sAntwort = sAntwort.replace("+", "%2B").replaceAll("\n", "%0A").replaceAll(" ", "%20").replaceAll("\t",
-				"%20");
-		;
+		this.sAntwort = sAntwort.replaceAll("\n", "%0A").replaceAll(" ", "%20").replaceAll("\t", "%20")
+				.replaceAll("\\|", "%7C").replaceAll("'", "%27");
 	}
 
 	public String getType() {

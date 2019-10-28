@@ -102,6 +102,7 @@ public class MsqlLite {
 			stmt.execute("INSERT INTO telegramlog (msgid, msg, antw, chatid, msgfrom, msgdate, type)" + " VALUES ('"
 					+ t.getMid() + "','" + t.getMessage() + "','" + t.getAntwort() + "','" + t.getChatID() + "','"
 					+ t.getFrom() + "','" + t.getDate() + "','" + t.getType() + "')");
+
 		} catch (Exception e) {
 			MLogger.warn("saveTelegramToDB " + e);
 		}

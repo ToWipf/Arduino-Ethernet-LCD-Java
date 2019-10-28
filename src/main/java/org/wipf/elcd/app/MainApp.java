@@ -31,6 +31,7 @@ import com.mashape.unirest.http.Unirest;
 public class MainApp {
 
 	// TODO: alle in db:
+	public static String VERSION = "0.1";
 	private static final URI BASE_URI = URI.create("http://0.0.0.0:8080/");
 	public static Integer FailCount;
 	public static Boolean RunLock;

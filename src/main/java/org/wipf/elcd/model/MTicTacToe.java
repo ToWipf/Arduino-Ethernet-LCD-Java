@@ -86,12 +86,11 @@ public class MTicTacToe {
 			if (win == 'U') {
 				return "Unentschieden\n\n" + ttt.tttToNiceString();
 			} else if (win == 'X') {
-				return "Du hat gewonnen\n\n" + ttt.tttToNiceString();
+				return "Du hast gewonnen\n\n" + ttt.tttToNiceString();
 			} else if (win == 'O') {
-				return "Du hat verloren\n\n" + ttt.tttToNiceString();
+				return "Du hast verloren\n\n" + ttt.tttToNiceString();
 			}
 		}
 		return null;
 	}
-
 }
