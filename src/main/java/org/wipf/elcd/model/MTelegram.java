@@ -22,7 +22,6 @@ public class MTelegram {
 	 */
 	public static void sendToTelegram(Telegram t) {
 		try {
-
 			// HttpResponse<String> res;
 			// res =
 			Unirest.post("https://api.telegram.org/" + MainApp.BOTKEY + "/sendMessage?chat_id=" + t.getChatID()

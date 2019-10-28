@@ -24,37 +24,38 @@ public class MTicTacToe {
 		case "setzen":
 		case "setze":
 		case "set":
+		case "se":
 		case "s":
 			String sHelpAuswertung;
+			// Lade spiel
 			ttt = MsqlLite.loadTicTacToe(t.getChatID());
 			if (ttt == null) {
 				return "Es wurde noch kein Spiel gestartet";
 			}
 			ttt.setByTelegram(t);
+			// setze feld
 			if (!ttt.setByNummer(t.getMessageInt(2), 'X')) {
 				return "Feld konnte nicht gesetzt werden";
 			} else {
-				// save game
-				MsqlLite.saveTicTacToe(ttt);
+				MsqlLite.saveTicTacToe(ttt); // save game
 			}
+			// auswertung
 			sHelpAuswertung = helpAuswertung(ttt);
 			if (sHelpAuswertung != null) {
 				return sHelpAuswertung;
 			}
-
+			// set cpu
 			if (!ttt.cpuSetzen('O')) {
 				return "CPU konnte nicht setzen";
 			} else {
-				// save game
-				MsqlLite.saveTicTacToe(ttt);
+				MsqlLite.saveTicTacToe(ttt); // save game
 			}
+			// auswertung
 			sHelpAuswertung = helpAuswertung(ttt);
 			if (sHelpAuswertung != null) {
 				return sHelpAuswertung;
 			}
-
-			MsqlLite.saveTicTacToe(ttt);
-
+			// Spielfeld ausgeben
 			return ttt.tttToNiceString();
 		case "new":
 		case "neu":
@@ -62,7 +63,7 @@ public class MTicTacToe {
 			ttt = new TicTacToe("FFFFFFFFF");
 			ttt.setByTelegram(t);
 			MsqlLite.saveTicTacToe(ttt);
-			return "Setzen mit 'ttt se NR\n\n" + ttt.tttToNiceString();
+			return "Setzen mit 'ttt se NR'\n\n" + ttt.tttToNiceString();
 		case "show":
 		case "sh":
 			ttt = MsqlLite.loadTicTacToe(t.getChatID());
