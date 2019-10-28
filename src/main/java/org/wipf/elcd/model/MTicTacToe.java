@@ -21,10 +21,11 @@ public class MTicTacToe {
 		}
 
 		switch (sAction) {
+		case "setzen":
 		case "setze":
 		case "set":
 		case "s":
-			Character win;
+			String sHelpAuswertung;
 			ttt = MsqlLite.loadTicTacToe(t.getChatID());
 			if (ttt == null) {
 				return "Es wurde noch kein Spiel gestartet";
@@ -36,9 +37,9 @@ public class MTicTacToe {
 				// save game
 				MsqlLite.saveTicTacToe(ttt);
 			}
-			win = ttt.auswertung();
-			if (win != null && win != 'F') {
-				return "Du hast gewonnen:\n\n" + ttt.tttToNiceString();
+			sHelpAuswertung = helpAuswertung(ttt);
+			if (sHelpAuswertung != null) {
+				return sHelpAuswertung;
 			}
 
 			if (!ttt.cpuSetzen('O')) {
@@ -47,11 +48,11 @@ public class MTicTacToe {
 				// save game
 				MsqlLite.saveTicTacToe(ttt);
 			}
-
-			win = ttt.auswertung();
-			if (win != null && win != 'F') {
-				return "Leider verloren\n\n" + ttt.tttToNiceString();
+			sHelpAuswertung = helpAuswertung(ttt);
+			if (sHelpAuswertung != null) {
+				return sHelpAuswertung;
 			}
+
 			MsqlLite.saveTicTacToe(ttt);
 
 			return ttt.tttToNiceString();
@@ -61,18 +62,35 @@ public class MTicTacToe {
 			ttt = new TicTacToe("FFFFFFFFF");
 			ttt.setByTelegram(t);
 			MsqlLite.saveTicTacToe(ttt);
-			return ttt.tttToNiceString();
-		case "sh":
+			return "Setzen mit 'ttt se NR\n\n" + ttt.tttToNiceString();
 		case "show":
+		case "sh":
 			ttt = MsqlLite.loadTicTacToe(t.getChatID());
 			if (ttt == null) {
 				return "Es wurde noch kein Spiel gestartet"; // Diesen fall gibt es nicht wenn autocreate new game
 			}
-			return ttt.tttToNiceString();
+			return helpAuswertung(ttt);
 		default:
 			return "Anleitung:\n\nttt neu: Neues Spiel\nttt setze NR: Setzen\nttt show: Zeige feld";
 		}
+	}
 
+	/**
+	 * @param ttt
+	 * @return
+	 */
+	private static String helpAuswertung(TicTacToe ttt) {
+		Character win = ttt.auswertung();
+		if (win != null) {
+			if (win == 'U') {
+				return "Unentschieden\n\n" + ttt.tttToNiceString();
+			} else if (win == 'X') {
+				return "Du hat gewonnen\n\n" + ttt.tttToNiceString();
+			} else if (win == 'O') {
+				return "Du hat verloren\n\n" + ttt.tttToNiceString();
+			}
+		}
+		return null;
 	}
 
 }
