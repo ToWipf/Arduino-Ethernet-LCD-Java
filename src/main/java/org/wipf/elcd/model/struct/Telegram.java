@@ -42,7 +42,11 @@ public class Telegram {
 	 * @return
 	 */
 	public String getMessageWord(int nStelle) {
-		return getMessageRaw(nStelle).toLowerCase().replace("/", "").replace(".", "").replace("?", "").replace("!", "");
+		String s = getMessageRaw(nStelle);
+		if (s != null) {
+			return s.toLowerCase().replace("/", "").replace(".", "").replace("?", "").replace("!", "");
+		}
+		return null;
 	}
 
 	/**

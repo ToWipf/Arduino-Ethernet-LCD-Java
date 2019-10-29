@@ -1,6 +1,9 @@
 package org.wipf.elcd.model;
 
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.wipf.elcd.app.MainApp;
 import org.wipf.elcd.model.struct.Telegram;
@@ -74,7 +77,7 @@ public class MTelegram {
 			for (Telegram t : li) {
 				try {
 					t.setAntwort(bearbeiteMsg(new Telegram(t)));
-					MsqlLite.saveTelegramToDB(t);
+					saveTelegramToDB(t);
 					sendToTelegram(t);
 				} catch (Exception e) {
 					MLogger.warn("bearbeiteMsg " + e);
@@ -147,10 +150,61 @@ public class MTelegram {
 		case "clock":
 			return MTime.dateTime();
 		case "42":
-			return "Der Sinn des lebens";
+			return "Der Sinn des Lebens";
+		case "witz":
+			return MWitz.getWitz();
 		default:
 			return "Antwort auf '" + t.getMessage() + "' ist nicht vorhanden.";
 		}
 	}
 
+	/**
+	 * @param t
+	 */
+	private static void saveTelegramToDB(Telegram t) {
+		try {
+			Statement stmt = MsqlLite.getDB();
+			stmt.execute("INSERT INTO telegramlog (msgid, msg, antw, chatid, msgfrom, msgdate, type)" + " VALUES ('"
+					+ t.getMid() + "','" + t.getMessage() + "','" + t.getAntwort() + "','" + t.getChatID() + "','"
+					+ t.getFrom() + "','" + t.getDate() + "','" + t.getType() + "')");
+
+		} catch (Exception e) {
+			MLogger.warn("saveTelegramToDB " + e);
+		}
+	}
+
+	/**
+	 * @return log
+	 */
+	public static String getTelegramLog() {
+		try {
+			StringBuilder sb = new StringBuilder();
+			int n = 0;
+			Statement stmt = MsqlLite.getDB();
+			// ResultSet rs = stmt.executeQuery("SELECT * FROM telegrambot WHERE msgid = '"
+			// + nID + "';");
+			ResultSet rs = stmt.executeQuery("SELECT * FROM telegramlog ORDER BY msgdate DESC");
+
+			while (rs.next()) {
+				n++;
+				Date date = new Date(rs.getLong("msgdate") * 1000);
+
+				sb.append(n + ":\n");
+				sb.append("msgid:  \t" + rs.getString("msgid") + "\n");
+				sb.append("msg in: \t" + rs.getString("msg") + "\n");
+				sb.append("msg out:\t" + rs.getString("antw") + "\n");
+				sb.append("chatid: \t" + rs.getString("chatid") + "\n");
+				sb.append("msgfrom:\t" + rs.getString("msgfrom") + "\n");
+				sb.append("msgdate:\t" + date + "\n");
+				sb.append("type:   \t" + rs.getString("type") + "\n");
+				sb.append("----------------\n\n");
+			}
+			rs.close();
+			return sb.toString();
+		} catch (Exception e) {
+			MLogger.warn("getTelegram" + e);
+			return "FAIL";
+		}
+
+	}
 }

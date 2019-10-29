@@ -4,7 +4,15 @@ import java.util.Timer;
 
 import org.wipf.elcd.model.task.TaskTelegram;
 
+/**
+ * @author wipf
+ *
+ */
 public class StartTasks {
+
+	/**
+	 * 
+	 */
 	public static void StartTask() {
 
 		Timer t = new Timer();

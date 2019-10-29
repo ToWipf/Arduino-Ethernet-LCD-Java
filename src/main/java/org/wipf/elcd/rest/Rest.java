@@ -13,13 +13,12 @@ import javax.ws.rs.core.Response;
 import org.glassfish.jersey.process.internal.RequestScoped;
 import org.wipf.elcd.app.MainApp;
 import org.wipf.elcd.model.MBlowfish;
-import org.wipf.elcd.model.MConfig;
 import org.wipf.elcd.model.MPing;
+import org.wipf.elcd.model.MTelegram;
 import org.wipf.elcd.model.MTime;
 import org.wipf.elcd.model.MWipf;
 import org.wipf.elcd.model.M_Run;
 import org.wipf.elcd.model.MelcdConnect;
-import org.wipf.elcd.model.MsqlLite;
 
 @RequestScoped
 @Path("/")
@@ -35,32 +34,11 @@ public class Rest {
 		return MPing.ping(sIP).toString();
 	}
 
-	@GET
-	@Path("/tmp")
-	@Produces("text/plain")
-	public String tmp() {
-		return (MPing.ping(MConfig.readConfigFile("pingList"))).toString();
-	}
-
 	@POST
 	@Path("/setbot/{bot}")
 	@Produces("text/plain")
 	public Response setbot(@PathParam("bot") String sBot) {
-		return MWipf.genResponse(MsqlLite.setbot(sBot));
-	}
-
-	@GET
-	@Path("/wipf")
-	@Produces("text/html")
-	public String wipf() {
-		return MConfig.readConfigFile("wipf.html");
-	}
-
-	@GET
-	@Path("/config/{path}")
-	@Produces("text/plain")
-	public String readConfig(@PathParam("path") String sPath) {
-		return MConfig.readConfigFile(sPath);
+		return MWipf.genResponse(MainApp.setbot(sBot));
 	}
 
 	@GET
@@ -111,7 +89,7 @@ public class Rest {
 	@Path("telelog")
 	@Produces("text/plain")
 	public Response telelog() {
-		return MWipf.genResponse(MsqlLite.getTelegramLog());
+		return MWipf.genResponse(MTelegram.getTelegramLog());
 	}
 
 	@PUT

@@ -2,6 +2,8 @@ package org.wipf.elcd.app;
 
 import java.io.IOException;
 import java.net.URI;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -31,8 +33,9 @@ import com.mashape.unirest.http.Unirest;
 public class MainApp {
 
 	// TODO: alle in db:
-	public static String VERSION = "0.1";
+	public static String VERSION = "0.2";
 	private static final URI BASE_URI = URI.create("http://0.0.0.0:8080/");
+	public static final String DB_PATH = System.getProperty("user.home") + "/" + "wipfapp.db";
 	public static Integer FailCount;
 	public static Boolean RunLock;
 	public static Integer TelegramOffsetID;
@@ -45,6 +48,9 @@ public class MainApp {
 		MLogger.info("Starte WipfApp");
 		TelegramOffsetID = 0;
 		MsqlLite.startDB();
+		createDBs();
+		loadConfig();
+
 		StartTasks.StartTask();
 
 		try {
@@ -67,6 +73,63 @@ public class MainApp {
 		} catch (IOException | InterruptedException ex) {
 			Logger.getLogger(MainApp.class.getName()).log(Level.SEVERE, null, ex);
 		}
+	}
+
+	/**
+	 * 
+	 */
+	private static void loadConfig() {
+		try {
+			Statement stmt = MsqlLite.getDB();
+			ResultSet rs = stmt.executeQuery("SELECT val FROM settings WHERE id = 'telegrambot';");
+
+			MainApp.BOTKEY = (rs.getString("val"));
+
+			rs.close();
+		} catch (Exception e) {
+			MLogger.warn("telegrambot nicht in db gefunden."
+					+ " Setzen mit 'curl -X POST localhost:8080/setbot/bot2343242:ABCDEF348590247354352343345'");
+		}
+	}
+
+	/**
+	 * @param sBot
+	 * @return
+	 */
+	public static Boolean setbot(String sBot) {
+		try {
+			Statement stmt = MsqlLite.getDB();
+			stmt.execute("DELETE FROM settings WHERE id = 'telegrambot'");
+			stmt.execute("INSERT INTO settings (id, val) VALUES ('telegrambot','" + sBot + "')");
+			MainApp.BOTKEY = sBot;
+			MLogger.info("Bot Key: " + MainApp.BOTKEY);
+
+			return true;
+		} catch (Exception e) {
+			MLogger.warn("setbot " + e);
+			return false;
+		}
+	}
+
+	/**
+	 * Tabellen anlegen
+	 */
+	private static void createDBs() {
+		try {
+			Statement stmt = MsqlLite.getDB();
+			stmt.executeUpdate("CREATE TABLE IF NOT EXISTS settings (id, val);");
+			stmt.executeUpdate(
+					"CREATE TABLE IF NOT EXISTS telegramlog (msgid, msg, antw, chatid, msgfrom, msgdate, type);");
+			stmt.executeUpdate(
+					"CREATE TABLE IF NOT EXISTS ttt (chatid INTEGER UNIQUE, feld TEXT, msgdate INTEGER, type TEXT);");
+			// stmt.executeUpdate(
+			// "CREATE TABLE IF NOT EXISTS telegramlogic (restex, sendtxt, option1, option2,
+			// editby);");
+
+		} catch (Exception e) {
+			MLogger.warn("createDBs " + e);
+		}
+
 	}
 
 }
