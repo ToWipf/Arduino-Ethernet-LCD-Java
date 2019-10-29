@@ -141,6 +141,8 @@ public class MTelegram {
 		case "t":
 		case "ttt":
 		case "tictactoe":
+		case "play":
+		case "game":
 			return MTicTacToe.input(t);
 		case "time":
 		case "date":
@@ -152,6 +154,9 @@ public class MTelegram {
 		case "42":
 			return "Der Sinn des Lebens";
 		case "witz":
+		case "fun":
+		case "w":
+		case "joke":
 			return MWitz.getWitz();
 		default:
 			return "Antwort auf '" + t.getMessage() + "' ist nicht vorhanden.";
