@@ -34,7 +34,6 @@ public class TicTacToe {
 		int n = 0;
 		for (int x = 0; x < 3; x++) {
 			for (int y = 0; y < 3; y++) {
-
 				tttFeld[x][y] = sFeld.charAt(n);
 				n++;
 			}
@@ -271,14 +270,12 @@ public class TicTacToe {
 		if (logicDreiInEinerReihe('X', 'O')) {
 			return true;
 		}
-
 		// Zufall
 		for (int n = 0; n < 15; n++) {
 			if (setkoordinate(zufall.nextInt(3), zufall.nextInt(3), c)) {
 				return true;
 			}
 		}
-
 		// Zwangssetzen
 		for (int x = 0; x < 3; x++) {
 			for (int y = 0; y < 3; y++) {
@@ -311,7 +308,6 @@ public class TicTacToe {
 		if (tttFeld[0][2] == tttFeld[1][1] && tttFeld[0][2] == tttFeld[2][0]) {
 			return tttFeld[0][2];
 		}
-
 		// Unentschieden testen
 		int n = 0;
 		for (int x = 0; x < 3; x++) {

@@ -15,6 +15,9 @@ public class Telegram {
 	private String sType;
 	private String sFrom;
 
+	/**
+	 * 
+	 */
 	public Telegram() {
 		this.nMid = 0;
 		this.sMessage = "";
@@ -31,10 +34,6 @@ public class Telegram {
 		this.nDate = t.nDate;
 		this.sType = t.sType;
 		this.sFrom = t.sFrom;
-	}
-
-	public String getMessage() {
-		return sMessage;
 	}
 
 	/**
@@ -80,6 +79,26 @@ public class Telegram {
 		}
 	}
 
+	/**
+	 * @param sAntwort
+	 */
+	public void setAntwort(String sAntwort) {
+		this.sAntwort = sAntwort.replaceAll("\n", "%0A").replaceAll(" ", "%20").replaceAll("\t", "%20")
+				.replaceAll("\\|", "%7C").replaceAll("'", "%27");
+	}
+
+//	/**
+//	 * @param sAntwort
+//	 */
+//	public void setAntwortOld(String sAntwort) {
+//		try {
+//			this.sAntwort = URLEncoder.encode(sAntwort, "UTF-8");
+//		} catch (UnsupportedEncodingException e) {
+//			this.sAntwort = "FAIL";
+//			MLogger.warn("setAntwort" + e);
+//		}
+//	}
+
 	public void setMessage(String sMessage) {
 		this.sMessage = sMessage;
 	}
@@ -104,24 +123,8 @@ public class Telegram {
 		return sAntwort;
 	}
 
-//	/**
-//	 * @param sAntwort
-//	 */
-//	public void setAntwortOld(String sAntwort) {
-//		try {
-//			this.sAntwort = URLEncoder.encode(sAntwort, "UTF-8");
-//		} catch (UnsupportedEncodingException e) {
-//			this.sAntwort = "FAIL";
-//			MLogger.warn("setAntwort" + e);
-//		}
-//	}
-
-	/**
-	 * @param sAntwort
-	 */
-	public void setAntwort(String sAntwort) {
-		this.sAntwort = sAntwort.replaceAll("\n", "%0A").replaceAll(" ", "%20").replaceAll("\t", "%20")
-				.replaceAll("\\|", "%7C").replaceAll("'", "%27");
+	public String getMessage() {
+		return sMessage;
 	}
 
 	public String getType() {

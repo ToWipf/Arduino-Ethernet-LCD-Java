@@ -16,16 +16,6 @@ import org.wipf.elcd.rest.Rest;
 
 import com.mashape.unirest.http.Unirest;
 
-/*
- * 
- * TODO: 
- * Telegramm
- * Taster
- * Wetter
- * Ping
- * 
- */
-
 /**
  * @author wipf
  *
@@ -33,9 +23,11 @@ import com.mashape.unirest.http.Unirest;
 public class MainApp {
 
 	// TODO: alle in db:
-	public static String VERSION = "0.2";
 	private static final URI BASE_URI = URI.create("http://0.0.0.0:8080/");
+	public static final String VERSION = "0.02";
 	public static final String DB_PATH = System.getProperty("user.home") + "/" + "wipfapp.db";
+	public static final String ELCD_PATH = "http://192.168.2.242/";
+
 	public static Integer FailCount;
 	public static Boolean RunLock;
 	public static Integer TelegramOffsetID;
