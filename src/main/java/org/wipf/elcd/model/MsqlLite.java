@@ -66,6 +66,7 @@ public class MsqlLite {
 			if (!connection.isClosed())
 				MLogger.info("...Connection OK");
 		} catch (SQLException e) {
+			MLogger.warn("initDBConnectionA " + e);
 			throw new RuntimeException(e);
 		}
 
@@ -79,7 +80,7 @@ public class MsqlLite {
 							MLogger.warn("Connection to Database closed");
 					}
 				} catch (SQLException e) {
-					MLogger.warn("initDBConnection" + e);
+					MLogger.warn("initDBConnectionB " + e);
 				}
 			}
 		});

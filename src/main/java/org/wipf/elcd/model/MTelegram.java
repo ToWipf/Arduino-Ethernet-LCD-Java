@@ -20,6 +20,20 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 public class MTelegram {
 
 	/**
+	 * 
+	 */
+	public static void initDB() {
+		try {
+			Statement stmt = MsqlLite.getDB();
+			stmt.executeUpdate(
+					"CREATE TABLE IF NOT EXISTS telegramlog (msgid INTEGER, msg TEXT, antw TEXT, chatid INTEGER, msgfrom TEXT, msgdate INTEGER, type TEXT);");
+
+		} catch (Exception e) {
+			MLogger.warn("initDB Telegram " + e);
+		}
+	}
+
+	/**
 	 * @param t
 	 * @return
 	 */
@@ -96,14 +110,6 @@ public class MTelegram {
 		switch (t.getMessageWord(0)) {
 		case "start":
 			return "Wipfbot ist bereit\nInfos per 'info'";
-		case "wipf":
-		case "wipfe":
-			return "Wipfe sind sehr schön.";
-		case "hi":
-		case "hallo":
-		case "hello":
-		case "hey":
-			return "Hallo, ich bin ein Wipf.";
 		case "wipfbot":
 		case "help":
 		case "hlp":
@@ -116,18 +122,6 @@ public class MTelegram {
 		case "rnd":
 		case "zufall":
 			return MWipf.zufall(t.getMessageWord(1), t.getMessageWord(2));
-		case "ping":
-			return "Pong";
-		case "pong":
-			return "Ping";
-		case "pingu":
-		case "pingui":
-		case "pinguin":
-		case "pinguine":
-		case "🐧":
-			return "%F0%9F%90%A7"; // 🐧
-		case "test":
-			return "👻+🍕";
 		case "c":
 		case "cr":
 		case "en":
@@ -151,15 +145,13 @@ public class MTelegram {
 		case "zeit":
 		case "clock":
 			return MTime.dateTime();
-		case "42":
-			return "Der Sinn des Lebens";
 		case "witz":
 		case "fun":
 		case "w":
 		case "joke":
 			return MWitz.getWitz();
 		default:
-			return "Antwort auf '" + t.getMessage() + "' ist nicht vorhanden.";
+			return MTeleMsg.antworte(t);
 		}
 	}
 

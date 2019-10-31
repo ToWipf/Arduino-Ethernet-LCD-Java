@@ -13,6 +13,20 @@ import org.wipf.elcd.model.struct.TicTacToe;
 public class MTicTacToe {
 
 	/**
+	 * 
+	 */
+	public static void initDB() {
+		try {
+			Statement stmt = MsqlLite.getDB();
+			stmt.executeUpdate(
+					"CREATE TABLE IF NOT EXISTS tictactoe (chatid INTEGER UNIQUE, feld TEXT, msgdate INTEGER, type TEXT);");
+
+		} catch (Exception e) {
+			MLogger.warn("initDB tictactoe " + e);
+		}
+	}
+
+	/**
 	 * @param sTelegramSetTo
 	 * @return
 	 */
@@ -104,8 +118,9 @@ public class MTicTacToe {
 	private static Boolean saveTicTacToe(TicTacToe ttt) {
 		try {
 			Statement stmt = MsqlLite.getDB();
-			stmt.execute("INSERT OR REPLACE INTO ttt (chatid, feld, msgdate, type) VALUES " + "('" + ttt.getChatID()
-					+ "','" + ttt.getFieldString() + "','" + ttt.getDate() + "','" + ttt.getType() + "')");
+			stmt.execute(
+					"INSERT OR REPLACE INTO tictactoe (chatid, feld, msgdate, type) VALUES " + "('" + ttt.getChatID()
+							+ "','" + ttt.getFieldString() + "','" + ttt.getDate() + "','" + ttt.getType() + "')");
 			return true;
 		} catch (Exception e) {
 			MLogger.warn("setTicTacToe " + e);
@@ -120,7 +135,7 @@ public class MTicTacToe {
 	private static TicTacToe loadTicTacToe(Integer nChatid) {
 		try {
 			Statement stmt = MsqlLite.getDB();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM ttt WHERE chatid = '" + nChatid + "';");
+			ResultSet rs = stmt.executeQuery("SELECT * FROM tictactoe WHERE chatid = '" + nChatid + "';");
 			TicTacToe ttt = new TicTacToe(rs.getString("feld"));
 			// ttt.setChatID(rs.getInt("chatid")); weitere felder sind nicht nötig -> werden
 			// neu befüllt

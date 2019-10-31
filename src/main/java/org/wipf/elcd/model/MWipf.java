@@ -123,4 +123,13 @@ public class MWipf {
 		return null;
 	}
 
+	/**
+	 * @param nMax
+	 * @return
+	 */
+	public static int rnd(int nMax) {
+		Random wuerfel = new Random();
+		return wuerfel.nextInt(nMax);
+	}
+
 }

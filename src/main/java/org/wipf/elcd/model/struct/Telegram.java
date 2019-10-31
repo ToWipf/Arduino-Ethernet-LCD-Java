@@ -14,6 +14,7 @@ public class Telegram {
 	private Integer nDate;
 	private String sType;
 	private String sFrom;
+	private String sOptions;
 
 	/**
 	 * 
@@ -65,6 +66,14 @@ public class Telegram {
 			MLogger.warn("sgetMessageWord " + e);
 		}
 		return null;
+	}
+
+	/**
+	 * @return mgs ohne die ersten zwei wörter
+	 */
+	public String getMessageDataOnly() {
+		String s = sMessage.substring(sMessage.indexOf(' ') + 1);
+		return s.substring(s.indexOf(' '));
 	}
 
 	/**
@@ -149,6 +158,14 @@ public class Telegram {
 
 	public void setFrom(String sFrom) {
 		this.sFrom = sFrom;
+	}
+
+	public String getOptions() {
+		return sOptions;
+	}
+
+	public void setOptions(String sOptions) {
+		this.sOptions = sOptions;
 	}
 
 }

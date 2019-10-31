@@ -11,6 +11,9 @@ import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.wipf.elcd.model.MLogger;
+import org.wipf.elcd.model.MTeleMsg;
+import org.wipf.elcd.model.MTelegram;
+import org.wipf.elcd.model.MTicTacToe;
 import org.wipf.elcd.model.MsqlLite;
 import org.wipf.elcd.rest.Rest;
 
@@ -24,7 +27,7 @@ public class MainApp {
 
 	// TODO: alle in db:
 	private static final URI BASE_URI = URI.create("http://0.0.0.0:8080/");
-	public static final String VERSION = "0.02";
+	public static final String VERSION = "1.02";
 	public static final String DB_PATH = System.getProperty("user.home") + "/" + "wipfapp.db";
 	public static final String ELCD_PATH = "http://192.168.2.242/";
 
@@ -37,10 +40,10 @@ public class MainApp {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		MLogger.info("Starte WipfApp");
+		MLogger.info("Starte WipfApp " + VERSION);
 		TelegramOffsetID = 0;
 		MsqlLite.startDB();
-		createDBs();
+		initDBs();
 		loadConfig();
 
 		StartTasks.StartTask();
@@ -106,17 +109,13 @@ public class MainApp {
 	/**
 	 * Tabellen anlegen
 	 */
-	private static void createDBs() {
+	private static void initDBs() {
+		MTicTacToe.initDB();
+		MTelegram.initDB();
+		MTeleMsg.initDB();
 		try {
 			Statement stmt = MsqlLite.getDB();
 			stmt.executeUpdate("CREATE TABLE IF NOT EXISTS settings (id, val);");
-			stmt.executeUpdate(
-					"CREATE TABLE IF NOT EXISTS telegramlog (msgid, msg, antw, chatid, msgfrom, msgdate, type);");
-			stmt.executeUpdate(
-					"CREATE TABLE IF NOT EXISTS ttt (chatid INTEGER UNIQUE, feld TEXT, msgdate INTEGER, type TEXT);");
-			// stmt.executeUpdate(
-			// "CREATE TABLE IF NOT EXISTS telegramlogic (restex, sendtxt, option1, option2,
-			// editby);");
 
 		} catch (Exception e) {
 			MLogger.warn("createDBs " + e);
