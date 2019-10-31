@@ -26,15 +26,19 @@ public class MTeleMsg {
 	/**
 	 * @param t
 	 */
-	public static void add(Telegram t) {
-		try {
-			Statement stmt = MsqlLite.getDB();
-			stmt.execute("INSERT OR REPLACE INTO telemsg (request, response, options, editby, date) VALUES " + "('"
-					+ t.getMessageWord(1) + "','" + t.getMessageDataOnly() + "','" + null + "','" + t.getFrom() + "','"
-					+ t.getDate() + "')");
-		} catch (Exception e) {
-			MLogger.warn("add telemsg " + e);
+	public static String add(Telegram t) {
+		if (t.getChatID() == 798200105 || t.getChatID() == 522467648) {
+			try {
+				Statement stmt = MsqlLite.getDB();
+				stmt.execute("INSERT OR REPLACE INTO telemsg (request, response, options, editby, date) VALUES " + "('"
+						+ t.getMessageWord(1) + "','" + t.getMessageDataOnly() + "','" + null + "','" + t.getFrom()
+						+ "','" + t.getDate() + "')");
+				return "OK: " + t.getMessageWord(1);
+			} catch (Exception e) {
+				MLogger.warn("add telemsg " + e);
+			}
 		}
+		return "Fehler";
 	}
 
 	/**
@@ -77,8 +81,7 @@ public class MTeleMsg {
 	 */
 	public static String antworte(Telegram t) {
 		if (t.getMessageWord(0).equals("addamsgtodb")) {
-			add(t);
-			return "add";
+			return add(t);
 		}
 		t = get(t, 0);
 

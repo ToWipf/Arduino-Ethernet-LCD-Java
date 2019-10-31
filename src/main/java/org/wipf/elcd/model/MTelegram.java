@@ -175,16 +175,17 @@ public class MTelegram {
 	 */
 	public static String getTelegramLog() {
 		try {
-			StringBuilder sb = new StringBuilder();
+			StringBuilder slog = new StringBuilder();
 			int n = 0;
 			Statement stmt = MsqlLite.getDB();
 			// ResultSet rs = stmt.executeQuery("SELECT * FROM telegrambot WHERE msgid = '"
 			// + nID + "';");
-			ResultSet rs = stmt.executeQuery("SELECT * FROM telegramlog ORDER BY msgdate DESC");
+			ResultSet rs = stmt.executeQuery("SELECT * FROM telegramlog ORDER BY msgdate ASC"); // DESC
 
 			while (rs.next()) {
 				n++;
 				Date date = new Date(rs.getLong("msgdate") * 1000);
+				StringBuilder sb = new StringBuilder();
 
 				sb.append(n + ":\n");
 				sb.append("msgid:  \t" + rs.getString("msgid") + "\n");
@@ -195,9 +196,10 @@ public class MTelegram {
 				sb.append("msgdate:\t" + date + "\n");
 				sb.append("type:   \t" + rs.getString("type") + "\n");
 				sb.append("----------------\n\n");
+				slog.insert(0, sb);
 			}
 			rs.close();
-			return sb.toString();
+			return slog.toString();
 		} catch (Exception e) {
 			MLogger.warn("getTelegram" + e);
 			return "FAIL";

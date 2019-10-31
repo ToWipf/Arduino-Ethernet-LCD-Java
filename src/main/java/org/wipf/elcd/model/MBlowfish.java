@@ -7,7 +7,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class MBlowfish {
 
-	public static String sKey = "superKey42";
+	public static String sKey = "superKey42"; // TODO in db
 
 	/**
 	 * @param sIn
@@ -26,15 +26,15 @@ public class MBlowfish {
 	}
 
 	/**
-	 * @param string
+	 * @param sIn
 	 * @return
 	 */
-	public static String decrypt(String string) {
+	public static String decrypt(String sIn) {
 		try {
 			SecretKeySpec secretKeySpec = new SecretKeySpec((sKey).getBytes(), "Blowfish");
 			Cipher cipher = Cipher.getInstance("Blowfish");
 			cipher.init(Cipher.DECRYPT_MODE, secretKeySpec);
-			byte[] hasil = cipher.doFinal(Base64.getDecoder().decode(string));
+			byte[] hasil = cipher.doFinal(Base64.getDecoder().decode(sIn));
 			return new String(hasil);
 		} catch (Exception e) {
 			return "fail";
