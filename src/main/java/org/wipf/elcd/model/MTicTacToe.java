@@ -49,6 +49,11 @@ public class MTicTacToe {
 			if (ttt == null) {
 				return "Es wurde noch kein Spiel gestartet";
 			}
+			// auswertung
+			sHelpAuswertung = helpAuswertung(ttt);
+			if (sHelpAuswertung != null) {
+				return sHelpAuswertung;
+			}
 			ttt.setByTelegram(t);
 			// setze feld
 			if (!ttt.setByNummer(t.getMessageInt(2), 'X')) {
