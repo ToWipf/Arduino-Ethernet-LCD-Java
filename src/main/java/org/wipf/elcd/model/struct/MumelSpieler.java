@@ -4,7 +4,9 @@ package org.wipf.elcd.model.struct;
  * @author wipf
  *
  */
-public class Mumel extends Game {
+public class MumelSpieler extends Game {
+	private Integer PlayerId;
+
 	private Integer Leben;
 	private Integer Feuer;
 	private Integer Blitz;
@@ -103,6 +105,14 @@ public class Mumel extends Game {
 
 	public void setBunterStein(Integer bunterStein) {
 		BunterStein = bunterStein;
+	}
+
+	public Integer getPlayerId() {
+		return PlayerId;
+	}
+
+	public void setPlayerId(Integer playerId) {
+		PlayerId = playerId;
 	}
 
 }

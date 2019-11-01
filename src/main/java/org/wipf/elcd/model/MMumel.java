@@ -2,106 +2,38 @@ package org.wipf.elcd.model;
 
 import java.sql.Statement;
 
-import org.wipf.elcd.model.struct.Mumel;
-import org.wipf.elcd.model.struct.Telegram;
+import org.wipf.elcd.model.struct.MumelSpiel;
 
 /**
  * @author wipf
  *
  */
 public class MMumel {
+
 	/**
 	 * 
 	 */
 	public static void initDB() {
 		try {
 			Statement stmt = MsqlLite.getDB();
-			stmt.executeUpdate(
-					"CREATE TABLE IF NOT EXISTS m (chatid INTEGER UNIQUE, feld TEXT, msgdate INTEGER, type TEXT);");
+
+			stmt.executeUpdate("CREATE TABLE IF NOT EXISTS mumelSpieler (" + " chatid INTEGER," + " playerid INTEGER,"
+					+ " leben INTEGER," + " feuer INTEGER," + " blitz INTEGER," + " wasser INTEGER,"
+					+ " doppelfeuer INTEGER," + " schwarzerstein INTEGER," + " geld INTEGER," + " hausbrennen INTEGER,"
+					+ " bunterstein INTEGER);");
+			stmt.executeUpdate("CREATE TABLE IF NOT EXISTS mumelSpiel (" + " chatid INTEGER UNIQUE," + " playerids TEXT"
+					+ " weristdran INTEGER);");
 
 		} catch (Exception e) {
-			MLogger.warn("initDB tictactoe " + e);
+			MLogger.warn("initDB mumel " + e);
 		}
-	}
-
-	/**
-	 * @param sTelegramSetTo
-	 * @return
-	 */
-	public static String input(Telegram t) {
-		return null;
-//		TicTacToe ttt = null;
-//		String sAction = t.getMessageWord(1);
-//		if (sAction == null) {
-//			return "Anleitung mit TicTacToe help";
-//		}
-//
-//		switch (sAction) {
-//		case "setzen":
-//		case "setze":
-//		case "set":
-//		case "se":
-//		case "s":
-//			String sHelpAuswertung;
-//			// Lade spiel
-//			ttt = loadTicTacToe(t.getChatID());
-//			if (ttt == null) {
-//				return "Es wurde noch kein Spiel gestartet";
-//			}
-//			// auswertung
-//			sHelpAuswertung = helpAuswertung(ttt);
-//			if (sHelpAuswertung != null) {
-//				return sHelpAuswertung;
-//			}
-//			ttt.setByTelegram(t);
-//			// setze feld
-//			if (!ttt.setByNummer(t.getMessageInt(2), 'X')) {
-//				return "Feld konnte nicht gesetzt werden";
-//			} else {
-//				saveTicTacToe(ttt); // save game
-//			}
-//			// auswertung
-//			sHelpAuswertung = helpAuswertung(ttt);
-//			if (sHelpAuswertung != null) {
-//				return sHelpAuswertung;
-//			}
-//			// set cpu
-//			if (!ttt.cpuSetzen('O')) {
-//				return "CPU konnte nicht MsqlLite.setzen";
-//			} else {
-//				saveTicTacToe(ttt); // save game
-//			}
-//			// auswertung
-//			sHelpAuswertung = helpAuswertung(ttt);
-//			if (sHelpAuswertung != null) {
-//				return sHelpAuswertung;
-//			}
-//			// Spielfeld ausgeben
-//			return ttt.tttToNiceString();
-//		case "new":
-//		case "neu":
-//		case "n":
-//			ttt = new TicTacToe("FFFFFFFFF");
-//			ttt.setByTelegram(t);
-//			saveTicTacToe(ttt);
-//			return "Setzen mit 'ttt se NR'\n\n" + ttt.tttToNiceString();
-//		case "show":
-//		case "sh":
-//			ttt = loadTicTacToe(t.getChatID());
-//			if (ttt == null) {
-//				return "Es wurde noch kein Spiel gestartet"; // Diesen fall gibt es nicht wenn autocreate new game
-//			}
-//			return ttt.tttToNiceString();
-//		default:
-//			return "Anleitung:\n\nttt neu: Neues Spiel\nttt setze NR: Setzen\nttt show: Zeige feld";
-//		}
 	}
 
 	/**
 	 * @param ttt
 	 * @return
 	 */
-	private static Boolean save(Mumel m) {
+	private static Boolean saveGame(MumelSpiel m) {
 		return null;
 //		try {
 //			Statement stmt = MsqlLite.getDB();
@@ -119,7 +51,7 @@ public class MMumel {
 	 * @param sChatid
 	 * @return
 	 */
-	private static Mumel load(Integer nChatid) {
+	private static MumelSpiel loadGame(Integer nChatid) {
 		return null;
 //		try {
 //			Statement stmt = MsqlLite.getDB();
