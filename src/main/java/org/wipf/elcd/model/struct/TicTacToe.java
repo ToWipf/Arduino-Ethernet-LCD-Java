@@ -8,12 +8,9 @@ import org.wipf.elcd.model.MWipf;
  * @author wipf
  *
  */
-public class TicTacToe {
+public class TicTacToe extends Game {
 
 	private Character[][] tttFeld = new Character[3][3];
-	private Integer nChatID;
-	private Integer nDate;
-	private String sType;
 
 	/**
 	 * 
@@ -328,33 +325,9 @@ public class TicTacToe {
 	 * @param t
 	 */
 	public void setByTelegram(Telegram t) {
-		this.nChatID = t.getChatID();
-		this.nDate = t.getDate();
-		this.sType = t.getType();
-	}
-
-	public String getType() {
-		return sType;
-	}
-
-	public void setType(String sType) {
-		this.sType = sType;
-	}
-
-	public Integer getDate() {
-		return nDate;
-	}
-
-	public void setDate(Integer nDate) {
-		this.nDate = nDate;
-	}
-
-	public Integer getChatID() {
-		return nChatID;
-	}
-
-	public void setChatID(Integer nChatID) {
-		this.nChatID = nChatID;
+		setChatID(t.getChatID());
+		setDate(t.getDate());
+		setType(t.getType());
 	}
 
 }
