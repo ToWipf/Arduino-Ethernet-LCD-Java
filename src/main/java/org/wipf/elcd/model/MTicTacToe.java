@@ -26,19 +26,24 @@ public class MTicTacToe {
 		}
 	}
 
+	/**
+	 * @param t
+	 * @return
+	 */
 	public static String input(Telegram t) {
-		String res = game(t);
-		if (res == null || res.length() == 0) {
+		try {
+			return tttPlay(t);
+
+		} catch (Exception e) {
 			return "Fehler im Spiel. Neustarten mit 'ttt neu'";
 		}
-		return res;
 	}
 
 	/**
 	 * @param sTelegramSetTo
 	 * @return
 	 */
-	private static String game(Telegram t) {
+	private static String tttPlay(Telegram t) {
 		TicTacToe ttt = loadTicTacToe(t.getChatID());
 		;
 		String sAction = t.getMessageWord(1);
