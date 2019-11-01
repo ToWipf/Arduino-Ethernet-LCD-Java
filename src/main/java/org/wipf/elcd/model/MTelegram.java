@@ -150,6 +150,11 @@ public class MTelegram {
 		case "w":
 		case "joke":
 			return MWitz.getWitz();
+		case "m":
+		case "mummel":
+		case "mumel":
+		case "ml":
+			return MMumel.playMumel(t);
 		default:
 			return MTeleMsg.antworte(t);
 		}

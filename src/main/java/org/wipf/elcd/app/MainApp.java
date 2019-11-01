@@ -11,6 +11,7 @@ import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.wipf.elcd.model.MLogger;
+import org.wipf.elcd.model.MMumel;
 import org.wipf.elcd.model.MTeleMsg;
 import org.wipf.elcd.model.MTelegram;
 import org.wipf.elcd.model.MTicTacToe;
@@ -113,6 +114,7 @@ public class MainApp {
 		MTicTacToe.initDB();
 		MTelegram.initDB();
 		MTeleMsg.initDB();
+		MMumel.initDB();
 		try {
 			Statement stmt = MsqlLite.getDB();
 			stmt.executeUpdate("CREATE TABLE IF NOT EXISTS settings (id, val);");
