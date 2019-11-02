@@ -1,5 +1,6 @@
 package org.wipf.elcd.model;
 
+import java.sql.ResultSet;
 import java.sql.Statement;
 
 import org.wipf.elcd.model.struct.MumelSpiel;
@@ -24,7 +25,7 @@ public class MMumel {
 					+ " doppelfeuer INTEGER," + " doppelwasser INTEGER," + " schwarzerstein INTEGER," + " geld INTEGER,"
 					+ " hausbrennen INTEGER," + " bunterstein INTEGER, UNIQUE(chatid,playerid));");
 			stmt.executeUpdate("CREATE TABLE IF NOT EXISTS mumelSpiel (" + " chatid INTEGER UNIQUE," + " playerids TEXT"
-					+ " weristdran INTEGER);");
+					+ " weristdran INTEGER, date TEXT);");
 
 		} catch (Exception e) {
 			MLogger.warn("initDB mumel " + e);
@@ -36,14 +37,20 @@ public class MMumel {
 	 */
 	public static String playMumel(Telegram t) {
 		try {
-			MumelSpieler mspl = new MumelSpieler();
-			mspl.setByTelegram(t);
-			mspl.newFill();
-			savePlayer(mspl);
+			if ("NOT".equals("IN USE")) {
+				saveGame(null);
+				loadGame(null);
+
+				MumelSpieler mspl = new MumelSpieler();
+				mspl.setByTelegram(t);
+				mspl.newFill();
+				savePlayer(mspl);
+			}
+
 		} catch (Exception e) {
-			e.printStackTrace();
+			MLogger.warn("play Mumel " + e);
 		}
-		return "MUMEL";
+		return "mumel is in build";
 	}
 
 	/**
@@ -51,17 +58,16 @@ public class MMumel {
 	 * @return
 	 */
 	private static Boolean saveGame(MumelSpiel m) {
-		return null;
-//		try {
-//			Statement stmt = MsqlLite.getDB();
-//			stmt.execute(
-//					"INSERT OR REPLACE INTO tictactoe (chatid, feld, msgdate, type) VALUES " + "('" + ttt.getChatID()
-//							+ "','" + ttt.getFieldString() + "','" + ttt.getDate() + "','" + ttt.getType() + "')");
-//			return true;
-//		} catch (Exception e) {
-//			MLogger.warn("setTicTacToe " + e);
-//			return false;
-//		}
+		try {
+			Statement stmt = MsqlLite.getDB();
+			stmt.execute("INSERT OR REPLACE INTO mumelSpiel (chatid, playerids, weristdran, date) VALUES " + "('"
+					+ m.getChatID() + "','" + m.getMumelSpielerliste() + "','" + m.getWerIstDran() + "','" + m.getDate()
+					+ "')");
+			return true;
+		} catch (Exception e) {
+			MLogger.warn("savegame mumel " + e);
+			return false;
+		}
 	}
 
 	/**
@@ -89,19 +95,20 @@ public class MMumel {
 	 * @return
 	 */
 	private static MumelSpiel loadGame(Integer nChatid) {
+		try {
+			Statement stmt = MsqlLite.getDB();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM tictactoe WHERE chatid = '" + nChatid + "';");
+			MumelSpiel m = new MumelSpiel();
+
+			m.setMumelSpielerliste(rs.getString("playerids"));
+			// ttt.setChatID(rs.getInt("chatid")); weitere felder sind nicht nötig -> werden
+			// neu befüllt
+			rs.close();
+			return m;
+		} catch (Exception e) {
+			// Kann vorkommen wenn kein spiel aktiv ist
+			// MLogger.warn("loadGame " + e);
+		}
 		return null;
-//		try {
-//			Statement stmt = MsqlLite.getDB();
-//			ResultSet rs = stmt.executeQuery("SELECT * FROM tictactoe WHERE chatid = '" + nChatid + "';");
-//			TicTacToe ttt = new TicTacToe(rs.getString("feld"));
-//			// ttt.setChatID(rs.getInt("chatid")); weitere felder sind nicht nötig -> werden
-//			// neu befüllt
-//			rs.close();
-//			return ttt;
-//		} catch (Exception e) {
-//			// Kann vorkommen wenn kein spiel aktiv ist
-//			// MLogger.warn("getTicTacToe " + e);
-//		}
-//		return null;
 	}
 }

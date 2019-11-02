@@ -38,7 +38,7 @@ public class Rest {
 	@Path("/setbot/{bot}")
 	@Produces("text/plain")
 	public Response setbot(@PathParam("bot") String sBot) {
-		return MWipf.genResponse(MainApp.setbot(sBot));
+		return MWipf.genResponse(MTelegram.setbot(sBot));
 	}
 
 	@GET
