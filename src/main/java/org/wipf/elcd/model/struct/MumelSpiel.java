@@ -25,13 +25,13 @@ public class MumelSpiel extends Game {
 	public void setMumelSpielerliste(String sImportString) {
 		try {
 
-			for (String part : sImportString.split(" ")) {
+			// for (String part : sImportString.split(" ")) {
 
-				// TODO find by id und add to list
+			// TODO find by id und add to list
 //				MumelSpieler msp = new MumelSpieler();
 //				this.lmsp.add(msp);
 
-			}
+			// }
 		} catch (Exception e) {
 			MLogger.warn("sgetMessageWord " + e);
 		}
