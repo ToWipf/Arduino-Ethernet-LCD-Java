@@ -217,7 +217,7 @@ public class MTelegram {
 	/**
 	 * @return log
 	 */
-	public static String getTelegramLog() {
+	public static String getTelegramLog(String sFilter) {
 		try {
 			StringBuilder slog = new StringBuilder();
 			int n = 0;
@@ -231,16 +231,18 @@ public class MTelegram {
 				Date date = new Date(rs.getLong("msgdate") * 1000);
 				StringBuilder sb = new StringBuilder();
 
-				sb.append(n + ":\n");
-				sb.append("msgid:  \t" + rs.getString("msgid") + "\n");
-				sb.append("msg in: \t" + rs.getString("msg") + "\n");
-				sb.append("msg out:\t" + rs.getString("antw") + "\n");
-				sb.append("chatid: \t" + rs.getString("chatid") + "\n");
-				sb.append("msgfrom:\t" + rs.getString("msgfrom") + "\n");
-				sb.append("msgdate:\t" + date + "\n");
-				sb.append("type:   \t" + rs.getString("type") + "\n");
-				sb.append("----------------\n\n");
-				slog.insert(0, sb);
+				if (sFilter == null || !rs.getString("msgfrom").contains(sFilter)) {
+					sb.append(n + ":\n");
+					sb.append("msgid:  \t" + rs.getString("msgid") + "\n");
+					sb.append("msg in: \t" + rs.getString("msg") + "\n");
+					sb.append("msg out:\t" + rs.getString("antw") + "\n");
+					sb.append("chatid: \t" + rs.getString("chatid") + "\n");
+					sb.append("msgfrom:\t" + rs.getString("msgfrom") + "\n");
+					sb.append("msgdate:\t" + date + "\n");
+					sb.append("type:   \t" + rs.getString("type") + "\n");
+					sb.append("----------------\n\n");
+					slog.insert(0, sb);
+				}
 			}
 			rs.close();
 			return slog.toString();
