@@ -38,7 +38,7 @@ public class Rest {
 	@Path("/setbot/{bot}")
 	@Produces("text/plain")
 	public Response setbot(@PathParam("bot") String sBot) {
-		return MWipf.genResponse(MainApp.setbot(sBot));
+		return MWipf.genResponse(MTelegram.setbot(sBot));
 	}
 
 	@GET
@@ -89,7 +89,14 @@ public class Rest {
 	@Path("telelog")
 	@Produces("text/plain")
 	public Response telelog() {
-		return MWipf.genResponse(MTelegram.getTelegramLog());
+		return MWipf.genResponse(MTelegram.getTelegramLog(null));
+	}
+
+	@GET
+	@Path("telelogtf")
+	@Produces("text/plain")
+	public Response telelogtf() {
+		return MWipf.genResponse(MTelegram.getTelegramLog("798200105"));
 	}
 
 	@PUT

@@ -94,6 +94,7 @@ public class Telegram {
 	public void setAntwort(String sAntwort) {
 		this.sAntwort = sAntwort.replaceAll("\n", "%0A").replaceAll(" ", "%20").replaceAll("\t", "%20")
 				.replaceAll("\\|", "%7C").replaceAll("'", "%27");
+
 	}
 
 //	/**

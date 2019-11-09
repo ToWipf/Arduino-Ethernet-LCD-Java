@@ -7,4 +7,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Wipf';
+  public _opened: boolean = false;
+
+  public _toggleSidebar() {
+    this._opened = !this._opened;
+  }
 }

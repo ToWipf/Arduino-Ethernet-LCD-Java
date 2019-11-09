@@ -61,10 +61,10 @@ public class MsqlLite {
 		try {
 			if (connection != null)
 				return;
-			MLogger.info("Connect to Database...");
+			MLogger.info("Connect to Database '" + MainApp.DB_PATH + "'");
 			connection = DriverManager.getConnection("jdbc:sqlite:" + MainApp.DB_PATH);
 			if (!connection.isClosed())
-				MLogger.info("...Connection OK");
+				MLogger.info("Connection OK");
 		} catch (SQLException e) {
 			MLogger.warn("initDBConnectionA " + e);
 			throw new RuntimeException(e);

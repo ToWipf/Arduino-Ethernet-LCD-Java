@@ -27,11 +27,25 @@ public class MTicTacToe {
 	}
 
 	/**
-	 * @param sTelegramSetTo
+	 * @param t
 	 * @return
 	 */
 	public static String input(Telegram t) {
-		TicTacToe ttt = null;
+		try {
+			return tttPlay(t);
+
+		} catch (Exception e) {
+			return "Fehler im Spiel. Neustarten mit 'ttt neu'";
+		}
+	}
+
+	/**
+	 * @param sTelegramSetTo
+	 * @return
+	 */
+	private static String tttPlay(Telegram t) {
+		TicTacToe ttt = loadTicTacToe(t.getChatID());
+		;
 		String sAction = t.getMessageWord(1);
 		if (sAction == null) {
 			return "Anleitung mit TicTacToe help";
@@ -44,10 +58,9 @@ public class MTicTacToe {
 		case "se":
 		case "s":
 			String sHelpAuswertung;
-			// Lade spiel
-			ttt = loadTicTacToe(t.getChatID());
+			// spiel vorhanden
 			if (ttt == null) {
-				return "Es wurde noch kein Spiel gestartet";
+				return "Es wurde noch kein Spiel gestartet"; // TODO autocreate new game ?
 			}
 			// auswertung
 			sHelpAuswertung = helpAuswertung(ttt);
@@ -81,6 +94,7 @@ public class MTicTacToe {
 			return ttt.tttToNiceString();
 		case "new":
 		case "neu":
+		case "ne":
 		case "n":
 			ttt = new TicTacToe("FFFFFFFFF");
 			ttt.setByTelegram(t);
@@ -88,11 +102,11 @@ public class MTicTacToe {
 			return "Setzen mit 'ttt se NR'\n\n" + ttt.tttToNiceString();
 		case "show":
 		case "sh":
-			ttt = loadTicTacToe(t.getChatID());
-			if (ttt == null) {
-				return "Es wurde noch kein Spiel gestartet"; // Diesen fall gibt es nicht wenn autocreate new game
-			}
 			return ttt.tttToNiceString();
+		case "raw":
+		case "ra":
+		case "r":
+			return ttt.tttToString();
 		default:
 			return "Anleitung:\n\nttt neu: Neues Spiel\nttt setze NR: Setzen\nttt show: Zeige feld";
 		}
