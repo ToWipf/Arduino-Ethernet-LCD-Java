@@ -149,6 +149,7 @@ public class MTelegram {
 		case "fun":
 		case "w":
 		case "joke":
+		case "witze":
 			return MWitz.getWitz();
 		default:
 			return MTeleMsg.antworte(t);
