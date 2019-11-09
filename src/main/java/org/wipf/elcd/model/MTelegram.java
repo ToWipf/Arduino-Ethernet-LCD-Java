@@ -144,6 +144,7 @@ public class MTelegram {
 		case "uhr":
 		case "zeit":
 		case "clock":
+		case "z":
 			return MTime.dateTime();
 		case "witz":
 		case "fun":
