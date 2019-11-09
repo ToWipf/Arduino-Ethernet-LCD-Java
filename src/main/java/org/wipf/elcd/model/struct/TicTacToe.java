@@ -321,13 +321,4 @@ public class TicTacToe extends Game {
 		return null;
 	}
 
-	/**
-	 * @param t
-	 */
-	public void setByTelegram(Telegram t) {
-		setChatID(t.getChatID());
-		setDate(t.getDate());
-		setType(t.getType());
-	}
-
 }

@@ -70,6 +70,10 @@ public class M_Run {
 		MelcdConnect.write(0, 6, MTime.uhr());
 	}
 
+	/**
+	 * @param sMsg
+	 * @return
+	 */
 	public static Boolean sendMsg(String sMsg) {
 		try {
 			MelcdConnect.write(3, 0, sMsg);

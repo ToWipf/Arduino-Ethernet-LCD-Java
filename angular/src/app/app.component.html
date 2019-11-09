@@ -1,2 +1,24 @@
-<app-wipf></app-wipf>
-<app-footer></app-footer>
+
+<ng-sidebar-container style="height: 100vh;">
+    
+	<!-- A sidebar -->
+	<ng-sidebar [(opened)]="_opened" position="right">
+        <ul>
+            <li>Menu Item</li>
+			<li>Menu Item</li>
+			<li>Menu Item</li>
+		</ul>
+	</ng-sidebar>
+    
+	<!-- Page content -->
+	<div ng-sidebar-content>
+        <button (click)="_toggleSidebar()">Toggle sidebar</button>
+        <app-wipf></app-wipf>
+        <app-footer></app-footer>
+
+		<p>
+			Start editing to see some magic happen :)
+		</p>
+	</div>
+
+</ng-sidebar-container>

@@ -32,4 +32,13 @@ public class Game {
 	public void setType(String sType) {
 		this.sType = sType;
 	}
+
+	/**
+	 * @param t
+	 */
+	public void setByTelegram(Telegram t) {
+		setChatID(t.getChatID());
+		setDate(t.getDate());
+		setType(t.getType());
+	}
 }
