@@ -45,7 +45,6 @@ public class MTicTacToe {
 	 */
 	private static String tttPlay(Telegram t) {
 		TicTacToe ttt = loadTicTacToe(t.getChatID());
-		;
 		String sAction = t.getMessageWord(1);
 		if (sAction == null) {
 			return "Anleitung mit TicTacToe help";
@@ -81,7 +80,7 @@ public class MTicTacToe {
 			}
 			// set cpu
 			if (!ttt.cpuSetzen('O')) {
-				return "CPU konnte nicht MsqlLite.setzen";
+				return "CPU konnte nicht setzen";
 			} else {
 				saveTicTacToe(ttt); // save game
 			}
@@ -107,6 +106,14 @@ public class MTicTacToe {
 		case "ra":
 		case "r":
 			return ttt.tttToString();
+		case "cpu":
+			ttt.setByTelegram(t);
+			if (!ttt.cpuSetzen('O')) {
+				return "CPU konnte nicht setzen";
+			} else {
+				saveTicTacToe(ttt); // save game
+				return ttt.tttToNiceString();
+			}
 		default:
 			return "Anleitung:\n\nttt neu: Neues Spiel\nttt setze NR: Setzen\nttt show: Zeige Feld\nttt raw: Zeige Feld";
 		}
