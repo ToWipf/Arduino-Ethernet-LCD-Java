@@ -183,11 +183,13 @@ public class MTelegram {
 		case "uhr":
 		case "zeit":
 		case "clock":
+		case "z":
 			return MTime.dateTime();
 		case "witz":
 		case "fun":
 		case "w":
 		case "joke":
+		case "witze":
 			return MWitz.getWitz();
 		case "m":
 		case "mummel":
