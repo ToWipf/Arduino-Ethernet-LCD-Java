@@ -99,7 +99,7 @@ public class MTicTacToe {
 			ttt = new TicTacToe("FFFFFFFFF");
 			ttt.setByTelegram(t);
 			saveTicTacToe(ttt);
-			return "Setzen mit 'ttt se NR'\n\n" + ttt.tttToNiceString();
+			return "Setzen mit 'ttt set NR'\n\n" + ttt.tttToNiceString();
 		case "show":
 		case "sh":
 			return ttt.tttToNiceString();
@@ -108,7 +108,7 @@ public class MTicTacToe {
 		case "r":
 			return ttt.tttToString();
 		default:
-			return "Anleitung:\n\nttt neu: Neues Spiel\nttt setze NR: Setzen\nttt show: Zeige feld";
+			return "Anleitung:\n\nttt neu: Neues Spiel\nttt setze NR: Setzen\nttt show: Zeige Feld\nttt raw: Zeige Feld";
 		}
 	}
 
