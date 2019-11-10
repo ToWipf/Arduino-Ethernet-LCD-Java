@@ -268,18 +268,14 @@ public class TicTacToe extends Game {
 			return true;
 		}
 
-		// TODO: mitte wage -> fehler zufall zu ungenau ?
 		// Zufall nur in der mitte wage
 		for (int n = 0; n < 35; n++) {
-//			System.out.println("aa");
 			if (setkoordinate(1, zufall.nextInt(3), c)) {
 				return true;
 			}
 		}
-
 		// Zufall nur in der mitte hoch
 		for (int n = 0; n < 35; n++) {
-//			System.out.println("bb");
 			if (setkoordinate(zufall.nextInt(3), 1, c)) {
 				return true;
 			}

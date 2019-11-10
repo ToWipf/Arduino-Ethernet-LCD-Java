@@ -2,6 +2,7 @@ package org.wipf.elcd.model;
 
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Random;
 
 import org.wipf.elcd.model.struct.Telegram;
 import org.wipf.elcd.model.struct.TicTacToe;
@@ -95,9 +96,13 @@ public class MTicTacToe {
 		case "neu":
 		case "ne":
 		case "n":
+			Random zufall = new Random();
 			ttt = new TicTacToe("FFFFFFFFF");
 			ttt.setByTelegram(t);
 			saveTicTacToe(ttt);
+			if (zufall.nextBoolean()) {
+				ttt.cpuSetzen('O');
+			}
 			return "Setzen mit 'ttt set NR'\n\n" + ttt.tttToNiceString();
 		case "show":
 		case "sh":
