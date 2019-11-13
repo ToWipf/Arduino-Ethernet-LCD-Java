@@ -13,6 +13,7 @@ import javax.ws.rs.core.Response;
 import org.glassfish.jersey.process.internal.RequestScoped;
 import org.wipf.elcd.app.MainApp;
 import org.wipf.elcd.model.MBlowfish;
+import org.wipf.elcd.model.MLogger;
 import org.wipf.elcd.model.MPing;
 import org.wipf.elcd.model.MTelegram;
 import org.wipf.elcd.model.MTime;
@@ -134,7 +135,7 @@ public class Rest {
 	@DELETE
 	@Path("sysHalt")
 	public void sysHalt() {
-		System.out.println("SysHalt");
+		MLogger.info("SysHalt");
 		System.exit(0);
 	}
 
