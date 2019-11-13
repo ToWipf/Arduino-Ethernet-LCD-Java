@@ -102,6 +102,7 @@ public class MTicTacToe {
 			saveTicTacToe(ttt);
 			if (zufall.nextBoolean()) {
 				ttt.cpuSetzen('O');
+				saveTicTacToe(ttt);
 			}
 			return "Setzen mit 'ttt set NR'\n\n" + ttt.tttToNiceString();
 		case "show":
