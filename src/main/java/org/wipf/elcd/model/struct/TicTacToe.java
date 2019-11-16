@@ -229,7 +229,7 @@ public class TicTacToe extends Game {
 				return true;
 			}
 		}
-		if (tttFeld[2][2] == check && check == tttFeld[1][1]) {
+		if (tttFeld[2][2] == check && check == tttFeld[0][0]) {
 			if (setkoordinate(1, 1, setChar)) {
 				return true;
 			}

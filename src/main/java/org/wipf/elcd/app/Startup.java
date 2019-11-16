@@ -56,7 +56,7 @@ public class Startup {
 	 * 
 	 */
 	public static void startTelegramTask() {
-
+		MLogger.info("Start Telegram Task");
 		Timer t = new Timer();
 		TaskTelegram mTask = new TaskTelegram();
 		// This task is scheduled to run every 20 seconds

@@ -36,20 +36,20 @@ public class MTelegram {
 	/**
 	 * 
 	 */
-	public static void loadConfig() {
+	public static boolean loadConfig() {
 		// Auf 0 setzen -> definierter zustand
 		MainApp.TelegramOffsetID = 0;
 		// Load bot config
 		try {
 			Statement stmt = MsqlLite.getDB();
 			ResultSet rs = stmt.executeQuery("SELECT val FROM settings WHERE id = 'telegrambot';");
-
 			MainApp.BOTKEY = (rs.getString("val"));
-
 			rs.close();
+			return true;
 		} catch (Exception e) {
 			MLogger.warn("telegrambot nicht in db gefunden."
 					+ " Setzen mit 'curl -X POST localhost:8080/setbot/bot2343242:ABCDEF348590247354352343345'");
+			return false;
 		}
 	}
 
