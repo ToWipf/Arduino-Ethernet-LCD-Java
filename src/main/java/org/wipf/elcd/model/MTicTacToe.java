@@ -120,6 +120,14 @@ public class MTicTacToe {
 				saveTicTacToe(ttt); // save game
 				return ttt.tttToNiceString();
 			}
+		case "setonly":
+			// setze feld ohne cpu
+			ttt.setByTelegram(t);
+			if (!ttt.setByNummer(t.getMessageInt(2), 'X')) {
+				return "Feld konnte nicht gesetzt werden";
+			} else {
+				saveTicTacToe(ttt); // save game
+			}
 		default:
 			return "Anleitung:\n\nttt neu: Neues Spiel\nttt setze NR: Setzen\nttt show: Zeige Feld\nttt raw: Zeige Feld";
 		}
