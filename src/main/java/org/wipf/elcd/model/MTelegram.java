@@ -229,7 +229,7 @@ public class MTelegram {
 		case "countsend":
 			return contSend();
 		case "telestats":
-			return contMsg() + "\n" + contSend();
+			return MTime.dateTime() + "\n" + contMsg() + "\n" + contSend();
 		default:
 			return MTeleMsg.antworte(t);
 		}

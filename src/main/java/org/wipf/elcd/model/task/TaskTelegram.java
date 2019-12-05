@@ -5,6 +5,10 @@ import java.util.TimerTask;
 import org.wipf.elcd.model.MLogger;
 import org.wipf.elcd.model.MTelegram;
 
+/**
+ * @author wipf
+ *
+ */
 public class TaskTelegram extends TimerTask {
 
 	/**
