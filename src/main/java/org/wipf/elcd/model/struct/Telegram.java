@@ -97,6 +97,16 @@ public class Telegram {
 
 	}
 
+	/**
+	 * @return
+	 */
+	public String getAntwort() {
+		if (sAntwort != null) {
+			return sAntwort.replaceAll("<", "_").replaceAll(">", "_");
+		}
+		return null;
+	}
+
 //	/**
 //	 * @param sAntwort
 //	 */
@@ -127,10 +137,6 @@ public class Telegram {
 
 	public void setChatID(Integer nChatID) {
 		this.nChatID = nChatID;
-	}
-
-	public String getAntwort() {
-		return sAntwort;
 	}
 
 	public String getMessage() {

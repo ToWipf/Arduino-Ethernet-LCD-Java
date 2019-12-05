@@ -80,6 +80,8 @@ public class MTeleMsg {
 	 * @return
 	 */
 	public static String antworte(Telegram t) {
+
+		// Anbindung an msg datenbank
 		if (t.getMessageWord(0).equals("addamsgtodb")) {
 			return add(t);
 		}

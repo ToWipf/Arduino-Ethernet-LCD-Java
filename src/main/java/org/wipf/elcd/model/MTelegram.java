@@ -143,6 +143,34 @@ public class MTelegram {
 	}
 
 	/**
+	 * @return
+	 */
+	public static String contSend() {
+		try {
+			Statement stmt = MsqlLite.getDB();
+			ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM telegramlog;");
+			return rs.getString("COUNT(*)") + " Nachrichten gesendet";
+		} catch (Exception e) {
+			MLogger.warn("count Telegram " + e);
+			return null;
+		}
+	}
+
+	/**
+	 * @return
+	 */
+	public static String contMsg() {
+		try {
+			Statement stmt = MsqlLite.getDB();
+			ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM telemsg;");
+			return rs.getString("COUNT(*)") + " Antworten in der DB";
+		} catch (Exception e) {
+			MLogger.warn("count Telegram " + e);
+			return null;
+		}
+	}
+
+	/**
 	 * @param t
 	 */
 	private static String bearbeiteMsg(Telegram t) {
@@ -196,6 +224,12 @@ public class MTelegram {
 		case "mumel":
 		case "ml":
 			return MMumel.playMumel(t);
+		case "countmsg":
+			return contMsg();
+		case "countsend":
+			return contSend();
+		case "telestats":
+			return contMsg() + "\n" + contSend();
 		default:
 			return MTeleMsg.antworte(t);
 		}
