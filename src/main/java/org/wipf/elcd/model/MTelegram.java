@@ -238,7 +238,7 @@ public class MTelegram {
 	/**
 	 * @param t
 	 */
-	private static void saveTelegramToDB(Telegram t) {
+	public static void saveTelegramToDB(Telegram t) {
 		try {
 			Statement stmt = MsqlLite.getDB();
 			stmt.execute("INSERT INTO telegramlog (msgid, msg, antw, chatid, msgfrom, msgdate, type)" + " VALUES ('"

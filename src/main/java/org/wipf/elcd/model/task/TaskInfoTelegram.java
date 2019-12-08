@@ -20,12 +20,13 @@ public class TaskInfoTelegram extends TimerTask {
 	public void run() {
 		try {
 			Telegram t = new Telegram();
-			t.setAntwort(MTime.date() + "\n" + MTelegram.contMsg() + "\n" + MTelegram.contSend());
+			t.setAntwort(MTime.dateTime() + "\n" + MTelegram.contMsg() + "\n" + MTelegram.contSend());
 			t.setChatID(-385659721);
-			// MTelegram.saveTelegramToDB(t);
+
+			MTelegram.saveTelegramToDB(t);
 			MTelegram.sendToTelegram(t);
 		} catch (Exception e) {
-			MLogger.warn("TaskTelegram " + e);
+			MLogger.warn("TaskInfoTelegram " + e);
 		}
 	}
 }
