@@ -112,7 +112,8 @@ public class MTelegram {
 				for (JsonNode nn : n) {
 					Telegram t = new Telegram();
 					try {
-						MainApp.TelegramOffsetID = nn.get("update_id").asInt() + 1; // Nachricht gelesen -> löschen
+						MainApp.TelegramOffsetID = nn.get("update_id").asInt() + 1; // Nachricht gelesen -> löschen am
+																					// Telegram server
 						JsonNode msg = nn.get("message");
 						t.setMid(msg.get("message_id").asInt());
 						t.setMessage(msg.get("text").asText());
@@ -127,13 +128,21 @@ public class MTelegram {
 				}
 			}
 			// ids zu db
+			if (li.size() > 5) {
+				MainApp.TelegramOffsetID = MainApp.TelegramOffsetID - li.size() + 5;
+			}
+
+			Integer nMax = 0;
 			for (Telegram t : li) {
-				try {
-					t.setAntwort(bearbeiteMsg(new Telegram(t)));
-					saveTelegramToDB(t);
-					sendToTelegram(t);
-				} catch (Exception e) {
-					MLogger.warn("bearbeiteMsg " + e);
+				nMax++;
+				if (nMax <= 5) {
+					try {
+						t.setAntwort(bearbeiteMsg(new Telegram(t)));
+						saveTelegramToDB(t);
+						sendToTelegram(t);
+					} catch (Exception e) {
+						MLogger.warn("bearbeiteMsg " + e);
+					}
 				}
 			}
 
