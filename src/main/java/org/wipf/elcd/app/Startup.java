@@ -1,6 +1,7 @@
 package org.wipf.elcd.app;
 
 import java.sql.Statement;
+import java.time.LocalDateTime;
 import java.util.Timer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -62,10 +63,15 @@ public class Startup {
 		TaskTelegram mTask = new TaskTelegram();
 		TaskInfoTelegram mInfoTask = new TaskInfoTelegram();
 
+		LocalDateTime localDateTime = LocalDateTime.now();
+
+		Integer nSekundenBisMitternacht = (86400
+				- (localDateTime.getHour() * 60 * 60 + localDateTime.getMinute() * 60));
+
 		// This task is scheduled to run every 20 seconds
 		t.scheduleAtFixedRate(mTask, 0, 20000);
 		// This task is scheduled to run every 1 day
-		t.scheduleAtFixedRate(mInfoTask, 0, 86400000);
+		t.scheduleAtFixedRate(mInfoTask, nSekundenBisMitternacht * 1000, 86400000);
 	}
 
 	/**
