@@ -145,6 +145,7 @@ public class MTelegram {
 					}
 				}
 			}
+			MainApp.FailCountTelegram = 0;
 
 		} catch (Exception e) {
 			MLogger.warn("readUpdateFromTelegram " + e);

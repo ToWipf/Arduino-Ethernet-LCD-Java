@@ -58,6 +58,7 @@ public class Startup {
 	 * 
 	 */
 	public static void startTelegramTask() {
+		MainApp.FailCountTelegram = 0;
 		MLogger.info("Start Telegram Task");
 		Timer t = new Timer();
 		TaskTelegram mTask = new TaskTelegram();
