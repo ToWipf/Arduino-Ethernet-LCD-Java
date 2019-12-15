@@ -67,7 +67,7 @@ public class Startup {
 		LocalDateTime localDateTime = LocalDateTime.now();
 
 		Integer nSekundenBisMitternacht = (86400
-				- (localDateTime.getHour() * 60 * 60 + localDateTime.getMinute() * 60));
+				- (localDateTime.getHour() * 60 * 60 + localDateTime.getMinute() * 60 + localDateTime.getSecond()));
 
 		// This task is scheduled to run every 20 seconds
 		t.scheduleAtFixedRate(mTask, 0, 20000);
