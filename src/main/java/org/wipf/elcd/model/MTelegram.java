@@ -203,12 +203,12 @@ public class MTelegram {
 		case "cr":
 		case "en":
 		case "encrypt":
-			return MBlowfish.encrypt(t.getMessageRaw(1));
+			return MBlowfish.encrypt(t.getMessageDataOnly());
 		case "d":
 		case "de":
 		case "dc":
 		case "decrypt":
-			return MBlowfish.decrypt(t.getMessageRaw(1));
+			return MBlowfish.decrypt(t.getMessageDataOnly());
 		case "t":
 		case "ttt":
 		case "tictactoe":
