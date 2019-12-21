@@ -112,7 +112,8 @@ public class MTelegram {
 				for (JsonNode nn : n) {
 					Telegram t = new Telegram();
 					try {
-						MainApp.TelegramOffsetID = nn.get("update_id").asInt() + 1; // Nachricht gelesen -> löschen
+						MainApp.TelegramOffsetID = nn.get("update_id").asInt() + 1; // Nachricht gelesen -> löschen am
+																					// Telegram server
 						JsonNode msg = nn.get("message");
 						t.setMid(msg.get("message_id").asInt());
 						t.setMessage(msg.get("text").asText());
@@ -127,18 +128,55 @@ public class MTelegram {
 				}
 			}
 			// ids zu db
+			if (li.size() > 5) {
+				MainApp.TelegramOffsetID = MainApp.TelegramOffsetID - li.size() + 5;
+			}
+
+			Integer nMax = 0;
 			for (Telegram t : li) {
-				try {
-					t.setAntwort(bearbeiteMsg(new Telegram(t)));
-					saveTelegramToDB(t);
-					sendToTelegram(t);
-				} catch (Exception e) {
-					MLogger.warn("bearbeiteMsg " + e);
+				nMax++;
+				if (nMax <= 5) {
+					try {
+						t.setAntwort(bearbeiteMsg(new Telegram(t)));
+						saveTelegramToDB(t);
+						sendToTelegram(t);
+					} catch (Exception e) {
+						MLogger.warn("bearbeiteMsg " + e);
+					}
 				}
 			}
+			MainApp.FailCountTelegram = 0;
 
 		} catch (Exception e) {
 			MLogger.warn("readUpdateFromTelegram " + e);
+		}
+	}
+
+	/**
+	 * @return
+	 */
+	public static String contSend() {
+		try {
+			Statement stmt = MsqlLite.getDB();
+			ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM telegramlog;");
+			return rs.getString("COUNT(*)") + " Nachrichten gesendet";
+		} catch (Exception e) {
+			MLogger.warn("count Telegram " + e);
+			return null;
+		}
+	}
+
+	/**
+	 * @return
+	 */
+	public static String contMsg() {
+		try {
+			Statement stmt = MsqlLite.getDB();
+			ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM telemsg;");
+			return rs.getString("COUNT(*)") + " Antworten in der DB";
+		} catch (Exception e) {
+			MLogger.warn("count Telegram " + e);
+			return null;
 		}
 	}
 
@@ -196,6 +234,12 @@ public class MTelegram {
 		case "mumel":
 		case "ml":
 			return MMumel.playMumel(t);
+		case "countmsg":
+			return contMsg();
+		case "countsend":
+			return contSend();
+		case "telestats":
+			return MTime.dateTime() + "\n" + contMsg() + "\n" + contSend();
 		default:
 			return MTeleMsg.antworte(t);
 		}
@@ -204,7 +248,7 @@ public class MTelegram {
 	/**
 	 * @param t
 	 */
-	private static void saveTelegramToDB(Telegram t) {
+	public static void saveTelegramToDB(Telegram t) {
 		try {
 			Statement stmt = MsqlLite.getDB();
 			stmt.execute("INSERT INTO telegramlog (msgid, msg, antw, chatid, msgfrom, msgdate, type)" + " VALUES ('"
@@ -226,7 +270,7 @@ public class MTelegram {
 			Statement stmt = MsqlLite.getDB();
 			// ResultSet rs = stmt.executeQuery("SELECT * FROM telegrambot WHERE msgid = '"
 			// + nID + "';");
-			ResultSet rs = stmt.executeQuery("SELECT * FROM telegramlog ORDER BY msgdate ASC"); // DESC
+			ResultSet rs = stmt.executeQuery("SELECT * FROM telegramlog WHERE msgid IS NOT '0' ORDER BY msgdate ASC"); // DESC
 
 			while (rs.next()) {
 				n++;

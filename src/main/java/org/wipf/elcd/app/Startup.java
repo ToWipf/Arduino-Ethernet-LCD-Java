@@ -1,6 +1,7 @@
 package org.wipf.elcd.app;
 
 import java.sql.Statement;
+import java.time.LocalDateTime;
 import java.util.Timer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,6 +15,7 @@ import org.wipf.elcd.model.MTeleMsg;
 import org.wipf.elcd.model.MTelegram;
 import org.wipf.elcd.model.MTicTacToe;
 import org.wipf.elcd.model.MsqlLite;
+import org.wipf.elcd.model.task.TaskInfoTelegram;
 import org.wipf.elcd.model.task.TaskTelegram;
 import org.wipf.elcd.rest.Rest;
 
@@ -56,12 +58,21 @@ public class Startup {
 	 * 
 	 */
 	public static void startTelegramTask() {
+		MainApp.FailCountTelegram = 0;
 		MLogger.info("Start Telegram Task");
 		Timer t = new Timer();
 		TaskTelegram mTask = new TaskTelegram();
-		// This task is scheduled to run every 20 seconds
+		TaskInfoTelegram mInfoTask = new TaskInfoTelegram();
 
+		LocalDateTime localDateTime = LocalDateTime.now();
+
+		Integer nSekundenBisMitternacht = (86400
+				- (localDateTime.getHour() * 60 * 60 + localDateTime.getMinute() * 60 + localDateTime.getSecond()));
+
+		// This task is scheduled to run every 20 seconds
 		t.scheduleAtFixedRate(mTask, 0, 20000);
+		// This task is scheduled to run every 1 day
+		t.scheduleAtFixedRate(mInfoTask, nSekundenBisMitternacht * 1000, 86400000);
 	}
 
 	/**

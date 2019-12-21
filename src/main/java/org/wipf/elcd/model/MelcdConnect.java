@@ -56,11 +56,11 @@ public class MelcdConnect {
 			}
 			// return (response.getBody().equals("{}"));
 			// TODO: setze taster
-			MainApp.FailCount = 0;
+			MainApp.FailCountElcd = 0;
 
 		} catch (UnirestException e) {
 			System.out.println("Sendefehler");
-			MainApp.FailCount++;
+			MainApp.FailCountElcd++;
 		}
 	}
 

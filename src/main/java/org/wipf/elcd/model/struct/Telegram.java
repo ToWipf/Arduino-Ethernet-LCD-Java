@@ -93,8 +93,19 @@ public class Telegram {
 	 */
 	public void setAntwort(String sAntwort) {
 		this.sAntwort = sAntwort.replaceAll("\n", "%0A").replaceAll(" ", "%20").replaceAll("\t", "%20")
-				.replaceAll("\\|", "%7C").replaceAll("'", "%27");
+				.replaceAll("\\|", "%7C").replaceAll("'", "%27").replaceAll("<", "_").replaceAll(">", "_")
+				.replaceAll("'", "_").replaceAll("\"", "_");
 
+	}
+
+	/**
+	 * @return
+	 */
+	public String getAntwort() {
+		if (sAntwort != null) {
+			return sAntwort;
+		}
+		return null;
 	}
 
 //	/**
@@ -127,10 +138,6 @@ public class Telegram {
 
 	public void setChatID(Integer nChatID) {
 		this.nChatID = nChatID;
-	}
-
-	public String getAntwort() {
-		return sAntwort;
 	}
 
 	public String getMessage() {
