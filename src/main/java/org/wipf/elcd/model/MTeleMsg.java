@@ -7,6 +7,10 @@ import java.util.Map;
 
 import org.wipf.elcd.model.struct.Telegram;
 
+/**
+ * @author wipf
+ *
+ */
 public class MTeleMsg {
 
 	/**
