@@ -59,43 +59,97 @@ public class MTeleMsg {
 	 * @return
 	 */
 	public static String antworte(Telegram t) {
-
+		// Admin Befehle
 		if (isAdminUser(t)) {
-			// Admin Befehle
-
+			switch (t.getMessageWord(0)) {
 			// Anbindung an msg datenbank
-			if (t.getMessageWord(0).equals("addamsgtodb")) {
+			case "addamsgtodb":
 				return addmsg(t);
-			}
-			if (t.getMessageWord(0).equals("getallmsg")) {
+			case "getallmsg":
 				return getallmsg(t);
-			}
-
 			// Anbindung an motd datenbank
-			if (t.getMessageWord(0).equals("addamotd")) {
+			case "addamotd":
 				return addmotd(t);
-			}
-			if (t.getMessageWord(0).equals("getallmotd")) {
+			case "getallmotd":
 				return getallmotd(t);
-			}
-
 			// Auto Msg Tests
-			if (t.getMessageWord(0).equals("sendmotd")) {
+			case "sendmotd":
 				sendDaylyMotd();
 				return "OK";
-			}
-			if (t.getMessageWord(0).equals("sendinfo")) {
+			case "sendinfo":
 				sendDaylyInfo();
 				return "OK";
+			default:
+				break;
 			}
 		}
-		t = getmsg(t, 0);
 
-		// optionen beachten
-		if (t.getAntwort() != null) {
-			return t.getAntwort();
-		} else {
-			return "Antwort nicht vorhanden";
+		// Alle festen Antworten
+		switch (t.getMessageWord(0)) {
+		case "start":
+			return "Wipfbot ist bereit\nInfos per 'info'";
+		case "wipfbot":
+		case "help":
+		case "hlp":
+		case "ver":
+		case "version":
+		case "hilfe":
+		case "info":
+		case "about":
+			return "Wipfbot\nVersion " + MainApp.VERSION + "\nCreated by Tobias Fritsch\nwipf2@web.de";
+		case "rnd":
+		case "zufall":
+			return MWipf.zufall(t.getMessageWord(1), t.getMessageWord(2));
+		case "c":
+		case "cr":
+		case "en":
+		case "encrypt":
+			return MBlowfish.encrypt(t.getMessageFullDataOnly());
+		case "d":
+		case "de":
+		case "dc":
+		case "decrypt":
+			return MBlowfish.decrypt(t.getMessageFullDataOnly());
+		case "t":
+		case "ttt":
+		case "tictactoe":
+		case "play":
+		case "game":
+			return MTicTacToe.input(t);
+		case "time":
+		case "date":
+		case "datum":
+		case "uhr":
+		case "zeit":
+		case "clock":
+		case "z":
+			return MTime.dateTime();
+		case "witz":
+		case "fun":
+		case "w":
+		case "joke":
+		case "witze":
+			return MWitz.getWitz();
+		case "m":
+		case "mummel":
+		case "mumel":
+		case "ml":
+			return MMumel.playMumel(t);
+		case "countmsg":
+			return MTeleMsg.contMsg();
+		case "countsend":
+			return MTelegram.contSend();
+		case "telestats":
+			return MTime.dateTime() + "\n" + MTeleMsg.contMsg() + "\n" + MTelegram.contSend();
+		default:
+			// Alle db aktionen
+			t = getmsg(t, 0);
+			// ob keine Antwort in db gefunden
+			if (t.getAntwort() != null) {
+				return t.getAntwort();
+			} else {
+				return "Antwort nicht vorhanden";
+			}
 		}
 
 	}
@@ -254,8 +308,21 @@ public class MTeleMsg {
 	 * @return
 	 */
 	private static String getallmsg(Telegram t) {
-		// TODO Auto-generated method stub
-		return "TODO";
+		try {
+			StringBuilder sb = new StringBuilder();
+
+			Statement stmt = MsqlLite.getDB();
+			ResultSet rs = stmt.executeQuery("select * from telemsg;");
+			while (rs.next()) {
+				sb.append(rs.getString("request") + "\n");
+			}
+			rs.close();
+			return sb.toString();
+
+		} catch (Exception e) {
+			MLogger.warn("get all telemotd" + e);
+		}
+		return "Fehler";
 	}
 
 }

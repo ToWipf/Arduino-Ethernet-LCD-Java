@@ -137,7 +137,7 @@ public class MTelegram {
 				nMax++;
 				if (nMax <= 5) {
 					try {
-						t.setAntwort(bearbeiteMsg(new Telegram(t)));
+						t.setAntwort(MTeleMsg.antworte(t));
 						saveTelegramToDB(t);
 						sendToTelegram(t);
 					} catch (Exception e) {
@@ -163,72 +163,6 @@ public class MTelegram {
 		} catch (Exception e) {
 			MLogger.warn("count Telegram " + e);
 			return null;
-		}
-	}
-
-	/**
-	 * @param t
-	 */
-	private static String bearbeiteMsg(Telegram t) {
-		switch (t.getMessageWord(0)) {
-		case "start":
-			return "Wipfbot ist bereit\nInfos per 'info'";
-		case "wipfbot":
-		case "help":
-		case "hlp":
-		case "ver":
-		case "version":
-		case "hilfe":
-		case "info":
-		case "about":
-			return "Wipfbot\nVersion " + MainApp.VERSION + "\nCreated by Tobias Fritsch\nwipf2@web.de";
-		case "rnd":
-		case "zufall":
-			return MWipf.zufall(t.getMessageWord(1), t.getMessageWord(2));
-		case "c":
-		case "cr":
-		case "en":
-		case "encrypt":
-			return MBlowfish.encrypt(t.getMessageFullDataOnly());
-		case "d":
-		case "de":
-		case "dc":
-		case "decrypt":
-			return MBlowfish.decrypt(t.getMessageFullDataOnly());
-		case "t":
-		case "ttt":
-		case "tictactoe":
-		case "play":
-		case "game":
-			return MTicTacToe.input(t);
-		case "time":
-		case "date":
-		case "datum":
-		case "uhr":
-		case "zeit":
-		case "clock":
-		case "z":
-			return MTime.dateTime();
-		case "witz":
-		case "fun":
-		case "w":
-		case "joke":
-		case "witze":
-			return MWitz.getWitz();
-		case "m":
-		case "mummel":
-		case "mumel":
-		case "ml":
-			return MMumel.playMumel(t);
-		case "countmsg":
-			return MTeleMsg.contMsg();
-		case "countsend":
-			return contSend();
-		case "telestats":
-			return MTime.dateTime() + "\n" + MTeleMsg.contMsg() + "\n" + contSend();
-		default:
-			// Alle db aktionen
-			return MTeleMsg.antworte(t);
 		}
 	}
 
