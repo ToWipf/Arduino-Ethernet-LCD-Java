@@ -151,7 +151,6 @@ public class MTeleMsg {
 				return "Antwort nicht vorhanden";
 			}
 		}
-
 	}
 
 	/**

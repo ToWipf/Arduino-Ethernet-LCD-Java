@@ -16,17 +16,13 @@ public class MainApp {
 	/*
 	 * alle confs in db
 	 * 
-	 * tags des ...
-	 * 
-	 * woche des ...
-	 * 
 	 * 4 gewinnt
 	 * 
-	 * auf java 11 oder höher
+	 * getmy ID
 	 * 
-	 * liste alle msgs
+	 * add to motd for id
 	 * 
-	 * und motds
+	 * set a new admin ?
 	 */
 
 	public static final URI BASE_URI = URI.create("http://0.0.0.0:8080/");
