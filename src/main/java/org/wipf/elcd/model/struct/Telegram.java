@@ -77,6 +77,13 @@ public class Telegram {
 	}
 
 	/**
+	 * @return mgs ohne das erste wort
+	 */
+	public String getMessageFullDataOnly() {
+		return sMessage.substring(sMessage.indexOf(' ') + 1);
+	}
+
+	/**
 	 * @param nStelle
 	 * @return
 	 */

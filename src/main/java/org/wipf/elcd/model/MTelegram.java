@@ -167,20 +167,6 @@ public class MTelegram {
 	}
 
 	/**
-	 * @return
-	 */
-	public static String contMsg() {
-		try {
-			Statement stmt = MsqlLite.getDB();
-			ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM telemsg;");
-			return rs.getString("COUNT(*)") + " Antworten in der DB";
-		} catch (Exception e) {
-			MLogger.warn("count Telegram " + e);
-			return null;
-		}
-	}
-
-	/**
 	 * @param t
 	 */
 	private static String bearbeiteMsg(Telegram t) {
@@ -203,12 +189,12 @@ public class MTelegram {
 		case "cr":
 		case "en":
 		case "encrypt":
-			return MBlowfish.encrypt(t.getMessageDataOnly());
+			return MBlowfish.encrypt(t.getMessageFullDataOnly());
 		case "d":
 		case "de":
 		case "dc":
 		case "decrypt":
-			return MBlowfish.decrypt(t.getMessageDataOnly());
+			return MBlowfish.decrypt(t.getMessageFullDataOnly());
 		case "t":
 		case "ttt":
 		case "tictactoe":
@@ -235,12 +221,13 @@ public class MTelegram {
 		case "ml":
 			return MMumel.playMumel(t);
 		case "countmsg":
-			return contMsg();
+			return MTeleMsg.contMsg();
 		case "countsend":
 			return contSend();
 		case "telestats":
-			return MTime.dateTime() + "\n" + contMsg() + "\n" + contSend();
+			return MTime.dateTime() + "\n" + MTeleMsg.contMsg() + "\n" + contSend();
 		default:
+			// Alle db aktionen
 			return MTeleMsg.antworte(t);
 		}
 	}
