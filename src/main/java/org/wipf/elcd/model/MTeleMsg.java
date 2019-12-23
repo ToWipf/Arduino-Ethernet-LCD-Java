@@ -79,6 +79,8 @@ public class MTeleMsg {
 			case "sendinfo":
 				sendDaylyInfo();
 				return "OK";
+			case "getmotd":
+				return MTeleMsg.getMotd();
 			default:
 				break;
 			}
@@ -238,7 +240,8 @@ public class MTeleMsg {
 				s = (rs.getString("text"));
 			}
 			rs.close();
-			return "Nachricht des Tages\n " + MTime.date() + "\n\n" + s;
+			// return "Nachricht des Tages\n " + MTime.date() + "\n\n" + s;
+			return s;
 
 		} catch (Exception e) {
 			MLogger.warn("get telemotd " + e);
