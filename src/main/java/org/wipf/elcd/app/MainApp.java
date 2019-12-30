@@ -23,6 +23,12 @@ public class MainApp {
 	 * add to motd for id
 	 * 
 	 * set a new admin ?
+	 * 
+	 * rm form db
+	 * 
+	 * sende in Stunden nachricht
+	 * 
+	 * rechner tage in stunden
 	 */
 
 	public static final URI BASE_URI = URI.create("http://0.0.0.0:8080/");
