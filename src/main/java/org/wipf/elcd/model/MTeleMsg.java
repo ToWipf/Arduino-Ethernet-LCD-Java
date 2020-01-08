@@ -81,6 +81,10 @@ public class MTeleMsg {
 				return "OK";
 			case "getmotd":
 				return MTeleMsg.getMotd();
+			case "delmotd":
+				return delmotd(t);
+			case "delmsg":
+				return delmsg(t);
 			default:
 				break;
 			}
@@ -156,6 +160,36 @@ public class MTeleMsg {
 	}
 
 	/**
+	 * @param t
+	 * @return
+	 */
+	private static String delmsg(Telegram t) {
+		try {
+			Statement stmt = MsqlLite.getDB();
+			stmt.execute("DELETE FROM telemsg WHERE id = " + t.getMessageInt(1));
+			return "DEL";
+		} catch (Exception e) {
+			MLogger.warn("delete telemsg" + e);
+			return "Fehler";
+		}
+	}
+
+	/**
+	 * @param t
+	 * @return
+	 */
+	private static String delmotd(Telegram t) {
+		try {
+			Statement stmt = MsqlLite.getDB();
+			stmt.execute("DELETE FROM telemotd WHERE id = " + t.getMessageInt(1));
+			return "DEL";
+		} catch (Exception e) {
+			MLogger.warn("delete telemotd " + e);
+			return "Fehler";
+		}
+	}
+
+	/**
 	 * TODO ids zu db
 	 * 
 	 * @param t
@@ -195,7 +229,6 @@ public class MTeleMsg {
 			MLogger.warn("add telemotd " + e);
 			return "Fehler";
 		}
-
 	}
 
 	/**
@@ -294,6 +327,7 @@ public class MTeleMsg {
 			Statement stmt = MsqlLite.getDB();
 			ResultSet rs = stmt.executeQuery("select * from telemotd;");
 			while (rs.next()) {
+				sb.append(rs.getString("id") + "\t");
 				sb.append(rs.getString("text") + "\n");
 			}
 			rs.close();
@@ -316,6 +350,7 @@ public class MTeleMsg {
 			Statement stmt = MsqlLite.getDB();
 			ResultSet rs = stmt.executeQuery("select * from telemsg;");
 			while (rs.next()) {
+				sb.append(rs.getString("id") + "\t");
 				sb.append(rs.getString("request") + "\n");
 			}
 			rs.close();
