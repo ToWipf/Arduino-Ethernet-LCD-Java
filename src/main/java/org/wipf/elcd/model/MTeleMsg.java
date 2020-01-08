@@ -62,16 +62,39 @@ public class MTeleMsg {
 		// Admin Befehle
 		if (isAdminUser(t)) {
 			switch (t.getMessageWord(0)) {
+			case "admin":
+				// @formatter:off
+				return 
+					"addamsgtodb" + "\n" + 
+					"getallmsg" + "\n" +
+					"getallmotd" + "\n" +
+					"addamotd" + "\n" +
+					"sendmotd" + "\n" + 
+					"sendinfo" + "\n" +
+					"getmotd" + "\n" + 
+					"delmotd" +  "\n" +
+					"delmsg"+  "\n" +
+					"doping";
+				// @formatter:on
+
 			// Anbindung an msg datenbank
 			case "addamsgtodb":
 				return addmsg(t);
 			case "getallmsg":
 				return getallmsg(t);
+			case "delmsg":
+				return delmsg(t);
+
 			// Anbindung an motd datenbank
 			case "addamotd":
 				return addmotd(t);
 			case "getallmotd":
 				return getallmotd(t);
+			case "delmotd":
+				return delmotd(t);
+			case "getmotd":
+				return MTeleMsg.getMotd();
+
 			// Auto Msg Tests
 			case "sendmotd":
 				sendDaylyMotd();
@@ -79,12 +102,9 @@ public class MTeleMsg {
 			case "sendinfo":
 				sendDaylyInfo();
 				return "OK";
-			case "getmotd":
-				return MTeleMsg.getMotd();
-			case "delmotd":
-				return delmotd(t);
-			case "delmsg":
-				return delmsg(t);
+
+			case "doping":
+				return MPing.ping(t.getMessageRaw(1)).toString();
 			default:
 				break;
 			}
@@ -134,7 +154,6 @@ public class MTeleMsg {
 		case "fun":
 		case "w":
 		case "joke":
-		case "witze":
 			return MWitz.getWitz();
 		case "m":
 		case "mummel":
@@ -234,7 +253,7 @@ public class MTeleMsg {
 	/**
 	 * @return
 	 */
-	public static String contMsg() {
+	private static String contMsg() {
 		try {
 			Statement stmt = MsqlLite.getDB();
 			ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM telemsg;");
@@ -248,7 +267,7 @@ public class MTeleMsg {
 	/**
 	 * @return
 	 */
-	public static String contMotd() {
+	private static String contMotd() {
 		try {
 			Statement stmt = MsqlLite.getDB();
 			ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM telemotd;");
@@ -262,7 +281,7 @@ public class MTeleMsg {
 	/**
 	 * @return
 	 */
-	public static String getMotd() {
+	private static String getMotd() {
 		try {
 			String s = null;
 
