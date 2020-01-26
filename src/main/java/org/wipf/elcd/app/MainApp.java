@@ -31,6 +31,10 @@ public class MainApp {
 	 * rechner tage in stunden
 	 * 
 	 * zeitgeplante nachrichten z.B send 10m Hallo Test
+	 * 
+	 * motd für bestimmte Tage
+	 * 
+	 * todo tabelle
 	 */
 
 	public static final URI BASE_URI = URI.create("http://0.0.0.0:8080/");
