@@ -35,6 +35,10 @@ public class MainApp {
 	 * motd für bestimmte Tage
 	 * 
 	 * todo tabelle
+	 *
+	 * millisec in dayly msg
+	 *
+	 * rnd starten mit 1 nicht mit 0
 	 */
 
 	public static final URI BASE_URI = URI.create("http://0.0.0.0:8080/");
