@@ -219,4 +219,14 @@ public class MTelegram {
 		}
 
 	}
+
+	/**
+	 * TODO ids zu db
+	 * 
+	 * @param t
+	 * @return
+	 */
+	public static Boolean isAdminUser(Telegram t) {
+		return (t.getChatID() == 798200105 || t.getChatID() == 522467648);
+	}
 }

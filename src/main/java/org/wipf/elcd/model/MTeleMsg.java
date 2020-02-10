@@ -34,7 +34,7 @@ public class MTeleMsg {
 	 */
 	public static void sendDaylyInfo() {
 		Telegram t = new Telegram();
-		t.setAntwort(MTime.dateTime() + "\n" + MTeleMsg.contMsg() + "\n" + MTeleMsg.contMotd() + "\n"
+		t.setAntwort(MTime.dateTimeMs() + "\n" + MTeleMsg.contMsg() + "\n" + MTeleMsg.contMotd() + "\n"
 				+ MTelegram.contSend() + "\n\nVersion:" + MainApp.VERSION);
 		t.setChatID(798200105);
 
@@ -60,7 +60,7 @@ public class MTeleMsg {
 	 */
 	public static String antworte(Telegram t) {
 		// Admin Befehle
-		if (isAdminUser(t)) {
+		if (MTelegram.isAdminUser(t)) {
 			switch (t.getMessageWord(0)) {
 			case "admin":
 				// @formatter:off
@@ -81,7 +81,7 @@ public class MTeleMsg {
 			case "addamsgtodb":
 				return addmsg(t);
 			case "getallmsg":
-				return getallmsg(t);
+				return getallmsg();
 			case "delmsg":
 				return delmsg(t);
 
@@ -89,7 +89,7 @@ public class MTeleMsg {
 			case "addamotd":
 				return addmotd(t);
 			case "getallmotd":
-				return getallmotd(t);
+				return getallmotd();
 			case "delmotd":
 				return delmotd(t);
 			case "getmotd":
@@ -109,6 +109,13 @@ public class MTeleMsg {
 				break;
 			}
 		}
+
+		// *apps
+		String sEssen = MEssen.menueEssen(t);
+		if (sEssen != null) {
+			return sEssen;
+		}
+		// TODO ttt auch so hinzufügen
 
 		// Alle festen Antworten
 		switch (t.getMessageWord(0)) {
@@ -206,16 +213,6 @@ public class MTeleMsg {
 			MLogger.warn("delete telemotd " + e);
 			return "Fehler";
 		}
-	}
-
-	/**
-	 * TODO ids zu db
-	 * 
-	 * @param t
-	 * @return
-	 */
-	private static Boolean isAdminUser(Telegram t) {
-		return (t.getChatID() == 798200105 || t.getChatID() == 522467648);
 	}
 
 	/**
@@ -339,7 +336,7 @@ public class MTeleMsg {
 	 * @param t
 	 * @return
 	 */
-	private static String getallmotd(Telegram t) {
+	private static String getallmotd() {
 		try {
 			StringBuilder sb = new StringBuilder();
 
@@ -362,7 +359,7 @@ public class MTeleMsg {
 	 * @param t
 	 * @return
 	 */
-	private static String getallmsg(Telegram t) {
+	private static String getallmsg() {
 		try {
 			StringBuilder sb = new StringBuilder();
 
