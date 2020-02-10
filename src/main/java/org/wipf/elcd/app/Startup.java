@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
+import org.wipf.elcd.model.MEssen;
 import org.wipf.elcd.model.MLogger;
 import org.wipf.elcd.model.MMumel;
 import org.wipf.elcd.model.MTeleMsg;
@@ -83,6 +84,7 @@ public class Startup {
 		MTelegram.initDB();
 		MTeleMsg.initDB();
 		MMumel.initDB();
+		MEssen.initDB();
 		try {
 			Statement stmt = MsqlLite.getDB();
 			stmt.executeUpdate("CREATE TABLE IF NOT EXISTS settings (id, val);");

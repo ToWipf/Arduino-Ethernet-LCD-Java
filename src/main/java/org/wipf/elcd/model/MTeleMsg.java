@@ -74,7 +74,8 @@ public class MTeleMsg {
 					"getmotd" + "\n" + 
 					"delmotd" +  "\n" +
 					"delmsg"+  "\n" +
-					"doping";
+					"doping" + "\n" +
+					"essen (Hilfe für essen)";
 				// @formatter:on
 
 			// Anbindung an msg datenbank

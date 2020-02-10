@@ -10,6 +10,7 @@ import org.wipf.elcd.model.struct.Telegram;
  *
  */
 public class MEssen {
+
 	/**
 	 * 
 	 */
@@ -44,7 +45,7 @@ public class MEssen {
 			Statement stmt = MsqlLite.getDB();
 			//@formatter:off
 			stmt.execute("INSERT OR REPLACE INTO essen (name, editby, date) VALUES " +
-					"('" + t.getMessage() +
+					"('" + t.getMessageFullDataOnly() +
 					"','" + t.getFrom() +
 					"','"+ t.getDate() +
 					"')");
@@ -66,7 +67,7 @@ public class MEssen {
 			stmt.execute("DELETE FROM essen WHERE id = " + t.getMessageInt(1));
 			return "DEL";
 		} catch (Exception e) {
-			MLogger.warn("delete telemsg" + e);
+			MLogger.warn("delete essen" + e);
 			return "Fehler";
 		}
 	}
@@ -89,7 +90,7 @@ public class MEssen {
 			return sb.toString();
 
 		} catch (Exception e) {
-			MLogger.warn("get all telemotd" + e);
+			MLogger.warn("get all essen" + e);
 		}
 		return "Fehler";
 	}
@@ -112,7 +113,7 @@ public class MEssen {
 			return s;
 
 		} catch (Exception e) {
-			MLogger.warn("get telemotd " + e);
+			MLogger.warn("get essen rnd " + e);
 			return "Fehler";
 		}
 	}
@@ -142,8 +143,8 @@ public class MEssen {
 		case "getessen":
 			return getEssenRnd();
 		case "essen":
-			return "addessen\n essen" + "delessen\n essen" + "listessen\n essen" + "getessen\n essen"
-					+ "sendessen\n essen";
+			return "addessen: essen hinzufügen\n" + "delessen: id löschen\n" + "listessen: alles Auflisten\n"
+					+ "getessen: zufallsessen\n" + "sendessen: zufallsessen senden\n";
 		default:
 			return null;
 		}
