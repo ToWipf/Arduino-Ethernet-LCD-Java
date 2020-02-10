@@ -1,24 +1,28 @@
-
 <ng-sidebar-container style="height: 100vh;">
-    
-	<!-- A sidebar -->
-	<ng-sidebar [(opened)]="_opened" position="right">
-        <ul>
-            <li>Menu Item</li>
-			<li>Menu Item</li>
-			<li>Menu Item</li>
-		</ul>
-	</ng-sidebar>
-    
-	<!-- Page content -->
-	<div ng-sidebar-content>
-        <button (click)="_toggleSidebar()">Toggle sidebar</button>
-        <app-wipf></app-wipf>
-        <app-footer></app-footer>
+  <ng-sidebar [(opened)]="opened" position="left">
+    <div class="sidebar">
+      <ul>
+        <li (click)="selectSite('wipf')">Wipf</li>
+        <li (click)="selectSite('elcd')">Elcd</li>
+        <li (click)="selectSite('telegram')">Telegram</li>
+        <button (click)="toggleSidebar()">Toggle sidebar</button>
+      </ul>
+    </div>
+  </ng-sidebar>
 
-		<p>
-			Start editing to see some magic happen :)
-		</p>
-	</div>
+  <!-- Haupt Page content -->
+  <div ng-sidebar-content>
+    <ng-container *ngIf="selectedSite==='elcd'">
+      <app-wipf></app-wipf>
+	</ng-container>
+	<ng-container *ngIf="selectedSite==='wipf'">
+		TODO:
+	  </ng-container>
+    <ng-container *ngIf="selectedSite==='telegram'">
+      <app-telegram></app-telegram>
+    </ng-container>
 
+    <app-footer></app-footer>
+    <button (click)="toggleSidebar()">Toggle sidebar</button>
+  </div>
 </ng-sidebar-container>

@@ -229,7 +229,7 @@ public class TicTacToe extends Game {
 				return true;
 			}
 		}
-		if (tttFeld[2][2] == check && check == tttFeld[1][1]) {
+		if (tttFeld[2][2] == check && check == tttFeld[0][0]) {
 			if (setkoordinate(1, 1, setChar)) {
 				return true;
 			}
@@ -267,8 +267,21 @@ public class TicTacToe extends Game {
 		if (logicDreiInEinerReihe('X', 'O')) {
 			return true;
 		}
+
+		// Zufall nur in der mitte wage
+		for (int n = 0; n < 35; n++) {
+			if (setkoordinate(1, zufall.nextInt(3), c)) {
+				return true;
+			}
+		}
+		// Zufall nur in der mitte hoch
+		for (int n = 0; n < 35; n++) {
+			if (setkoordinate(zufall.nextInt(3), 1, c)) {
+				return true;
+			}
+		}
 		// Zufall
-		for (int n = 0; n < 15; n++) {
+		for (int n = 0; n < 35; n++) {
 			if (setkoordinate(zufall.nextInt(3), zufall.nextInt(3), c)) {
 				return true;
 			}

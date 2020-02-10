@@ -29,14 +29,14 @@ public class M_Run {
 				Integer sendCounter = 0;
 				MLogger.info("Start send to Lcd");
 				MWipf.sleep(1000);
-				MainApp.FailCount = 0;
+				MainApp.FailCountElcd = 0;
 				MelcdConnect.clear();
 				displayLoopRare();
-				if (MainApp.FailCount > 0) {
+				if (MainApp.FailCountElcd > 0) {
 					MWipf.sleep(500);
 				}
 
-				while (MainApp.FailCount < 3) {
+				while (MainApp.FailCountElcd < 3) {
 					displayLoop();
 					if (sendCounter > 100) {
 						displayLoopRare();

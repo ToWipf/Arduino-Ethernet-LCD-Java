@@ -36,20 +36,20 @@ public class MTelegram {
 	/**
 	 * 
 	 */
-	public static void loadConfig() {
+	public static boolean loadConfig() {
 		// Auf 0 setzen -> definierter zustand
 		MainApp.TelegramOffsetID = 0;
 		// Load bot config
 		try {
 			Statement stmt = MsqlLite.getDB();
 			ResultSet rs = stmt.executeQuery("SELECT val FROM settings WHERE id = 'telegrambot';");
-
 			MainApp.BOTKEY = (rs.getString("val"));
-
 			rs.close();
+			return true;
 		} catch (Exception e) {
 			MLogger.warn("telegrambot nicht in db gefunden."
 					+ " Setzen mit 'curl -X POST localhost:8080/setbot/bot2343242:ABCDEF348590247354352343345'");
+			return false;
 		}
 	}
 
@@ -112,7 +112,8 @@ public class MTelegram {
 				for (JsonNode nn : n) {
 					Telegram t = new Telegram();
 					try {
-						MainApp.TelegramOffsetID = nn.get("update_id").asInt() + 1; // Nachricht gelesen -> löschen
+						MainApp.TelegramOffsetID = nn.get("update_id").asInt() + 1; // Nachricht gelesen -> löschen am
+																					// Telegram server
 						JsonNode msg = nn.get("message");
 						t.setMid(msg.get("message_id").asInt());
 						t.setMessage(msg.get("text").asText());
@@ -127,15 +128,24 @@ public class MTelegram {
 				}
 			}
 			// ids zu db
+			if (li.size() > 5) {
+				MainApp.TelegramOffsetID = MainApp.TelegramOffsetID - li.size() + 5;
+			}
+
+			Integer nMax = 0;
 			for (Telegram t : li) {
-				try {
-					t.setAntwort(bearbeiteMsg(new Telegram(t)));
-					saveTelegramToDB(t);
-					sendToTelegram(t);
-				} catch (Exception e) {
-					MLogger.warn("bearbeiteMsg " + e);
+				nMax++;
+				if (nMax <= 5) {
+					try {
+						t.setAntwort(MTeleMsg.antworte(t));
+						saveTelegramToDB(t);
+						sendToTelegram(t);
+					} catch (Exception e) {
+						MLogger.warn("bearbeiteMsg " + e);
+					}
 				}
 			}
+			MainApp.FailCountTelegram = 0;
 
 		} catch (Exception e) {
 			MLogger.warn("readUpdateFromTelegram " + e);
@@ -143,68 +153,23 @@ public class MTelegram {
 	}
 
 	/**
-	 * @param t
+	 * @return
 	 */
-	private static String bearbeiteMsg(Telegram t) {
-		switch (t.getMessageWord(0)) {
-		case "start":
-			return "Wipfbot ist bereit\nInfos per 'info'";
-		case "wipfbot":
-		case "help":
-		case "hlp":
-		case "ver":
-		case "version":
-		case "hilfe":
-		case "info":
-		case "about":
-			return "Wipfbot\nVersion " + MainApp.VERSION + "\nCreated by Tobias Fritsch\nwipf2@web.de";
-		case "rnd":
-		case "zufall":
-			return MWipf.zufall(t.getMessageWord(1), t.getMessageWord(2));
-		case "c":
-		case "cr":
-		case "en":
-		case "encrypt":
-			return MBlowfish.encrypt(t.getMessageRaw(1));
-		case "d":
-		case "de":
-		case "dc":
-		case "decrypt":
-			return MBlowfish.decrypt(t.getMessageRaw(1));
-		case "t":
-		case "ttt":
-		case "tictactoe":
-		case "play":
-		case "game":
-			return MTicTacToe.input(t);
-		case "time":
-		case "date":
-		case "datum":
-		case "uhr":
-		case "zeit":
-		case "clock":
-		case "z":
-			return MTime.dateTime();
-		case "witz":
-		case "fun":
-		case "w":
-		case "joke":
-		case "witze":
-			return MWitz.getWitz();
-		case "m":
-		case "mummel":
-		case "mumel":
-		case "ml":
-			return MMumel.playMumel(t);
-		default:
-			return MTeleMsg.antworte(t);
+	public static String contSend() {
+		try {
+			Statement stmt = MsqlLite.getDB();
+			ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM telegramlog;");
+			return rs.getString("COUNT(*)") + " Nachrichten gesendet";
+		} catch (Exception e) {
+			MLogger.warn("count Telegram " + e);
+			return null;
 		}
 	}
 
 	/**
 	 * @param t
 	 */
-	private static void saveTelegramToDB(Telegram t) {
+	public static void saveTelegramToDB(Telegram t) {
 		try {
 			Statement stmt = MsqlLite.getDB();
 			stmt.execute("INSERT INTO telegramlog (msgid, msg, antw, chatid, msgfrom, msgdate, type)" + " VALUES ('"
@@ -226,7 +191,7 @@ public class MTelegram {
 			Statement stmt = MsqlLite.getDB();
 			// ResultSet rs = stmt.executeQuery("SELECT * FROM telegrambot WHERE msgid = '"
 			// + nID + "';");
-			ResultSet rs = stmt.executeQuery("SELECT * FROM telegramlog ORDER BY msgdate ASC"); // DESC
+			ResultSet rs = stmt.executeQuery("SELECT * FROM telegramlog WHERE msgid IS NOT '0' ORDER BY msgdate ASC"); // DESC
 
 			while (rs.next()) {
 				n++;

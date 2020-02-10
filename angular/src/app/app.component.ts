@@ -7,9 +7,16 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Wipf';
-  public _opened: boolean = false;
+  public opened = false;
+  public selectedSite: string = null;
 
-  public _toggleSidebar() {
-    this._opened = !this._opened;
+  public toggleSidebar() {
+    this.opened = !this.opened;
+  }
+
+  public selectSite(s: string) {
+    console.log(s);
+    this.selectedSite = s;
+    this.opened = false;
   }
 }

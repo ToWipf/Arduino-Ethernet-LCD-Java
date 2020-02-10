@@ -2,6 +2,7 @@ package org.wipf.elcd.model;
 
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Random;
 
 import org.wipf.elcd.model.struct.Telegram;
 import org.wipf.elcd.model.struct.TicTacToe;
@@ -45,7 +46,6 @@ public class MTicTacToe {
 	 */
 	private static String tttPlay(Telegram t) {
 		TicTacToe ttt = loadTicTacToe(t.getChatID());
-		;
 		String sAction = t.getMessageWord(1);
 		if (sAction == null) {
 			return "Anleitung mit TicTacToe help";
@@ -81,7 +81,7 @@ public class MTicTacToe {
 			}
 			// set cpu
 			if (!ttt.cpuSetzen('O')) {
-				return "CPU konnte nicht MsqlLite.setzen";
+				return "CPU konnte nicht setzen";
 			} else {
 				saveTicTacToe(ttt); // save game
 			}
@@ -96,10 +96,15 @@ public class MTicTacToe {
 		case "neu":
 		case "ne":
 		case "n":
+			Random zufall = new Random();
 			ttt = new TicTacToe("FFFFFFFFF");
 			ttt.setByTelegram(t);
 			saveTicTacToe(ttt);
-			return "Setzen mit 'ttt se NR'\n\n" + ttt.tttToNiceString();
+			if (zufall.nextBoolean()) {
+				ttt.cpuSetzen('O');
+				saveTicTacToe(ttt);
+			}
+			return "Setzen mit 'ttt set NR'\n\n" + ttt.tttToNiceString();
 		case "show":
 		case "sh":
 			return ttt.tttToNiceString();
@@ -107,8 +112,25 @@ public class MTicTacToe {
 		case "ra":
 		case "r":
 			return ttt.tttToString();
+		case "cpu":
+			ttt.setByTelegram(t);
+			if (!ttt.cpuSetzen('O')) {
+				return "CPU konnte nicht setzen";
+			} else {
+				saveTicTacToe(ttt); // save game
+				return ttt.tttToNiceString();
+			}
+		case "setonly":
+			// setze feld ohne cpu
+			ttt.setByTelegram(t);
+			if (!ttt.setByNummer(t.getMessageInt(2), 'X')) {
+				return "Feld konnte nicht gesetzt werden";
+			} else {
+				saveTicTacToe(ttt); // save game
+				return ttt.tttToNiceString();
+			}
 		default:
-			return "Anleitung:\n\nttt neu: Neues Spiel\nttt setze NR: Setzen\nttt show: Zeige feld";
+			return "Anleitung:\n\nttt neu: Neues Spiel\nttt setze NR: Setzen\nttt show: Zeige Feld\nttt raw: Zeige Feld";
 		}
 	}
 

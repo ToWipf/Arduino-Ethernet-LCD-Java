@@ -47,6 +47,16 @@ public class MWipf {
 	}
 
 	/**
+	 * @param s
+	 * @return
+	 */
+	public static String escapeString(String s) {
+		return s.replaceAll("\n", "%0A").replaceAll(" ", "%20").replaceAll("\t", "%20").replaceAll("\\|", "%7C")
+				.replaceAll("'", "%27").replaceAll("<", "_").replaceAll(">", "_").replaceAll("'", "_")
+				.replaceAll("\"", "_");
+	}
+
+	/**
 	 * @param sWuerfelBis
 	 * @param sAnzahlWuerfel
 	 * @return

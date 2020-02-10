@@ -1,6 +1,7 @@
 package org.wipf.elcd.model.struct;
 
 import org.wipf.elcd.model.MLogger;
+import org.wipf.elcd.model.MWipf;
 
 /**
  * @author wipf
@@ -44,6 +45,7 @@ public class Telegram {
 	public String getMessageWord(int nStelle) {
 		String s = getMessageRaw(nStelle);
 		if (s != null) {
+			// Satzzeichen ignorieren
 			return s.toLowerCase().replace("/", "").replace(".", "").replace("?", "").replace("!", "");
 		}
 		return null;
@@ -77,6 +79,13 @@ public class Telegram {
 	}
 
 	/**
+	 * @return mgs ohne das erste wort
+	 */
+	public String getMessageFullDataOnly() {
+		return sMessage.substring(sMessage.indexOf(' ') + 1);
+	}
+
+	/**
 	 * @param nStelle
 	 * @return
 	 */
@@ -92,9 +101,18 @@ public class Telegram {
 	 * @param sAntwort
 	 */
 	public void setAntwort(String sAntwort) {
-		this.sAntwort = sAntwort.replaceAll("\n", "%0A").replaceAll(" ", "%20").replaceAll("\t", "%20")
-				.replaceAll("\\|", "%7C").replaceAll("'", "%27");
+		this.sAntwort = MWipf.escapeString(sAntwort);
 
+	}
+
+	/**
+	 * @return
+	 */
+	public String getAntwort() {
+		if (sAntwort != null) {
+			return sAntwort;
+		}
+		return null;
 	}
 
 //	/**
@@ -127,10 +145,6 @@ public class Telegram {
 
 	public void setChatID(Integer nChatID) {
 		this.nChatID = nChatID;
-	}
-
-	public String getAntwort() {
-		return sAntwort;
 	}
 
 	public String getMessage() {
