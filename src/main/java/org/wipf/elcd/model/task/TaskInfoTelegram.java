@@ -2,6 +2,7 @@ package org.wipf.elcd.model.task;
 
 import java.util.TimerTask;
 
+import org.wipf.elcd.model.MEssen;
 import org.wipf.elcd.model.MTeleMsg;
 
 /**
@@ -18,5 +19,6 @@ public class TaskInfoTelegram extends TimerTask {
 		// Senden
 		MTeleMsg.sendDaylyInfo();
 		MTeleMsg.sendDaylyMotd();
+		MEssen.sendDaylyEssen();
 	}
 }
