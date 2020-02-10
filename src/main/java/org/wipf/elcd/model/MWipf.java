@@ -87,7 +87,7 @@ public class MWipf {
 
 		List<Integer> li = new ArrayList<>();
 
-		for (int i = 0; i < nAnzahlWuerfel; i++) {
+		for (int i = 1; i < nAnzahlWuerfel; i++) {
 			nZahl = wuerfel.nextInt(nWuerfelBis + 1);
 			nSumme += nZahl;
 			li.add(nZahl);
@@ -97,7 +97,7 @@ public class MWipf {
 
 		// Cont jede Zahl
 		sb.append("\nWie oft wurde was gewürfelt:\n");
-		for (int i = 0; i <= nWuerfelBis; i++) {
+		for (int i = 1; i <= nWuerfelBis; i++) {
 			int nMerke = 0;
 			for (Integer n : li) {
 				if (n == i) {
