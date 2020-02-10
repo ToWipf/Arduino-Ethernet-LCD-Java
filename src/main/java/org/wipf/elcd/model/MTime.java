@@ -48,7 +48,7 @@ public class MTime {
 	 * @return
 	 */
 	public static String dateTimeMs() {
-		SimpleDateFormat date = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss:SSS");
+		SimpleDateFormat date = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss;SSS");
 		return date.format(new Date());
 
 	}

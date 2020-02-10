@@ -58,41 +58,42 @@ public class MTeleMsg {
 	 * @param t
 	 * @return
 	 */
-	public static String antworte(Telegram t) {
+	public static String menueMsg(Telegram t) {
 		// Admin Befehle
 		if (MTelegram.isAdminUser(t)) {
 			switch (t.getMessageWord(0)) {
 			case "admin":
 				// @formatter:off
 				return 
-					"addamsgtodb" + "\n" + 
-					"getallmsg" + "\n" +
-					"getallmotd" + "\n" +
-					"addamotd" + "\n" +
-					"sendmotd" + "\n" + 
-					"sendinfo" + "\n" +
-					"getmotd" + "\n" + 
-					"delmotd" +  "\n" +
-					"delmsg"+  "\n" +
-					"doping" + "\n" +
-					"essen (Hilfe für essen)";
+					"Admin Befehle:" + "\n\n" + 
+					"AddAMsgToDB" + "\n" + 
+					"GetAllMsg" + "\n" +
+					"GetAllMotd" + "\n" +
+					"AddAMotd" + "\n" +
+					"SendMotd" + "\n" + 
+					"SendInfo" + "\n" +
+					"GetMotd" + "\n" + 
+					"DelMotd" +  "\n" +
+					"DelMsg"+  "\n" +
+					"DoPing" + "\n" +
+					"Essen (Hilfe für essen)";
 				// @formatter:on
 
 			// Anbindung an msg datenbank
 			case "addamsgtodb":
-				return addmsg(t);
+				return addMsg(t);
 			case "getallmsg":
-				return getallmsg();
+				return getAllMsg();
 			case "delmsg":
-				return delmsg(t);
+				return delMsg(t);
 
 			// Anbindung an motd datenbank
 			case "addamotd":
-				return addmotd(t);
+				return addMotd(t);
 			case "getallmotd":
-				return getallmotd();
+				return getAllMotd();
 			case "delmotd":
-				return delmotd(t);
+				return delMotd(t);
 			case "getmotd":
 				return MTeleMsg.getMotd();
 
@@ -121,7 +122,7 @@ public class MTeleMsg {
 		// Alle festen Antworten
 		switch (t.getMessageWord(0)) {
 		case "start":
-			return "Wipfbot ist bereit\nInfos per 'info'";
+			return "Wipfbot Version:" + MainApp.VERSION + "\nInfos per 'info'";
 		case "wipfbot":
 		case "help":
 		case "hlp":
@@ -131,6 +132,7 @@ public class MTeleMsg {
 		case "info":
 		case "about":
 			return "Wipfbot\nVersion " + MainApp.VERSION + "\nCreated by Tobias Fritsch\nwipf2@web.de";
+		case "r":
 		case "rnd":
 		case "zufall":
 			return MWipf.zufall(t.getMessageWord(1), t.getMessageWord(2));
@@ -176,7 +178,7 @@ public class MTeleMsg {
 			return MTime.dateTime() + "\n" + MTeleMsg.contMsg() + "\n" + MTelegram.contSend();
 		default:
 			// Alle db aktionen
-			t = getmsg(t, 0);
+			t = getMsg(t, 0);
 			// ob keine Antwort in db gefunden
 			if (t.getAntwort() != null) {
 				return t.getAntwort();
@@ -190,7 +192,7 @@ public class MTeleMsg {
 	 * @param t
 	 * @return
 	 */
-	private static String delmsg(Telegram t) {
+	private static String delMsg(Telegram t) {
 		try {
 			Statement stmt = MsqlLite.getDB();
 			stmt.execute("DELETE FROM telemsg WHERE id = " + t.getMessageInt(1));
@@ -205,7 +207,7 @@ public class MTeleMsg {
 	 * @param t
 	 * @return
 	 */
-	private static String delmotd(Telegram t) {
+	private static String delMotd(Telegram t) {
 		try {
 			Statement stmt = MsqlLite.getDB();
 			stmt.execute("DELETE FROM telemotd WHERE id = " + t.getMessageInt(1));
@@ -219,7 +221,7 @@ public class MTeleMsg {
 	/**
 	 * @param t
 	 */
-	private static String addmsg(Telegram t) {
+	private static String addMsg(Telegram t) {
 		try {
 			Statement stmt = MsqlLite.getDB();
 			stmt.execute("INSERT OR REPLACE INTO telemsg (request, response, options, editby, date) VALUES " + "('"
@@ -236,7 +238,7 @@ public class MTeleMsg {
 	/**
 	 * @param t
 	 */
-	private static String addmotd(Telegram t) {
+	private static String addMotd(Telegram t) {
 		try {
 			Statement stmt = MsqlLite.getDB();
 			stmt.execute("INSERT OR REPLACE INTO telemotd (text, editby, date) VALUES " + "('"
@@ -304,7 +306,7 @@ public class MTeleMsg {
 	 * @param nStelle
 	 * @return
 	 */
-	private static Telegram getmsg(Telegram t, Integer nStelle) {
+	private static Telegram getMsg(Telegram t, Integer nStelle) {
 		try {
 			Map<String, String> mapS = new HashMap<>();
 
@@ -337,7 +339,7 @@ public class MTeleMsg {
 	 * @param t
 	 * @return
 	 */
-	private static String getallmotd() {
+	private static String getAllMotd() {
 		try {
 			StringBuilder sb = new StringBuilder();
 
@@ -360,7 +362,7 @@ public class MTeleMsg {
 	 * @param t
 	 * @return
 	 */
-	private static String getallmsg() {
+	private static String getAllMsg() {
 		try {
 			StringBuilder sb = new StringBuilder();
 

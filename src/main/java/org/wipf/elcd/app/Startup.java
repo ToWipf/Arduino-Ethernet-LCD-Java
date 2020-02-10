@@ -31,7 +31,7 @@ public class Startup {
 	/**
 	 * 
 	 */
-	public static void startRestApi() {
+	public static void runRestApi() {
 		try {
 			MainApp.RunLock = false;
 			Unirest.setTimeouts(3000, 5000);

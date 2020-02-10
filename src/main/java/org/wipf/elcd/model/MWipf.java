@@ -75,7 +75,7 @@ public class MWipf {
 	 * @return
 	 */
 	public static String zufall(Integer nWuerfelBis, Integer nAnzahlWuerfel) {
-		if (nAnzahlWuerfel > 100 || nWuerfelBis > 100) {
+		if (nAnzahlWuerfel > 57 || nWuerfelBis > 10421) {
 			return "zu viel";
 		}
 
@@ -87,8 +87,8 @@ public class MWipf {
 
 		List<Integer> li = new ArrayList<>();
 
-		for (int i = 1; i < nAnzahlWuerfel; i++) {
-			nZahl = wuerfel.nextInt(nWuerfelBis + 1);
+		for (int i = 1; i <= nAnzahlWuerfel; i++) {
+			nZahl = wuerfel.nextInt(nWuerfelBis - 1) + 1;
 			nSumme += nZahl;
 			li.add(nZahl);
 		}
@@ -112,7 +112,7 @@ public class MWipf {
 		// Alle ausgeben
 		sb.append("\nWas wurde wann gewürfelt:\n");
 		for (Integer n : li) {
-			sb.append(nAnzahl + 1 + ": " + n.toString() + "\n");
+			sb.append("Wurf " + (nAnzahl + 1) + ": " + n.toString() + "\n");
 			nAnzahl++;
 		}
 		sb.append("\nSumme aller Ergebnisse: " + nSumme + "\n");

@@ -17,9 +17,12 @@ public class TaskTelegram extends TimerTask {
 	 */
 	@Override
 	public void run() {
-		if (MainApp.FailCountTelegram > 100) {
-			// Bei viele Fehlern länger warten aber erneut versuchen
-			if (MainApp.FailCountTelegram > 1000) {
+		if (MainApp.FailCountTelegram > 6) {
+			// Bei viele Fehlern länger warten aber erneut versuchen (2 Minuten fehlerhaft)
+			MLogger.warn("Task Telegram wartet nun");
+			if (MainApp.FailCountTelegram > 12) {
+				// 2 Minuten warten
+				MLogger.warn("Task Telegram erneuter Verbindungsversuch");
 				MainApp.FailCountTelegram = 5;
 			}
 			return;

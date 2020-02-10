@@ -137,7 +137,7 @@ public class MTelegram {
 				nMax++;
 				if (nMax <= 5) {
 					try {
-						t.setAntwort(MTeleMsg.antworte(t));
+						t.setAntwort(MTeleMsg.menueMsg(t));
 						saveTelegramToDB(t);
 						sendToTelegram(t);
 					} catch (Exception e) {
