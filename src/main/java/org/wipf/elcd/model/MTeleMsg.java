@@ -176,6 +176,13 @@ public class MTeleMsg {
 			return MTelegram.contSend();
 		case "telestats":
 			return MTime.dateTime() + "\n" + MTeleMsg.contMsg() + "\n" + MTelegram.contSend();
+		case "getmyid":
+		case "id":
+		case "whoami":
+		case "pwd":
+		case "me":
+			return "From: " + t.getFrom() + "\n\nChat: " + t.getChatID() + " " + t.getType() + "\n\nM_id: "
+					+ t.getMid();
 		default:
 			// Alle db aktionen
 			t = getMsg(t, 0);
@@ -183,7 +190,16 @@ public class MTeleMsg {
 			if (t.getAntwort() != null) {
 				return t.getAntwort();
 			} else {
-				return "Antwort nicht vorhanden";
+				switch (MWipf.getRandomInt(4)) {
+				case 0:
+					return "Keine Antwort vorhanden";
+				case 1:
+					return "Leider ist keine Antwort vorhanden";
+				case 2:
+					return "Hierzu gibt es keine Antwort";
+				default:
+					return "Antwort nicht vorhanden";
+				}
 			}
 		}
 	}
@@ -318,7 +334,7 @@ public class MTeleMsg {
 			}
 			rs.close();
 			if (mapS.size() != 0) {
-				int nZufallsElement = MWipf.rnd(mapS.size());
+				int nZufallsElement = MWipf.getRandomInt(mapS.size());
 				int n = 0;
 				for (Map.Entry<String, String> entry : mapS.entrySet()) {
 					if (n == nZufallsElement) {

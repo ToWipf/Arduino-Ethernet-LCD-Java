@@ -58,6 +58,20 @@ public class MEssen {
 	}
 
 	/**
+	 * @return
+	 */
+	private static String contEssen() {
+		try {
+			Statement stmt = MsqlLite.getDB();
+			ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM essen;");
+			return rs.getString("COUNT(*)") + " Einträge in der DB";
+		} catch (Exception e) {
+			MLogger.warn("count Telegram " + e);
+			return null;
+		}
+	}
+
+	/**
 	 * @param t
 	 * @return
 	 */
@@ -135,7 +149,10 @@ public class MEssen {
 			case "sendessen":
 				sendDaylyEssen();
 				return "OK";
+			case "countessen":
+				return contEssen();
 			}
+
 		}
 
 		// Alle festen Antworten
@@ -143,8 +160,15 @@ public class MEssen {
 		case "getessen":
 			return getEssenRnd();
 		case "essen":
-			return "addessen: essen hinzufügen\n" + "delessen: id löschen\n" + "listessen: alles Auflisten\n"
-					+ "getessen: zufallsessen\n" + "sendessen: zufallsessen senden\n";
+			//@formatter:off
+			return
+					"AddEssen: Essen hinzufügen\n" +
+					"DelEssen: id löschen\n" + 
+					"ListEssen: alles auflisten\n" +
+					"GetEssen: Zufallsessen\n" +
+					"CountEssen: Anzahl der Einträge\n" +
+					"SendEssen: Zufallsessen senden\n";
+			//@formatter:on
 		default:
 			return null;
 		}

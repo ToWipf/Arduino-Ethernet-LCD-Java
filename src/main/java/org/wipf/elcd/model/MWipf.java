@@ -53,7 +53,7 @@ public class MWipf {
 	public static String escapeString(String s) {
 		return s.replaceAll("\n", "%0A").replaceAll(" ", "%20").replaceAll("\t", "%20").replaceAll("\\|", "%7C")
 				.replaceAll("'", "%27").replaceAll("<", "_").replaceAll(">", "_").replaceAll("'", "_")
-				.replaceAll("\"", "_");
+				.replaceAll("\"", "_").replaceAll("\\{", "(").replaceAll("\\}", ")");
 	}
 
 	/**
@@ -123,7 +123,7 @@ public class MWipf {
 
 	/**
 	 * @param n
-	 * @return
+	 * @return Number als Symbol
 	 */
 	public static String numberToSymbol(Integer n) {
 		// 1⃣
@@ -134,10 +134,18 @@ public class MWipf {
 	}
 
 	/**
-	 * @param nMax
-	 * @return
+	 * @return true or false
 	 */
-	public static int rnd(int nMax) {
+	public boolean getRandomBoolean() {
+		Random random = new Random();
+		return random.nextBoolean();
+	}
+
+	/**
+	 * @param nMax
+	 * @return Zufallszahl
+	 */
+	public static int getRandomInt(int nMax) {
 		Random wuerfel = new Random();
 		return wuerfel.nextInt(nMax);
 	}
