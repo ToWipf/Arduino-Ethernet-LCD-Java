@@ -5,6 +5,7 @@ package org.wipf.elcd.model;
  *
  */
 public class MLogger {
+	
 	/**
 	 * @param s
 	 */
