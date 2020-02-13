@@ -14,16 +14,29 @@ public class MainApp {
 
 	// TODO:
 	/*
+	 * //@formatter:off
+	 * 
 	 * alle confs in db
-	 * tags des ...
-	 * woche des ...
 	 * 4 gewinnt
-	 * auf java 11 oder höher
+	 * getmy ID
+	 * add to motd for id
+	 * set a new admin ?
+	 * rm form db
+	 * sende in Stunden nachricht
+	 * rechner tage in stunden
+	 * zeitgeplante nachrichten z.B send 10m Hallo Test
+	 * motd für bestimmte Tage
+	 * todo tabelle
+	 * millisec in dayly msg
+	 * rnd starten mit 1 nicht mit 0
+	 * admin tabelle (Telegram ids nicht in code)
+	 * 
+	 * //@formatter:on
 	 */
-	
+
 	public static final URI BASE_URI = URI.create("http://0.0.0.0:8080/");
-	public static final String VERSION = "1.27";
-	public static final String DB_PATH = System.getProperty("user.home") + "/" + "wipfapp.db";
+	public static final String VERSION = "1.61";
+	public static final String DB_PATH = System.getProperty("user.home") + "/wipfapp/" + "wipfapp.db";
 	public static final String ELCD_PATH = "http://192.168.2.242/";
 	public static final String sKey = "superKey42";
 
@@ -44,7 +57,7 @@ public class MainApp {
 		if (MTelegram.loadConfig()) {
 			Startup.startTelegramTask();
 		}
-		Startup.startRestApi();
+		Startup.runRestApi();
 	}
 
 }

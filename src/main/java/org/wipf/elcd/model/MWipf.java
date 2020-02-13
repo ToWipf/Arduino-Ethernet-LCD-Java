@@ -47,6 +47,16 @@ public class MWipf {
 	}
 
 	/**
+	 * @param s
+	 * @return
+	 */
+	public static String escapeString(String s) {
+		return s.replaceAll("\n", "%0A").replaceAll(" ", "%20").replaceAll("\t", "%20").replaceAll("\\|", "%7C")
+				.replaceAll("'", "%27").replaceAll("<", "_").replaceAll(">", "_").replaceAll("'", "_")
+				.replaceAll("\"", "_").replaceAll("\\{", "(").replaceAll("\\}", ")");
+	}
+
+	/**
 	 * @param sWuerfelBis
 	 * @param sAnzahlWuerfel
 	 * @return
@@ -65,7 +75,7 @@ public class MWipf {
 	 * @return
 	 */
 	public static String zufall(Integer nWuerfelBis, Integer nAnzahlWuerfel) {
-		if (nAnzahlWuerfel > 100 || nWuerfelBis > 100) {
+		if (nAnzahlWuerfel > 57 || nWuerfelBis > 10421) {
 			return "zu viel";
 		}
 
@@ -77,8 +87,8 @@ public class MWipf {
 
 		List<Integer> li = new ArrayList<>();
 
-		for (int i = 0; i < nAnzahlWuerfel; i++) {
-			nZahl = wuerfel.nextInt(nWuerfelBis + 1);
+		for (int i = 1; i <= nAnzahlWuerfel; i++) {
+			nZahl = wuerfel.nextInt(nWuerfelBis - 1) + 1;
 			nSumme += nZahl;
 			li.add(nZahl);
 		}
@@ -87,7 +97,7 @@ public class MWipf {
 
 		// Cont jede Zahl
 		sb.append("\nWie oft wurde was gewürfelt:\n");
-		for (int i = 0; i <= nWuerfelBis; i++) {
+		for (int i = 1; i <= nWuerfelBis; i++) {
 			int nMerke = 0;
 			for (Integer n : li) {
 				if (n == i) {
@@ -102,7 +112,7 @@ public class MWipf {
 		// Alle ausgeben
 		sb.append("\nWas wurde wann gewürfelt:\n");
 		for (Integer n : li) {
-			sb.append(nAnzahl + 1 + ": " + n.toString() + "\n");
+			sb.append("Wurf " + (nAnzahl + 1) + ": " + n.toString() + "\n");
 			nAnzahl++;
 		}
 		sb.append("\nSumme aller Ergebnisse: " + nSumme + "\n");
@@ -113,7 +123,7 @@ public class MWipf {
 
 	/**
 	 * @param n
-	 * @return
+	 * @return Number als Symbol
 	 */
 	public static String numberToSymbol(Integer n) {
 		// 1⃣
@@ -124,10 +134,18 @@ public class MWipf {
 	}
 
 	/**
-	 * @param nMax
-	 * @return
+	 * @return true or false
 	 */
-	public static int rnd(int nMax) {
+	public boolean getRandomBoolean() {
+		Random random = new Random();
+		return random.nextBoolean();
+	}
+
+	/**
+	 * @param nMax
+	 * @return Zufallszahl
+	 */
+	public static int getRandomInt(int nMax) {
 		Random wuerfel = new Random();
 		return wuerfel.nextInt(nMax);
 	}

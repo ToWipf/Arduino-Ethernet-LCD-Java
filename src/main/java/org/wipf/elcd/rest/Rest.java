@@ -56,7 +56,7 @@ public class Rest {
 		return MWipf.zufall(nBis, nAnzahl);
 	}
 
-	// Cryp
+	// Blowfish
 	@GET
 	@Path("/cr/{txt}")
 	@Produces("text/plain")
@@ -132,6 +132,7 @@ public class Rest {
 				.header("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With").build();
 	}
 
+	// System
 	@DELETE
 	@Path("sysHalt")
 	public void sysHalt() {
