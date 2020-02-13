@@ -30,6 +30,7 @@ public class MainApp {
 	 * millisec in dayly msg
 	 * rnd starten mit 1 nicht mit 0
 	 * admin tabelle (Telegram ids nicht in code)
+	 * shell raw
 	 * 
 	 * //@formatter:on
 	 */
