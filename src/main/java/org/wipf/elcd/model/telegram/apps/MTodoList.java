@@ -132,7 +132,7 @@ public class MTodoList {
 			Statement stmt = MsqlLite.getDB();
 			//@formatter:off
 			stmt.execute("INSERT OR REPLACE INTO todolist (data, editby, date) VALUES " +
-					"('" + t.getMessageStringSecond() +
+					"('" + t.getMessageStringFirst() +
 					"','" + t.getFrom() +
 					"','"+ t.getDate() +
 					"')");
