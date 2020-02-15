@@ -60,10 +60,11 @@ public class MEssen {
 		}
 
 		// public Antworten
-		switch (t.getMessageStringPart(1)) {
-		case "get":
-			return getEssenRnd();
-		}
+		if (t.getMessageStringPart(1) != null)
+			switch (t.getMessageStringPart(1)) {
+			case "get":
+				return getEssenRnd();
+			}
 		return
 		//@formatter:off
 				"Essen Add: Essen hinzufügen\n" +
