@@ -17,6 +17,7 @@ import org.wipf.elcd.model.MLogger;
 import org.wipf.elcd.model.MPing;
 import org.wipf.elcd.model.MTelegram;
 import org.wipf.elcd.model.MTime;
+import org.wipf.elcd.model.MTodoList;
 import org.wipf.elcd.model.MWipf;
 import org.wipf.elcd.model.M_Run;
 import org.wipf.elcd.model.MelcdConnect;
@@ -98,6 +99,13 @@ public class Rest {
 	@Produces("text/plain")
 	public Response telelogtf() {
 		return MWipf.genResponse(MTelegram.getTelegramLog("798200105"));
+	}
+
+	@GET
+	@Path("todolist")
+	@Produces("text/plain")
+	public Response todolist() {
+		return MWipf.genResponse(MTodoList.getAllFull());
 	}
 
 	@PUT

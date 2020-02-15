@@ -15,6 +15,7 @@ import org.wipf.elcd.model.MMumel;
 import org.wipf.elcd.model.MTeleMsg;
 import org.wipf.elcd.model.MTelegram;
 import org.wipf.elcd.model.MTicTacToe;
+import org.wipf.elcd.model.MTodoList;
 import org.wipf.elcd.model.MsqlLite;
 import org.wipf.elcd.model.task.TaskInfoTelegram;
 import org.wipf.elcd.model.task.TaskTelegram;
@@ -85,6 +86,7 @@ public class Startup {
 		MTeleMsg.initDB();
 		MMumel.initDB();
 		MEssen.initDB();
+		MTodoList.initDB();
 		try {
 			Statement stmt = MsqlLite.getDB();
 			stmt.executeUpdate("CREATE TABLE IF NOT EXISTS settings (id, val);");

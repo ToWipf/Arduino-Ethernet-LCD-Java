@@ -59,7 +59,7 @@ public class MEssen {
 				sendDaylyEssen();
 				return "OK";
 			case "count":
-				return contEssen();
+				return count();
 			}
 
 		}
@@ -105,13 +105,13 @@ public class MEssen {
 	/**
 	 * @return
 	 */
-	private static String contEssen() {
+	private static String count() {
 		try {
 			Statement stmt = MsqlLite.getDB();
 			ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM essen;");
 			return rs.getString("COUNT(*)") + " Einträge in der DB";
 		} catch (Exception e) {
-			MLogger.warn("count Telegram " + e);
+			MLogger.warn("count essen " + e);
 			return null;
 		}
 	}

@@ -34,7 +34,7 @@ public class MTeleMsg {
 	 */
 	public static void sendDaylyInfo() {
 		Telegram t = new Telegram();
-		t.setAntwort(MTime.dateTimeMs() + "\n" + MTeleMsg.contMsg() + "\n" + MTeleMsg.contMotd() + "\n"
+		t.setAntwort(MTime.dateTimeMs() + "\n" + MTeleMsg.countMsg() + "\n" + MTeleMsg.countMotd() + "\n"
 				+ MTelegram.contSend() + "\n\nVersion:" + MainApp.VERSION);
 		t.setChatID(798200105);
 
@@ -166,11 +166,11 @@ public class MTeleMsg {
 		case "ml":
 			return MMumel.playMumel(t);
 		case "countmsg":
-			return MTeleMsg.contMsg();
+			return MTeleMsg.countMsg();
 		case "countsend":
 			return MTelegram.contSend();
 		case "telestats":
-			return MTime.dateTime() + "\n" + MTeleMsg.contMsg() + "\n" + MTelegram.contSend();
+			return MTime.dateTime() + "\n" + MTeleMsg.countMsg() + "\n" + MTelegram.contSend();
 		case "getmyid":
 		case "id":
 		case "whoami":
@@ -181,6 +181,9 @@ public class MTeleMsg {
 		case "essen":
 		case "e":
 			return MEssen.menueEssen(t);
+		case "to":
+		case "todo":
+			return MTodoList.menueTodoList(t);
 		default:
 			// Alle db aktionen
 			t = getMsg(t, 0);
@@ -239,8 +242,8 @@ public class MTeleMsg {
 		try {
 			Statement stmt = MsqlLite.getDB();
 			stmt.execute("INSERT OR REPLACE INTO telemsg (request, response, options, editby, date) VALUES " + "('"
-					+ t.getMessageStringPart(1) + "','" + t.getMessageStringSecond() + "','" + null + "','" + t.getFrom() + "','"
-					+ t.getDate() + "')");
+					+ t.getMessageStringPart(1) + "','" + t.getMessageStringSecond() + "','" + null + "','"
+					+ t.getFrom() + "','" + t.getDate() + "')");
 			return "OK: " + t.getMessageStringPart(1);
 		} catch (Exception e) {
 			MLogger.warn("add telemsg " + e);
@@ -267,7 +270,7 @@ public class MTeleMsg {
 	/**
 	 * @return
 	 */
-	private static String contMsg() {
+	private static String countMsg() {
 		try {
 			Statement stmt = MsqlLite.getDB();
 			ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM telemsg;");
@@ -281,7 +284,7 @@ public class MTeleMsg {
 	/**
 	 * @return
 	 */
-	private static String contMotd() {
+	private static String countMotd() {
 		try {
 			Statement stmt = MsqlLite.getDB();
 			ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM telemotd;");
