@@ -32,6 +32,7 @@ public class MainApp {
 	 * admin tabelle (Telegram ids nicht in code)
 	 * morsecode
 	 * sammelen aller user in tabelle mit rechten
+	 * shell raw
 	 * 
 	 * //@formatter:on
 	 */
