@@ -5,12 +5,16 @@ package org.wipf.elcd.model.struct;
  *
  */
 public class MyString {
-	public static final String REGEX = "^[a-zA-z 0-9öäü?!().;.\\-_+*ß]+$";
+	public static final String REGEX_WHITE = "^[a-zA-z 0-9öäü?!().;.\\-_+*ß]+$";
+	public static final String REGEX_BLACK = "^[#]+$";
 
 	private String s;
 
+	/**
+	 * @param s
+	 */
 	public MyString(String s) {
-		setS(s);
+		setBlacklist(s);
 	}
 
 	/**
@@ -23,11 +27,21 @@ public class MyString {
 	/**
 	 * @param s
 	 */
-	public void setS(String s) {
-		if (s.matches(REGEX))
+	public void setWhitelist(String s) {
+		if (s.matches(REGEX_WHITE))
 			this.s = s;
 		else
 			this.s = "fail";
+	}
+
+	/**
+	 * @param s
+	 */
+	public void setBlacklist(String s) {
+		if (s.matches(REGEX_BLACK))
+			this.s = "fail";
+		else
+			this.s = s;
 	}
 
 }
