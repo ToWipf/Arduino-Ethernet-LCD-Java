@@ -15,7 +15,7 @@ public class MainApp {
 	// TODO:
 	/*
 	 * //@formatter:off
-	 * 
+	 * stringclass
 	 * alle confs in db
 	 * 4 gewinnt
 	 * getmy ID
