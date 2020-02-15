@@ -111,14 +111,6 @@ public class MTeleMsg {
 				break;
 			}
 		}
-
-		// *apps
-		String sEssen = MEssen.menueEssen(t);
-		if (sEssen != null) {
-			return sEssen;
-		}
-		// TODO ttt auch so hinzufügen
-
 		// Alle festen Antworten
 		switch (t.getMessageWord(0)) {
 		case "start":
@@ -183,6 +175,9 @@ public class MTeleMsg {
 		case "me":
 			return "From: " + t.getFrom() + "\n\nChat: " + t.getChatID() + " " + t.getType() + "\n\nM_id: "
 					+ t.getMid();
+		case "essen":
+		case "e":
+			return MEssen.menueEssen(t);
 		default:
 			// Alle db aktionen
 			t = getMsg(t, 0);

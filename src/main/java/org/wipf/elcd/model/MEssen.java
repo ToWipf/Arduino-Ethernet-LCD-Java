@@ -35,6 +35,46 @@ public class MEssen {
 		MTelegram.saveTelegramToDB(t);
 		MTelegram.sendToTelegram(t);
 	}
+	
+	/**
+	 * @param t
+	 * @return
+	 */
+	public static String menueEssen(Telegram t) {
+		// Admin Befehle
+		if (MTelegram.isAdminUser(t)) {
+			switch (t.getMessageWord(1)) {
+			case "add":
+				return addEssen(t);
+			case "del":
+				return delEssen(t);
+			case "list":
+				return getAllEssen();
+			case "send":
+				sendDaylyEssen();
+				return "OK";
+			case "count":
+				return contEssen();
+			}
+
+		}
+
+		// Alle festen Antworten
+		switch (t.getMessageWord(1)) {
+		case "get":
+			return getEssenRnd();
+		default:
+			//@formatter:off
+			return
+					"Essen Add: Essen hinzufügen\n" +
+					"Essen Del: id löschen\n" + 
+					"Essen List: alles auflisten\n" +
+					"Essen Get: Zufallsessen\n" +
+					"Essen Count: Anzahl der Einträge\n" +
+					"Essen Send: Zufallsessen senden\n";
+			//@formatter:on
+		}
+	}
 
 	/**
 	 * @param t
@@ -129,48 +169,6 @@ public class MEssen {
 		} catch (Exception e) {
 			MLogger.warn("get essen rnd " + e);
 			return "Fehler";
-		}
-	}
-
-	/**
-	 * @param t
-	 * @return
-	 */
-	public static String menueEssen(Telegram t) {
-		// Admin Befehle
-		if (MTelegram.isAdminUser(t)) {
-			switch (t.getMessageWord(0)) {
-			case "addessen":
-				return addEssen(t);
-			case "delessen":
-				return delEssen(t);
-			case "listessen":
-				return getAllEssen();
-			case "sendessen":
-				sendDaylyEssen();
-				return "OK";
-			case "countessen":
-				return contEssen();
-			}
-
-		}
-
-		// Alle festen Antworten
-		switch (t.getMessageWord(0)) {
-		case "getessen":
-			return getEssenRnd();
-		case "essen":
-			//@formatter:off
-			return
-					"AddEssen: Essen hinzufügen\n" +
-					"DelEssen: id löschen\n" + 
-					"ListEssen: alles auflisten\n" +
-					"GetEssen: Zufallsessen\n" +
-					"CountEssen: Anzahl der Einträge\n" +
-					"SendEssen: Zufallsessen senden\n";
-			//@formatter:on
-		default:
-			return null;
 		}
 	}
 }
