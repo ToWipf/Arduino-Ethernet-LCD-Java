@@ -6,8 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.wipf.elcd.app.MainApp;
-import org.wipf.elcd.model.MPing;
-import org.wipf.elcd.model.MTime;
 import org.wipf.elcd.model.MWitz;
 import org.wipf.elcd.model.base.MBlowfish;
 import org.wipf.elcd.model.base.MLogger;
@@ -45,7 +43,7 @@ public class MTeleMsg {
 	 */
 	public static void sendDaylyInfo() {
 		Telegram t = new Telegram();
-		t.setAntwort(MTime.dateTimeMs() + "\n" + MTeleMsg.countMsg() + "\n" + MTeleMsg.countMotd() + "\n"
+		t.setAntwort(MWipf.dateTimeMs() + "\n" + MTeleMsg.countMsg() + "\n" + MTeleMsg.countMotd() + "\n"
 				+ MTelegram.contSend() + "\n\nVersion:" + MainApp.VERSION);
 		t.setChatID(798200105);
 
@@ -117,7 +115,7 @@ public class MTeleMsg {
 				return "OK";
 
 			case "doping":
-				return MPing.ping(t.getMessageStringRawPart(1)).toString();
+				return MWipf.ping(t.getMessageStringRawPart(1)).toString();
 			case "shell":
 				return MWipf.shell(t.getMessageStringFirst());
 
@@ -165,7 +163,7 @@ public class MTeleMsg {
 		case "zeit":
 		case "clock":
 		case "z":
-			return MTime.dateTime();
+			return MWipf.dateTime();
 		case "witz":
 		case "fun":
 		case "w":
@@ -181,7 +179,7 @@ public class MTeleMsg {
 		case "countsend":
 			return MTelegram.contSend();
 		case "telestats":
-			return MTime.dateTime() + "\n" + MTeleMsg.countMsg() + "\n" + MTelegram.contSend();
+			return MWipf.dateTime() + "\n" + MTeleMsg.countMsg() + "\n" + MTelegram.contSend();
 		case "getmyid":
 		case "id":
 		case "whoami":

@@ -1,6 +1,9 @@
 package org.wipf.elcd.model.base;
 
+import java.net.InetAddress;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -148,6 +151,64 @@ public class MWipf {
 	public static int getRandomInt(int nMax) {
 		Random wuerfel = new Random();
 		return wuerfel.nextInt(nMax);
+	}
+
+	/**
+	 * @return
+	 */
+	public static String uhr() {
+		SimpleDateFormat uhr = new SimpleDateFormat("HH:mm:ss");
+		return uhr.format(new Date());
+	}
+
+	/**
+	 * @return
+	 */
+	public static String date() {
+		SimpleDateFormat date = new SimpleDateFormat("dd MMMM yyyy");
+		return date.format(new Date());
+
+	}
+
+	/**
+	 * @return
+	 */
+	public static String dayName() {
+		SimpleDateFormat date = new SimpleDateFormat("EEEE");
+		return date.format(new Date());
+
+	}
+
+	/**
+	 * @return
+	 */
+	public static String dateTime() {
+		SimpleDateFormat date = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+		return date.format(new Date());
+
+	}
+
+	/**
+	 * @return
+	 */
+	public static String dateTimeMs() {
+		SimpleDateFormat date = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss;SSS");
+		return date.format(new Date());
+
+	}
+
+	/**
+	 * @param sIP
+	 * @return
+	 */
+	public static Boolean ping(String sIP) {
+		try {
+			InetAddress address = InetAddress.getByName(sIP);
+			return address.isReachable(10000);
+
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 	/**

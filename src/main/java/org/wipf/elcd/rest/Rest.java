@@ -12,8 +12,6 @@ import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.process.internal.RequestScoped;
 import org.wipf.elcd.app.MainApp;
-import org.wipf.elcd.model.MPing;
-import org.wipf.elcd.model.MTime;
 import org.wipf.elcd.model.base.MBlowfish;
 import org.wipf.elcd.model.base.MLogger;
 import org.wipf.elcd.model.base.MWipf;
@@ -33,7 +31,7 @@ public class Rest {
 	@Path("/ping/{ip}")
 	@Produces("text/plain")
 	public String ping(@PathParam("ip") String sIP) {
-		return MPing.ping(sIP).toString();
+		return MWipf.ping(sIP).toString();
 	}
 
 	@POST
@@ -47,7 +45,7 @@ public class Rest {
 	@Path("/date")
 	@Produces("text/plain")
 	public Response date() {
-		return MWipf.genResponse(MTime.date());
+		return MWipf.genResponse(MWipf.date());
 	}
 
 	@GET
