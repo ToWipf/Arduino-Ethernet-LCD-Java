@@ -17,6 +17,7 @@ import org.wipf.elcd.model.base.MLogger;
 import org.wipf.elcd.model.base.MWipf;
 import org.wipf.elcd.model.elcd.M_Run;
 import org.wipf.elcd.model.elcd.MelcdConnect;
+import org.wipf.elcd.model.telegram.apps.MOthers;
 import org.wipf.elcd.model.telegram.apps.MTodoList;
 import org.wipf.elcd.model.telegram.system.MTelegram;
 
@@ -52,7 +53,7 @@ public class Rest {
 	@Path("r/{bis}/{anzahl}")
 	@Produces("text/plain")
 	public String zufall(@PathParam("bis") Integer nBis, @PathParam("anzahl") Integer nAnzahl) {
-		return MWipf.zufall(nBis, nAnzahl);
+		return MOthers.zufall(nBis, nAnzahl);
 	}
 
 	// Blowfish

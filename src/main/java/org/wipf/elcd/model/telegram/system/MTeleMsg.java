@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.wipf.elcd.app.MainApp;
-import org.wipf.elcd.model.MWitz;
 import org.wipf.elcd.model.base.MBlowfish;
 import org.wipf.elcd.model.base.MLogger;
 import org.wipf.elcd.model.base.MWipf;
@@ -14,6 +13,7 @@ import org.wipf.elcd.model.base.MsqlLite;
 import org.wipf.elcd.model.struct.Telegram;
 import org.wipf.elcd.model.telegram.apps.MEssen;
 import org.wipf.elcd.model.telegram.apps.MMumel;
+import org.wipf.elcd.model.telegram.apps.MOthers;
 import org.wipf.elcd.model.telegram.apps.MTicTacToe;
 import org.wipf.elcd.model.telegram.apps.MTodoList;
 
@@ -139,7 +139,7 @@ public class MTeleMsg {
 		case "r":
 		case "rnd":
 		case "zufall":
-			return MWipf.zufall(t.getMessageStringPart(1), t.getMessageStringPart(2));
+			return MOthers.zufall(t.getMessageStringPart(1), t.getMessageStringPart(2));
 		case "c":
 		case "cr":
 		case "en":
@@ -168,7 +168,7 @@ public class MTeleMsg {
 		case "fun":
 		case "w":
 		case "joke":
-			return MWitz.getWitz();
+			return MOthers.getWitz();
 		case "m":
 		case "mummel":
 		case "mumel":

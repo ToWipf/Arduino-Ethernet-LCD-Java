@@ -73,7 +73,7 @@ public class Startup {
 
 		// This task is scheduled to run every 20 seconds
 		t.scheduleAtFixedRate(mTask, 0, 20000);
-		// This task is scheduled to run every 1 day
+		// This task is scheduled to run every 1 day at 00:00
 		t.scheduleAtFixedRate(mInfoTask, nSekundenBisMitternacht * 1000, 86400000);
 	}
 
