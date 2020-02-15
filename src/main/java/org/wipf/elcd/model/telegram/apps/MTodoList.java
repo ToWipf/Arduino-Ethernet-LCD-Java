@@ -42,9 +42,9 @@ public class MTodoList {
 			}
 
 			switch (sAction) {
-			case "a":
-			case "add":
-				return add(t);
+			// case "a":
+			// case "add":
+			// return add(t);
 			case "d":
 			case "del":
 				return del(t);
@@ -58,7 +58,7 @@ public class MTodoList {
 			case "count":
 				return count();
 			default:
-				return "Hilfe mit: Todo Hilfe";
+				return add(t);
 			}
 
 		}

@@ -128,7 +128,7 @@ public class Telegram {
 //	}
 
 	public void setMessage(String sMessage) {
-		this.sMessage = sMessage;
+		this.sMessage = new MyString(sMessage).getS();
 	}
 
 	public Integer getMid() {
