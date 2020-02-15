@@ -61,7 +61,7 @@ public class MTeleMsg {
 	public static String menueMsg(Telegram t) {
 		// Admin Befehle
 		if (MTelegram.isAdminUser(t)) {
-			switch (t.getMessageWord(0)) {
+			switch (t.getMessageStringPart(0)) {
 			case "admin":
 				// @formatter:off
 				return 
@@ -106,16 +106,16 @@ public class MTeleMsg {
 				return "OK";
 
 			case "doping":
-				return MPing.ping(t.getMessageRaw(1)).toString();
+				return MPing.ping(t.getMessageStringRawPart(1)).toString();
 			case "shell":
-				return MWipf.shell(t.getMessageFullDataOnly());
+				return MWipf.shell(t.getMessageStringFirst());
 
 			default:
 				break;
 			}
 		}
 		// Alle festen Antworten
-		switch (t.getMessageWord(0)) {
+		switch (t.getMessageStringPart(0)) {
 		case "start":
 			return "Wipfbot Version:" + MainApp.VERSION + "\nInfos per 'info'";
 		case "wipfbot":
@@ -130,17 +130,17 @@ public class MTeleMsg {
 		case "r":
 		case "rnd":
 		case "zufall":
-			return MWipf.zufall(t.getMessageWord(1), t.getMessageWord(2));
+			return MWipf.zufall(t.getMessageStringPart(1), t.getMessageStringPart(2));
 		case "c":
 		case "cr":
 		case "en":
 		case "encrypt":
-			return MBlowfish.encrypt(t.getMessageFullDataOnly());
+			return MBlowfish.encrypt(t.getMessageStringFirst());
 		case "d":
 		case "de":
 		case "dc":
 		case "decrypt":
-			return MBlowfish.decrypt(t.getMessageFullDataOnly());
+			return MBlowfish.decrypt(t.getMessageStringFirst());
 		case "t":
 		case "ttt":
 		case "tictactoe":
@@ -239,9 +239,9 @@ public class MTeleMsg {
 		try {
 			Statement stmt = MsqlLite.getDB();
 			stmt.execute("INSERT OR REPLACE INTO telemsg (request, response, options, editby, date) VALUES " + "('"
-					+ t.getMessageWord(1) + "','" + t.getMessageDataOnly() + "','" + null + "','" + t.getFrom() + "','"
+					+ t.getMessageStringPart(1) + "','" + t.getMessageStringSecond() + "','" + null + "','" + t.getFrom() + "','"
 					+ t.getDate() + "')");
-			return "OK: " + t.getMessageWord(1);
+			return "OK: " + t.getMessageStringPart(1);
 		} catch (Exception e) {
 			MLogger.warn("add telemsg " + e);
 			return "Fehler";
@@ -256,7 +256,7 @@ public class MTeleMsg {
 		try {
 			Statement stmt = MsqlLite.getDB();
 			stmt.execute("INSERT OR REPLACE INTO telemotd (text, editby, date) VALUES " + "('"
-					+ t.getMessageFullDataOnly() + "','" + t.getFrom() + "','" + t.getDate() + "')");
+					+ t.getMessageStringFirst() + "','" + t.getFrom() + "','" + t.getDate() + "')");
 			return "IN";
 		} catch (Exception e) {
 			MLogger.warn("add telemotd " + e);
@@ -326,7 +326,7 @@ public class MTeleMsg {
 
 			Statement stmt = MsqlLite.getDB();
 			ResultSet rs = stmt
-					.executeQuery("select * from telemsg where request = '" + t.getMessageWord(nStelle) + "';");
+					.executeQuery("select * from telemsg where request = '" + t.getMessageStringPart(nStelle) + "';");
 			while (rs.next()) {
 				mapS.put(rs.getString("response"), rs.getString("options"));
 			}

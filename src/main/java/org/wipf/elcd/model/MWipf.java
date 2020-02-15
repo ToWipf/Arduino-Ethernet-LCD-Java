@@ -157,6 +157,7 @@ public class MWipf {
 	 * @param sCommand
 	 */
 	public static String shell(String sCommand) {
+		// TODO timeout
 
 		ProcessBuilder processBuilder = new ProcessBuilder();
 		// Windows

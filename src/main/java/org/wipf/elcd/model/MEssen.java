@@ -35,7 +35,7 @@ public class MEssen {
 		MTelegram.saveTelegramToDB(t);
 		MTelegram.sendToTelegram(t);
 	}
-	
+
 	/**
 	 * @param t
 	 * @return
@@ -43,7 +43,7 @@ public class MEssen {
 	public static String menueEssen(Telegram t) {
 		// Admin Befehle
 		if (MTelegram.isAdminUser(t)) {
-			switch (t.getMessageWord(1)) {
+			switch (t.getMessageStringPart(1)) {
 			case "add":
 				return addEssen(t);
 			case "del":
@@ -59,21 +59,20 @@ public class MEssen {
 
 		}
 
-		// Alle festen Antworten
-		switch (t.getMessageWord(1)) {
+		// public Antworten
+		switch (t.getMessageStringPart(1)) {
 		case "get":
 			return getEssenRnd();
-		default:
-			//@formatter:off
-			return
-					"Essen Add: Essen hinzufügen\n" +
-					"Essen Del: id löschen\n" + 
-					"Essen List: alles auflisten\n" +
-					"Essen Get: Zufallsessen\n" +
-					"Essen Count: Anzahl der Einträge\n" +
-					"Essen Send: Zufallsessen senden\n";
-			//@formatter:on
 		}
+		return
+		//@formatter:off
+				"Essen Add: Essen hinzufügen\n" +
+				"Essen Del: id löschen\n" + 
+				"Essen List: alles auflisten\n" +
+				"Essen Get: Zufallsessen\n" +
+				"Essen Count: Anzahl der Einträge\n" +
+				"Essen Send: Zufallsessen senden\n";
+		//@formatter:on
 	}
 
 	/**
@@ -85,7 +84,7 @@ public class MEssen {
 			Statement stmt = MsqlLite.getDB();
 			//@formatter:off
 			stmt.execute("INSERT OR REPLACE INTO essen (name, editby, date) VALUES " +
-					"('" + t.getMessageFullDataOnly() +
+					"('" + t.getMessageStringSecond() +
 					"','" + t.getFrom() +
 					"','"+ t.getDate() +
 					"')");
@@ -118,7 +117,7 @@ public class MEssen {
 	private static String delEssen(Telegram t) {
 		try {
 			Statement stmt = MsqlLite.getDB();
-			stmt.execute("DELETE FROM essen WHERE id = " + t.getMessageInt(1));
+			stmt.execute("DELETE FROM essen WHERE id = " + t.getMessageInt(2));
 			return "DEL";
 		} catch (Exception e) {
 			MLogger.warn("delete essen" + e);
