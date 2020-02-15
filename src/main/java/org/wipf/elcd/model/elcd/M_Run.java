@@ -1,9 +1,12 @@
-package org.wipf.elcd.model;
+package org.wipf.elcd.model.elcd;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import org.wipf.elcd.app.MainApp;
+import org.wipf.elcd.model.MTime;
+import org.wipf.elcd.model.base.MLogger;
+import org.wipf.elcd.model.base.MWipf;
 
 /**
  * @author wipf

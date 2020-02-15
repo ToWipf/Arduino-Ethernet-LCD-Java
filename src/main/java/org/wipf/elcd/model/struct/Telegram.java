@@ -1,7 +1,7 @@
 package org.wipf.elcd.model.struct;
 
-import org.wipf.elcd.model.MLogger;
-import org.wipf.elcd.model.MWipf;
+import org.wipf.elcd.model.base.MLogger;
+import org.wipf.elcd.model.base.MWipf;
 
 /**
  * @author wipf

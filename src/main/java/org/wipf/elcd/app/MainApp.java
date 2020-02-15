@@ -2,9 +2,9 @@ package org.wipf.elcd.app;
 
 import java.net.URI;
 
-import org.wipf.elcd.model.MLogger;
-import org.wipf.elcd.model.MTelegram;
-import org.wipf.elcd.model.MsqlLite;
+import org.wipf.elcd.model.base.MLogger;
+import org.wipf.elcd.model.base.MsqlLite;
+import org.wipf.elcd.model.telegram.system.MTelegram;
 
 /**
  * @author wipf

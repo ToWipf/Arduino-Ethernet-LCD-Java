@@ -2,6 +2,8 @@ package org.wipf.elcd.model;
 
 import java.net.URLEncoder;
 
+import org.wipf.elcd.model.base.MLogger;
+
 import com.mashape.unirest.http.Unirest;
 
 /**

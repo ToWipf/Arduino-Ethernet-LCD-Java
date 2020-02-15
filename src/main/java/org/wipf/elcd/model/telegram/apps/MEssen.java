@@ -1,9 +1,12 @@
-package org.wipf.elcd.model;
+package org.wipf.elcd.model.telegram.apps;
 
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+import org.wipf.elcd.model.base.MLogger;
+import org.wipf.elcd.model.base.MsqlLite;
 import org.wipf.elcd.model.struct.Telegram;
+import org.wipf.elcd.model.telegram.system.MTelegram;
 
 /**
  * @author wipf

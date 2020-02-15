@@ -2,7 +2,7 @@ package org.wipf.elcd.model.struct;
 
 import java.util.Random;
 
-import org.wipf.elcd.model.MWipf;
+import org.wipf.elcd.model.base.MWipf;
 
 /**
  * @author wipf

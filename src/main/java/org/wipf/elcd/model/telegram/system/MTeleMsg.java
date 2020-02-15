@@ -1,4 +1,4 @@
-package org.wipf.elcd.model;
+package org.wipf.elcd.model.telegram.system;
 
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -6,7 +6,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.wipf.elcd.app.MainApp;
+import org.wipf.elcd.model.MPing;
+import org.wipf.elcd.model.MTime;
+import org.wipf.elcd.model.MWitz;
+import org.wipf.elcd.model.base.MBlowfish;
+import org.wipf.elcd.model.base.MLogger;
+import org.wipf.elcd.model.base.MWipf;
+import org.wipf.elcd.model.base.MsqlLite;
 import org.wipf.elcd.model.struct.Telegram;
+import org.wipf.elcd.model.telegram.apps.MEssen;
+import org.wipf.elcd.model.telegram.apps.MMumel;
+import org.wipf.elcd.model.telegram.apps.MTicTacToe;
+import org.wipf.elcd.model.telegram.apps.MTodoList;
 
 /**
  * @author wipf

@@ -12,15 +12,15 @@ import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.process.internal.RequestScoped;
 import org.wipf.elcd.app.MainApp;
-import org.wipf.elcd.model.MBlowfish;
-import org.wipf.elcd.model.MLogger;
 import org.wipf.elcd.model.MPing;
-import org.wipf.elcd.model.MTelegram;
 import org.wipf.elcd.model.MTime;
-import org.wipf.elcd.model.MTodoList;
-import org.wipf.elcd.model.MWipf;
-import org.wipf.elcd.model.M_Run;
-import org.wipf.elcd.model.MelcdConnect;
+import org.wipf.elcd.model.base.MBlowfish;
+import org.wipf.elcd.model.base.MLogger;
+import org.wipf.elcd.model.base.MWipf;
+import org.wipf.elcd.model.elcd.M_Run;
+import org.wipf.elcd.model.elcd.MelcdConnect;
+import org.wipf.elcd.model.telegram.apps.MTodoList;
+import org.wipf.elcd.model.telegram.system.MTelegram;
 
 @RequestScoped
 @Path("/")

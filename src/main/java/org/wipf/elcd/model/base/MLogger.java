@@ -1,4 +1,6 @@
-package org.wipf.elcd.model;
+package org.wipf.elcd.model.base;
+
+import org.wipf.elcd.model.MTime;
 
 /**
  * @author wipf

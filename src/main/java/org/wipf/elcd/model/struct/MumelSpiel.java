@@ -3,7 +3,7 @@ package org.wipf.elcd.model.struct;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.wipf.elcd.model.MLogger;
+import org.wipf.elcd.model.base.MLogger;
 
 /**
  * @author wipf

@@ -3,8 +3,8 @@ package org.wipf.elcd.model.task;
 import java.util.TimerTask;
 
 import org.wipf.elcd.app.MainApp;
-import org.wipf.elcd.model.MLogger;
-import org.wipf.elcd.model.MTelegram;
+import org.wipf.elcd.model.base.MLogger;
+import org.wipf.elcd.model.telegram.system.MTelegram;
 
 /**
  * @author wipf

@@ -1,4 +1,4 @@
-package org.wipf.elcd.model;
+package org.wipf.elcd.model.base;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
