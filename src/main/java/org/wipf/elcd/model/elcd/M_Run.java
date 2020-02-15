@@ -1,9 +1,11 @@
-package org.wipf.elcd.model;
+package org.wipf.elcd.model.elcd;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import org.wipf.elcd.app.MainApp;
+import org.wipf.elcd.model.base.MLogger;
+import org.wipf.elcd.model.base.MWipf;
 
 /**
  * @author wipf
@@ -56,8 +58,8 @@ public class M_Run {
 	 * 
 	 */
 	public static void displayLoopRare() {
-		String sDayname = MTime.dayName();
-		String sDate = MTime.date();
+		String sDayname = MWipf.dayName();
+		String sDate = MWipf.date();
 
 		MelcdConnect.write(1, ((20 - sDayname.length()) / 2), sDayname);
 		MelcdConnect.write(2, ((20 - sDate.length()) / 2), sDate);
@@ -67,7 +69,7 @@ public class M_Run {
 	 * 
 	 */
 	public static void displayLoop() {
-		MelcdConnect.write(0, 6, MTime.uhr());
+		MelcdConnect.write(0, 6, MWipf.uhr());
 	}
 
 	/**

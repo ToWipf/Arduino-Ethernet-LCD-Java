@@ -1,4 +1,4 @@
-package org.wipf.elcd.model;
+package org.wipf.elcd.model.base;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;

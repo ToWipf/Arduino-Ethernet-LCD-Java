@@ -1,4 +1,4 @@
-package org.wipf.elcd.model;
+package org.wipf.elcd.model.telegram.system;
 
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import org.wipf.elcd.app.MainApp;
+import org.wipf.elcd.model.base.MLogger;
+import org.wipf.elcd.model.base.MsqlLite;
 import org.wipf.elcd.model.struct.Telegram;
 
 import com.fasterxml.jackson.databind.JsonNode;

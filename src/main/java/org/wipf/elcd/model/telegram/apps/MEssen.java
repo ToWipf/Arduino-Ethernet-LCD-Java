@@ -1,9 +1,12 @@
-package org.wipf.elcd.model;
+package org.wipf.elcd.model.telegram.apps;
 
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+import org.wipf.elcd.model.base.MLogger;
+import org.wipf.elcd.model.base.MsqlLite;
 import org.wipf.elcd.model.struct.Telegram;
+import org.wipf.elcd.model.telegram.system.MTelegram;
 
 /**
  * @author wipf
@@ -40,12 +43,57 @@ public class MEssen {
 	 * @param t
 	 * @return
 	 */
+	public static String menueEssen(Telegram t) {
+		String sAction = t.getMessageStringPart(1);
+		if (sAction == null) {
+			return "Anleitung mit Essen hilfe";
+		}
+
+		// Admin Befehle
+		if (MTelegram.isAdminUser(t)) {
+			switch (sAction) {
+			case "add":
+				return addEssen(t);
+			case "del":
+				return delEssen(t);
+			case "list":
+				return getAllEssen();
+			case "send":
+				sendDaylyEssen();
+				return "OK";
+			case "count":
+				return count();
+			}
+
+		}
+
+		// public Antworten
+		switch (sAction) {
+		case "get":
+			return getEssenRnd();
+		default:
+			return
+			//@formatter:off
+					"Essen Add: Essen hinzufügen\n" +
+					"Essen Del: id löschen\n" + 
+					"Essen List: alles auflisten\n" +
+					"Essen Get: Zufallsessen\n" +
+					"Essen Count: Anzahl der Einträge\n" +
+					"Essen Send: Zufallsessen senden\n";
+			//@formatter:on
+		}
+	}
+
+	/**
+	 * @param t
+	 * @return
+	 */
 	private static String addEssen(Telegram t) {
 		try {
 			Statement stmt = MsqlLite.getDB();
 			//@formatter:off
 			stmt.execute("INSERT OR REPLACE INTO essen (name, editby, date) VALUES " +
-					"('" + t.getMessageFullDataOnly() +
+					"('" + t.getMessageStringSecond() +
 					"','" + t.getFrom() +
 					"','"+ t.getDate() +
 					"')");
@@ -60,13 +108,13 @@ public class MEssen {
 	/**
 	 * @return
 	 */
-	private static String contEssen() {
+	private static String count() {
 		try {
 			Statement stmt = MsqlLite.getDB();
 			ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM essen;");
 			return rs.getString("COUNT(*)") + " Einträge in der DB";
 		} catch (Exception e) {
-			MLogger.warn("count Telegram " + e);
+			MLogger.warn("count essen " + e);
 			return null;
 		}
 	}
@@ -78,7 +126,7 @@ public class MEssen {
 	private static String delEssen(Telegram t) {
 		try {
 			Statement stmt = MsqlLite.getDB();
-			stmt.execute("DELETE FROM essen WHERE id = " + t.getMessageInt(1));
+			stmt.execute("DELETE FROM essen WHERE id = " + t.getMessageInt(2));
 			return "DEL";
 		} catch (Exception e) {
 			MLogger.warn("delete essen" + e);
@@ -129,48 +177,6 @@ public class MEssen {
 		} catch (Exception e) {
 			MLogger.warn("get essen rnd " + e);
 			return "Fehler";
-		}
-	}
-
-	/**
-	 * @param t
-	 * @return
-	 */
-	public static String menueEssen(Telegram t) {
-		// Admin Befehle
-		if (MTelegram.isAdminUser(t)) {
-			switch (t.getMessageWord(0)) {
-			case "addessen":
-				return addEssen(t);
-			case "delessen":
-				return delEssen(t);
-			case "listessen":
-				return getAllEssen();
-			case "sendessen":
-				sendDaylyEssen();
-				return "OK";
-			case "countessen":
-				return contEssen();
-			}
-
-		}
-
-		// Alle festen Antworten
-		switch (t.getMessageWord(0)) {
-		case "getessen":
-			return getEssenRnd();
-		case "essen":
-			//@formatter:off
-			return
-					"AddEssen: Essen hinzufügen\n" +
-					"DelEssen: id löschen\n" + 
-					"ListEssen: alles auflisten\n" +
-					"GetEssen: Zufallsessen\n" +
-					"CountEssen: Anzahl der Einträge\n" +
-					"SendEssen: Zufallsessen senden\n";
-			//@formatter:on
-		default:
-			return null;
 		}
 	}
 }

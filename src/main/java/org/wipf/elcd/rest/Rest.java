@@ -12,14 +12,14 @@ import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.process.internal.RequestScoped;
 import org.wipf.elcd.app.MainApp;
-import org.wipf.elcd.model.MBlowfish;
-import org.wipf.elcd.model.MLogger;
-import org.wipf.elcd.model.MPing;
-import org.wipf.elcd.model.MTelegram;
-import org.wipf.elcd.model.MTime;
-import org.wipf.elcd.model.MWipf;
-import org.wipf.elcd.model.M_Run;
-import org.wipf.elcd.model.MelcdConnect;
+import org.wipf.elcd.model.base.MBlowfish;
+import org.wipf.elcd.model.base.MLogger;
+import org.wipf.elcd.model.base.MWipf;
+import org.wipf.elcd.model.elcd.M_Run;
+import org.wipf.elcd.model.elcd.MelcdConnect;
+import org.wipf.elcd.model.telegram.apps.MOthers;
+import org.wipf.elcd.model.telegram.apps.MTodoList;
+import org.wipf.elcd.model.telegram.system.MTelegram;
 
 @RequestScoped
 @Path("/")
@@ -32,7 +32,7 @@ public class Rest {
 	@Path("/ping/{ip}")
 	@Produces("text/plain")
 	public String ping(@PathParam("ip") String sIP) {
-		return MPing.ping(sIP).toString();
+		return MWipf.ping(sIP).toString();
 	}
 
 	@POST
@@ -46,14 +46,14 @@ public class Rest {
 	@Path("/date")
 	@Produces("text/plain")
 	public Response date() {
-		return MWipf.genResponse(MTime.date());
+		return MWipf.genResponse(MWipf.date());
 	}
 
 	@GET
 	@Path("r/{bis}/{anzahl}")
 	@Produces("text/plain")
 	public String zufall(@PathParam("bis") Integer nBis, @PathParam("anzahl") Integer nAnzahl) {
-		return MWipf.zufall(nBis, nAnzahl);
+		return MOthers.zufall(nBis, nAnzahl);
 	}
 
 	// Blowfish
@@ -98,6 +98,13 @@ public class Rest {
 	@Produces("text/plain")
 	public Response telelogtf() {
 		return MWipf.genResponse(MTelegram.getTelegramLog("798200105"));
+	}
+
+	@GET
+	@Path("todolist")
+	@Produces("text/plain")
+	public Response todolist() {
+		return MWipf.genResponse(MTodoList.getAllFull());
 	}
 
 	@PUT

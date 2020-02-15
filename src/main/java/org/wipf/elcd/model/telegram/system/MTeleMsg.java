@@ -1,4 +1,4 @@
-package org.wipf.elcd.model;
+package org.wipf.elcd.model.telegram.system;
 
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -6,7 +6,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.wipf.elcd.app.MainApp;
+import org.wipf.elcd.model.base.MBlowfish;
+import org.wipf.elcd.model.base.MLogger;
+import org.wipf.elcd.model.base.MWipf;
+import org.wipf.elcd.model.base.MsqlLite;
 import org.wipf.elcd.model.struct.Telegram;
+import org.wipf.elcd.model.telegram.apps.MEssen;
+import org.wipf.elcd.model.telegram.apps.MMumel;
+import org.wipf.elcd.model.telegram.apps.MOthers;
+import org.wipf.elcd.model.telegram.apps.MTicTacToe;
+import org.wipf.elcd.model.telegram.apps.MTodoList;
 
 /**
  * @author wipf
@@ -34,7 +43,7 @@ public class MTeleMsg {
 	 */
 	public static void sendDaylyInfo() {
 		Telegram t = new Telegram();
-		t.setAntwort(MTime.dateTimeMs() + "\n" + MTeleMsg.contMsg() + "\n" + MTeleMsg.contMotd() + "\n"
+		t.setAntwort(MWipf.dateTimeMs() + "\n" + MTeleMsg.countMsg() + "\n" + MTeleMsg.countMotd() + "\n"
 				+ MTelegram.contSend() + "\n\nVersion:" + MainApp.VERSION);
 		t.setChatID(798200105);
 
@@ -61,7 +70,7 @@ public class MTeleMsg {
 	public static String menueMsg(Telegram t) {
 		// Admin Befehle
 		if (MTelegram.isAdminUser(t)) {
-			switch (t.getMessageWord(0)) {
+			switch (t.getMessageStringPart(0)) {
 			case "admin":
 				// @formatter:off
 				return 
@@ -106,21 +115,16 @@ public class MTeleMsg {
 				return "OK";
 
 			case "doping":
-				return MPing.ping(t.getMessageRaw(1)).toString();
+				return MWipf.ping(t.getMessageStringRawPart(1)).toString();
+			case "shell":
+				return MWipf.shell(t.getMessageStringFirst());
+
 			default:
 				break;
 			}
 		}
-
-		// *apps
-		String sEssen = MEssen.menueEssen(t);
-		if (sEssen != null) {
-			return sEssen;
-		}
-		// TODO ttt auch so hinzufügen
-
 		// Alle festen Antworten
-		switch (t.getMessageWord(0)) {
+		switch (t.getMessageStringPart(0)) {
 		case "start":
 			return "Wipfbot Version:" + MainApp.VERSION + "\nInfos per 'info'";
 		case "wipfbot":
@@ -135,17 +139,17 @@ public class MTeleMsg {
 		case "r":
 		case "rnd":
 		case "zufall":
-			return MWipf.zufall(t.getMessageWord(1), t.getMessageWord(2));
+			return MOthers.zufall(t.getMessageStringPart(1), t.getMessageStringPart(2));
 		case "c":
 		case "cr":
 		case "en":
 		case "encrypt":
-			return MBlowfish.encrypt(t.getMessageFullDataOnly());
+			return MBlowfish.encrypt(t.getMessageStringFirst());
 		case "d":
 		case "de":
 		case "dc":
 		case "decrypt":
-			return MBlowfish.decrypt(t.getMessageFullDataOnly());
+			return MBlowfish.decrypt(t.getMessageStringFirst());
 		case "t":
 		case "ttt":
 		case "tictactoe":
@@ -159,23 +163,23 @@ public class MTeleMsg {
 		case "zeit":
 		case "clock":
 		case "z":
-			return MTime.dateTime();
+			return MWipf.dateTime();
 		case "witz":
 		case "fun":
 		case "w":
 		case "joke":
-			return MWitz.getWitz();
+			return MOthers.getWitz();
 		case "m":
 		case "mummel":
 		case "mumel":
 		case "ml":
 			return MMumel.playMumel(t);
 		case "countmsg":
-			return MTeleMsg.contMsg();
+			return MTeleMsg.countMsg();
 		case "countsend":
 			return MTelegram.contSend();
 		case "telestats":
-			return MTime.dateTime() + "\n" + MTeleMsg.contMsg() + "\n" + MTelegram.contSend();
+			return MWipf.dateTime() + "\n" + MTeleMsg.countMsg() + "\n" + MTelegram.contSend();
 		case "getmyid":
 		case "id":
 		case "whoami":
@@ -183,6 +187,12 @@ public class MTeleMsg {
 		case "me":
 			return "From: " + t.getFrom() + "\n\nChat: " + t.getChatID() + " " + t.getType() + "\n\nM_id: "
 					+ t.getMid();
+		case "essen":
+		case "e":
+			return MEssen.menueEssen(t);
+		case "to":
+		case "todo":
+			return MTodoList.menueTodoList(t);
 		default:
 			// Alle db aktionen
 			t = getMsg(t, 0);
@@ -241,9 +251,9 @@ public class MTeleMsg {
 		try {
 			Statement stmt = MsqlLite.getDB();
 			stmt.execute("INSERT OR REPLACE INTO telemsg (request, response, options, editby, date) VALUES " + "('"
-					+ t.getMessageWord(1) + "','" + t.getMessageDataOnly() + "','" + null + "','" + t.getFrom() + "','"
-					+ t.getDate() + "')");
-			return "OK: " + t.getMessageWord(1);
+					+ t.getMessageStringPart(1) + "','" + t.getMessageStringSecond() + "','" + null + "','"
+					+ t.getFrom() + "','" + t.getDate() + "')");
+			return "OK: " + t.getMessageStringPart(1);
 		} catch (Exception e) {
 			MLogger.warn("add telemsg " + e);
 			return "Fehler";
@@ -258,7 +268,7 @@ public class MTeleMsg {
 		try {
 			Statement stmt = MsqlLite.getDB();
 			stmt.execute("INSERT OR REPLACE INTO telemotd (text, editby, date) VALUES " + "('"
-					+ t.getMessageFullDataOnly() + "','" + t.getFrom() + "','" + t.getDate() + "')");
+					+ t.getMessageStringFirst() + "','" + t.getFrom() + "','" + t.getDate() + "')");
 			return "IN";
 		} catch (Exception e) {
 			MLogger.warn("add telemotd " + e);
@@ -269,7 +279,7 @@ public class MTeleMsg {
 	/**
 	 * @return
 	 */
-	private static String contMsg() {
+	private static String countMsg() {
 		try {
 			Statement stmt = MsqlLite.getDB();
 			ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM telemsg;");
@@ -283,7 +293,7 @@ public class MTeleMsg {
 	/**
 	 * @return
 	 */
-	private static String contMotd() {
+	private static String countMotd() {
 		try {
 			Statement stmt = MsqlLite.getDB();
 			ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM telemotd;");
@@ -328,7 +338,7 @@ public class MTeleMsg {
 
 			Statement stmt = MsqlLite.getDB();
 			ResultSet rs = stmt
-					.executeQuery("select * from telemsg where request = '" + t.getMessageWord(nStelle) + "';");
+					.executeQuery("select * from telemsg where request = '" + t.getMessageStringPart(nStelle) + "';");
 			while (rs.next()) {
 				mapS.put(rs.getString("response"), rs.getString("options"));
 			}

@@ -2,9 +2,9 @@ package org.wipf.elcd.app;
 
 import java.net.URI;
 
-import org.wipf.elcd.model.MLogger;
-import org.wipf.elcd.model.MTelegram;
-import org.wipf.elcd.model.MsqlLite;
+import org.wipf.elcd.model.base.MLogger;
+import org.wipf.elcd.model.base.MsqlLite;
+import org.wipf.elcd.model.telegram.system.MTelegram;
 
 /**
  * @author wipf
@@ -30,12 +30,15 @@ public class MainApp {
 	 * millisec in dayly msg
 	 * rnd starten mit 1 nicht mit 0
 	 * admin tabelle (Telegram ids nicht in code)
+	 * morsecode
+	 * sammelen aller user in tabelle mit rechten
+	 * shell raw
 	 * 
 	 * //@formatter:on
 	 */
 
 	public static final URI BASE_URI = URI.create("http://0.0.0.0:8080/");
-	public static final String VERSION = "1.61";
+	public static final String VERSION = "1.76";
 	public static final String DB_PATH = System.getProperty("user.home") + "/wipfapp/" + "wipfapp.db";
 	public static final String ELCD_PATH = "http://192.168.2.242/";
 	public static final String sKey = "superKey42";

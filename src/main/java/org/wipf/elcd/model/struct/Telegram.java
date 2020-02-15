@@ -1,7 +1,7 @@
 package org.wipf.elcd.model.struct;
 
-import org.wipf.elcd.model.MLogger;
-import org.wipf.elcd.model.MWipf;
+import org.wipf.elcd.model.base.MLogger;
+import org.wipf.elcd.model.base.MWipf;
 
 /**
  * @author wipf
@@ -42,8 +42,8 @@ public class Telegram {
 	 * @param nStelle
 	 * @return
 	 */
-	public String getMessageWord(int nStelle) {
-		String s = getMessageRaw(nStelle);
+	public String getMessageStringPart(int nStelle) {
+		String s = getMessageStringRawPart(nStelle);
 		if (s != null) {
 			// Satzzeichen ignorieren
 			return s.toLowerCase().replace("/", "").replace(".", "").replace("?", "").replace("!", "");
@@ -55,7 +55,7 @@ public class Telegram {
 	 * @param nStelle
 	 * @return
 	 */
-	public String getMessageRaw(int nStelle) {
+	public String getMessageStringRawPart(int nStelle) {
 		try {
 			int n = 0;
 			for (String part : sMessage.split(" ")) {
@@ -73,7 +73,7 @@ public class Telegram {
 	/**
 	 * @return mgs ohne die ersten zwei wörter
 	 */
-	public String getMessageDataOnly() {
+	public String getMessageStringSecond() {
 		String s = sMessage.substring(sMessage.indexOf(' ') + 1);
 		return s.substring(s.indexOf(' '));
 	}
@@ -81,7 +81,7 @@ public class Telegram {
 	/**
 	 * @return mgs ohne das erste wort
 	 */
-	public String getMessageFullDataOnly() {
+	public String getMessageStringFirst() {
 		return sMessage.substring(sMessage.indexOf(' ') + 1);
 	}
 
@@ -91,7 +91,7 @@ public class Telegram {
 	 */
 	public Integer getMessageInt(int nStelle) {
 		try {
-			return Integer.parseInt(getMessageWord(nStelle));
+			return Integer.parseInt(getMessageStringPart(nStelle));
 		} catch (Exception e) {
 			return null;
 		}

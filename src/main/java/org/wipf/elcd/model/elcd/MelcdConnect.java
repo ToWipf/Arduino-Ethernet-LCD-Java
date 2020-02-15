@@ -1,4 +1,4 @@
-package org.wipf.elcd.model;
+package org.wipf.elcd.model.elcd;
 
 import org.wipf.elcd.app.MainApp;
 

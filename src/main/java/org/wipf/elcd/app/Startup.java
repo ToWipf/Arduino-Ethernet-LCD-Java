@@ -9,15 +9,16 @@ import java.util.logging.Logger;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
-import org.wipf.elcd.model.MEssen;
-import org.wipf.elcd.model.MLogger;
-import org.wipf.elcd.model.MMumel;
-import org.wipf.elcd.model.MTeleMsg;
-import org.wipf.elcd.model.MTelegram;
-import org.wipf.elcd.model.MTicTacToe;
-import org.wipf.elcd.model.MsqlLite;
+import org.wipf.elcd.model.base.MLogger;
+import org.wipf.elcd.model.base.MsqlLite;
 import org.wipf.elcd.model.task.TaskInfoTelegram;
 import org.wipf.elcd.model.task.TaskTelegram;
+import org.wipf.elcd.model.telegram.apps.MEssen;
+import org.wipf.elcd.model.telegram.apps.MMumel;
+import org.wipf.elcd.model.telegram.apps.MTicTacToe;
+import org.wipf.elcd.model.telegram.apps.MTodoList;
+import org.wipf.elcd.model.telegram.system.MTeleMsg;
+import org.wipf.elcd.model.telegram.system.MTelegram;
 import org.wipf.elcd.rest.Rest;
 
 import com.mashape.unirest.http.Unirest;
@@ -72,7 +73,7 @@ public class Startup {
 
 		// This task is scheduled to run every 20 seconds
 		t.scheduleAtFixedRate(mTask, 0, 20000);
-		// This task is scheduled to run every 1 day
+		// This task is scheduled to run every 1 day at 00:00
 		t.scheduleAtFixedRate(mInfoTask, nSekundenBisMitternacht * 1000, 86400000);
 	}
 
@@ -85,6 +86,7 @@ public class Startup {
 		MTeleMsg.initDB();
 		MMumel.initDB();
 		MEssen.initDB();
+		MTodoList.initDB();
 		try {
 			Statement stmt = MsqlLite.getDB();
 			stmt.executeUpdate("CREATE TABLE IF NOT EXISTS settings (id, val);");
