@@ -41,9 +41,14 @@ public class MEssen {
 	 * @return
 	 */
 	public static String menueEssen(Telegram t) {
+		String sAction = t.getMessageStringPart(1);
+		if (sAction == null) {
+			return "Anleitung mit Essen hilfe";
+		}
+
 		// Admin Befehle
 		if (MTelegram.isAdminUser(t)) {
-			switch (t.getMessageStringPart(1)) {
+			switch (sAction) {
 			case "add":
 				return addEssen(t);
 			case "del":
@@ -60,20 +65,20 @@ public class MEssen {
 		}
 
 		// public Antworten
-		if (t.getMessageStringPart(1) != null)
-			switch (t.getMessageStringPart(1)) {
-			case "get":
-				return getEssenRnd();
-			}
-		return
-		//@formatter:off
-				"Essen Add: Essen hinzufügen\n" +
-				"Essen Del: id löschen\n" + 
-				"Essen List: alles auflisten\n" +
-				"Essen Get: Zufallsessen\n" +
-				"Essen Count: Anzahl der Einträge\n" +
-				"Essen Send: Zufallsessen senden\n";
-		//@formatter:on
+		switch (sAction) {
+		case "get":
+			return getEssenRnd();
+		default:
+			return
+			//@formatter:off
+					"Essen Add: Essen hinzufügen\n" +
+					"Essen Del: id löschen\n" + 
+					"Essen List: alles auflisten\n" +
+					"Essen Get: Zufallsessen\n" +
+					"Essen Count: Anzahl der Einträge\n" +
+					"Essen Send: Zufallsessen senden\n";
+			//@formatter:on
+		}
 	}
 
 	/**
