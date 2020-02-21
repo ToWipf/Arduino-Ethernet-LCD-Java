@@ -1,4 +1,4 @@
-package com.airhacks.quarkee.health.boundary;
+package org.wipf.elcd.app;
 
 import javax.enterprise.context.ApplicationScoped;
 

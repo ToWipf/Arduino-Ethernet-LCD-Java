@@ -3,12 +3,7 @@ package org.wipf.elcd.app;
 import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.util.Timer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-import org.glassfish.grizzly.http.server.HttpServer;
-import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
-import org.glassfish.jersey.server.ResourceConfig;
 import org.wipf.elcd.model.base.MLogger;
 import org.wipf.elcd.model.base.MsqlLite;
 import org.wipf.elcd.model.task.TaskInfoTelegram;
@@ -19,9 +14,6 @@ import org.wipf.elcd.model.telegram.apps.MTicTacToe;
 import org.wipf.elcd.model.telegram.apps.MTodoList;
 import org.wipf.elcd.model.telegram.system.MTeleMsg;
 import org.wipf.elcd.model.telegram.system.MTelegram;
-import org.wipf.elcd.rest.Rest;
-
-import com.mashape.unirest.http.Unirest;
 
 /**
  * @author wipf
@@ -33,27 +25,27 @@ public class Startup {
 	 * 
 	 */
 	public static void runRestApi() {
-		try {
-			MainApp.RunLock = false;
-			Unirest.setTimeouts(3000, 5000);
-
-			final ResourceConfig resourceConfig = new ResourceConfig(Rest.class);
-			final HttpServer server = GrizzlyHttpServerFactory.createHttpServer(MainApp.BASE_URI, resourceConfig,
-					false);
-			Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
-				@Override
-				public void run() {
-					MLogger.warn(String.format("api beenden"));
-					server.shutdownNow();
-				}
-			}));
-			server.start();
-
-			MLogger.info(String.format("api aktiv: %s", MainApp.BASE_URI));
-			Thread.currentThread().join();
-		} catch (Exception ex) {
-			Logger.getLogger(MainApp.class.getName()).log(Level.SEVERE, null, ex);
-		}
+//		try {
+//			MainApp.RunLock = false;
+//			Unirest.setTimeouts(3000, 5000);
+//
+//			final ResourceConfig resourceConfig = new ResourceConfig(Rest.class);
+//			final HttpServer server = GrizzlyHttpServerFactory.createHttpServer(MainApp.BASE_URI, resourceConfig,
+//					false);
+//			Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+//				@Override
+//				public void run() {
+//					MLogger.warn(String.format("api beenden"));
+//					server.shutdownNow();
+//				}
+//			}));
+//			server.start();
+//
+//			MLogger.info(String.format("api aktiv: %s", MainApp.BASE_URI));
+//			Thread.currentThread().join();
+//		} catch (Exception ex) {
+//			Logger.getLogger(MainApp.class.getName()).log(Level.SEVERE, null, ex);
+//		}
 	}
 
 	/**

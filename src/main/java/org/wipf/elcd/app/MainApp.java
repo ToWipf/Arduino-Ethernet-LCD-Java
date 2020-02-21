@@ -2,9 +2,15 @@ package org.wipf.elcd.app;
 
 import java.net.URI;
 
+import javax.enterprise.event.Observes;
+
+import org.jboss.logging.Logger;
 import org.wipf.elcd.model.base.MLogger;
 import org.wipf.elcd.model.base.MsqlLite;
 import org.wipf.elcd.model.telegram.system.MTelegram;
+
+import io.quarkus.runtime.ShutdownEvent;
+import io.quarkus.runtime.StartupEvent;
 
 /**
  * @author wipf
@@ -36,7 +42,7 @@ public class MainApp {
 	 * 
 	 * //@formatter:on
 	 */
-
+	private static final Logger LOGGER = Logger.getLogger("ListenerBean");
 	public static final URI BASE_URI = URI.create("http://0.0.0.0:8080/");
 	public static final String VERSION = "1.79";
 	public static final String DB_PATH = System.getProperty("user.home") + "/wipfapp/" + "wipfapp.db";
@@ -50,9 +56,10 @@ public class MainApp {
 	public static String BOTKEY;
 
 	/**
-	 * @param args
+	 * @param ev
 	 */
-	public static void main(String[] args) {
+	void onStart(@Observes StartupEvent ev) {
+		LOGGER.info("The application is starting...");
 		MLogger.info("Starte WipfApp " + VERSION);
 
 		MsqlLite.startDB();
@@ -61,6 +68,13 @@ public class MainApp {
 			Startup.startTelegramTask();
 		}
 		Startup.runRestApi();
+	}
+
+	/**
+	 * @param ev
+	 */
+	void onStop(@Observes ShutdownEvent ev) {
+		LOGGER.info("The application is stopping...");
 	}
 
 }

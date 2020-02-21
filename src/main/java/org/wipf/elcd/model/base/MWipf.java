@@ -7,13 +7,10 @@ import java.util.Random;
 
 import javax.ws.rs.core.Response;
 
-import org.glassfish.jersey.process.internal.RequestScoped;
-
 /**
  * @author wipf
  *
  */
-@RequestScoped
 public class MWipf {
 
 	/**

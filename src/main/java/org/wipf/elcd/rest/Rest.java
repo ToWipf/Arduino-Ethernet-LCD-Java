@@ -8,9 +8,9 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.glassfish.jersey.process.internal.RequestScoped;
 import org.wipf.elcd.app.MainApp;
 import org.wipf.elcd.model.base.MBlowfish;
 import org.wipf.elcd.model.base.MLogger;
@@ -21,7 +21,6 @@ import org.wipf.elcd.model.telegram.apps.MOthers;
 import org.wipf.elcd.model.telegram.apps.MTodoList;
 import org.wipf.elcd.model.telegram.system.MTelegram;
 
-@RequestScoped
 @Path("/")
 public class Rest {
 
@@ -30,28 +29,28 @@ public class Rest {
 
 	@GET
 	@Path("/ping/{ip}")
-	@Produces("text/plain")
+	@Produces(MediaType.TEXT_PLAIN)
 	public String ping(@PathParam("ip") String sIP) {
 		return MWipf.ping(sIP).toString();
 	}
 
 	@POST
 	@Path("/setbot/{bot}")
-	@Produces("text/plain")
+	@Produces(MediaType.TEXT_PLAIN)
 	public Response setbot(@PathParam("bot") String sBot) {
 		return MWipf.genResponse(MTelegram.setbot(sBot));
 	}
 
 	@GET
 	@Path("/date")
-	@Produces("text/plain")
+	@Produces(MediaType.TEXT_PLAIN)
 	public Response date() {
 		return MWipf.genResponse(MWipf.date());
 	}
 
 	@GET
 	@Path("r/{bis}/{anzahl}")
-	@Produces("text/plain")
+	@Produces(MediaType.TEXT_PLAIN)
 	public String zufall(@PathParam("bis") Integer nBis, @PathParam("anzahl") Integer nAnzahl) {
 		return MOthers.zufall(nBis, nAnzahl);
 	}
@@ -59,14 +58,14 @@ public class Rest {
 	// Blowfish
 	@GET
 	@Path("/cr/{txt}")
-	@Produces("text/plain")
+	@Produces(MediaType.TEXT_PLAIN)
 	public String cr(@PathParam("txt") String sIn) throws Exception {
 		return MBlowfish.encrypt(sIn);
 	}
 
 	@GET
 	@Path("/dc/{txt}")
-	@Produces("text/plain")
+	@Produces(MediaType.TEXT_PLAIN)
 	public String dc(@PathParam("txt") String sIn) throws Exception {
 		return MBlowfish.decrypt(sIn);
 	}
@@ -74,42 +73,42 @@ public class Rest {
 	// Start Send to
 	@GET
 	@Path("s")
-	@Produces("text/plain")
+	@Produces(MediaType.TEXT_PLAIN)
 	public String startLcd() {
 		return M_Run.startElcd();
 	}
 
 	@GET
 	@Path("status")
-	@Produces("text/plain")
+	@Produces(MediaType.TEXT_PLAIN)
 	public Response status() {
 		return MWipf.genResponse(MainApp.RunLock.toString());
 	}
 
 	@GET
 	@Path("telelog")
-	@Produces("text/plain")
+	@Produces(MediaType.TEXT_PLAIN)
 	public Response telelog() {
 		return MWipf.genResponse(MTelegram.getTelegramLog(null));
 	}
 
 	@GET
 	@Path("telelogtf")
-	@Produces("text/plain")
+	@Produces(MediaType.TEXT_PLAIN)
 	public Response telelogtf() {
 		return MWipf.genResponse(MTelegram.getTelegramLog("798200105"));
 	}
 
 	@GET
 	@Path("todolist")
-	@Produces("text/plain")
+	@Produces(MediaType.TEXT_PLAIN)
 	public Response todolist() {
 		return MWipf.genResponse(MTodoList.getAllFull());
 	}
 
 	@PUT
 	@Path("cls")
-	@Produces("text/plain")
+	@Produces(MediaType.TEXT_PLAIN)
 	public Response cls() {
 		Boolean bStatus = MelcdConnect.clear();
 		return MWipf.genResponse(bStatus.toString());
@@ -117,7 +116,7 @@ public class Rest {
 
 	@PUT
 	@Path("msg/{msg}")
-	@Produces("text/plain")
+	@Produces(MediaType.TEXT_PLAIN)
 	public Response sendMsg(@PathParam("msg") String sMsg) {
 		Boolean bStatus = M_Run.sendMsg(sMsg);
 		return MWipf.genResponse(bStatus.toString());
