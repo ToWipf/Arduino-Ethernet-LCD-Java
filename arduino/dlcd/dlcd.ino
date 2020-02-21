@@ -2,28 +2,54 @@
 #include <LiquidCrystal_I2C.h>
 
 /*
-  RestClient GET
-
+  Rest
   Tobias Fritsch
-  02.08.2019
+  12.10.2019
 */
 
-byte mac[] = { 0x12, 0x34, 0x56, 0x78, 0x90, 0x12 };
-IPAddress ip(192, 168, 2, 242);
+#define OKT1 192
+#define OKT2 168
+#define OKT3 2
+#define MACBYTE 0x11
+
+byte mac[] = { MACBYTE, MACBYTE, MACBYTE, MACBYTE, MACBYTE, MACBYTE };
+IPAddress ip(OKT1, OKT2, OKT3, 242);
 EthernetServer server(80);
 LiquidCrystal_I2C lcd(0x3F, 20, 4);
 
 String readString = String(20);
 
 void setup() {
+  // Pin 10 bis 13 nicht verwenden
   Ethernet.begin(mac, ip);
-  server.begin();
+
   pinMode(4, OUTPUT);
+  pinMode(5, INPUT);
   lcd.begin();
   lcd.clear();
-
-  lcd.print("Wipf");
+  lcd.print("W");
+  sendaMsg();
+  delay(500);
+  server.begin();
+  lcd.print("F");
 }
+
+void sendaMsg() {
+  lcd.print("I");
+  EthernetClient client;
+
+  if (client.connect(IPAddress(OKT1, OKT2, OKT3, 10), 8080)) {
+    lcd.print("P");
+    client.println("GET /s HTTP/1.1\r\nHost: 0.0.0.0:8080\r\n\r\n");
+    delay(500);
+    client.stop();
+  }
+  else {
+    delay(1000);
+    sendaMsg();
+  }
+}
+
 
 void loop() {
   EthernetClient client = server.available();
@@ -31,20 +57,21 @@ void loop() {
     while (client.connected()) {
       if (client.available()) {
         char c = client.read();
-        if (readString.length() < 55) {
+        if (readString.length() < 60) {
           readString = readString + c;
         }
         if (c == '\n') {
 
           client.println("HTTP/1.1 200 OK");
-          client.println("Content-Type: text/html");
+          // client.println("Content-Type: text/html");
           client.println();
 
-          client.println("{}");
+          client.print("{");
+          client.print(digitalRead(5));
+          client.println("}");
 
           // Nur PUT zulassen
           if (readString.indexOf("PUT /") > -1) {
-
 
             if (readString.indexOf("doOn")  > -1) {
               digitalWrite(4, HIGH);
@@ -58,34 +85,23 @@ void loop() {
               lcd.clear();
               lcd.setCursor(0, 0);
             }
-            else if (readString.indexOf("/!~") == 4) {
-              // Jede Position ansteuern mit z.B. /!~103
-              int col = (readString.substring(7, 9).toInt());
-              int row = readString.substring(9, 10).toInt();
-
-              lcd.setCursor(col, row);
-
-            }
-
             else {
-              String ss = readString;
-              ss.replace("%20", " ");
+              // Format: 103/text
+              // row 1
+              // col 03
+              lcd.setCursor(readString.substring(6, 8).toInt(), readString.substring(5, 6).toInt());
 
-              // GET /xxx HTTP/1.1
-              //      xxx
-              String s = ss.substring(ss.indexOf("/") + 1, ss.lastIndexOf("HTTP/1.1") - 1);
+              String s = readString.substring(8, readString.lastIndexOf("HTTP/1.1") - 1);
+              s.replace("%20", " ");
               s.remove(s.length());
-              if (s.length() <= 20) {
-                lcd.print(s);
-              } else {
-                lcd.print("E2");
-              }
+
+              lcd.print(s);
+
             }
           }
           else {
-            lcd.print("E1");
+            lcd.print("F");
           }
-          //client.print("}");
           readString = "";
 
           //stopping client

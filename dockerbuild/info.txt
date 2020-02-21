@@ -1,5 +1,0 @@
-alias d='docker -H 192.168.2.78'
-
-d rm -f wipf1
-d build . -t wipf1
-d run --name wipf1 -p 8080:8080 wipf1

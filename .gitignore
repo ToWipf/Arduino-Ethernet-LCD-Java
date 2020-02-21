@@ -1,2 +1,4 @@
 /target/
-/dockerbuild/elcd.war
+/angular/node_modules/
+/angular/dist/
+/angular/package-lock.json

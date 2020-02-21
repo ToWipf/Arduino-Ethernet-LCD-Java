@@ -1,0 +1,24 @@
+<div>
+    <h1 class="wipf">Wipf-App</h1>
+    <hr>
+
+    <ng-container *ngIf="online==='true'">
+        <div>
+            Nachricht senden:
+            <input (input)="txt=$event.target.value" type="text" class="form-control">
+            <button (click)="sendMsg()">Send</button>
+        </div>
+        <div>
+            <button class="btn" (click)="cls()">Clear Screen</button>
+        </div>
+        {{STATUS}}
+    </ng-container>
+    <ng-container *ngIf="online==='false'">
+        <h3>E-LCD ist offline</h3>
+    </ng-container>
+    <hr>
+    <ng-container *ngIf="online!=='false' && online!=='true'">
+        <h3>Bitte Warten</h3>
+    </ng-container>
+    <hr>
+</div>
