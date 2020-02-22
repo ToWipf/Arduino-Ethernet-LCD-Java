@@ -40,7 +40,7 @@ void sendaMsg() {
 
   if (client.connect(IPAddress(OKT1, OKT2, OKT3, 10), 8080)) {
     lcd.print("P");
-    client.println("GET /s HTTP/1.1\r\nHost: 0.0.0.0:8080\r\n\r\n");
+    client.println("GET /elcd/s HTTP/1.1\r\nHost: 0.0.0.0:8080\r\n\r\n");
     delay(500);
     client.stop();
   }
