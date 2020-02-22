@@ -40,34 +40,34 @@
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-resteasy-jsonb</artifactId>
 		</dependency>
-		<dependency>
+<!-- 		<dependency>
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-narayana-jta</artifactId>
-		</dependency>
-		<dependency>
+		</dependency> -->
+<!-- 		<dependency>
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-elytron-security</artifactId>
-		</dependency>
+		</dependency> -->
 		<dependency>
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-scheduler</artifactId>
 		</dependency>
-		<dependency>
+<!-- 		<dependency>
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-swagger-ui</artifactId>
-		</dependency>
-		<dependency>
+		</dependency> -->
+<!-- 		<dependency>
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-hibernate-validator</artifactId>
-		</dependency>
+		</dependency> -->
 		<dependency>
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-undertow-websockets</artifactId>
 		</dependency>
-		<dependency>
+	<!-- 	<dependency>
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-smallrye-fault-tolerance</artifactId>
-		</dependency>
+		</dependency> -->
 		<dependency>
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-smallrye-metrics</artifactId>
@@ -76,18 +76,18 @@
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-smallrye-openapi</artifactId>
 		</dependency>
-		<dependency>
+<!-- 		<dependency>
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-smallrye-health</artifactId>
-		</dependency>
-		<dependency>
+		</dependency> -->
+<!-- 		<dependency>
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-smallrye-opentracing</artifactId>
-		</dependency>
-		<dependency>
+		</dependency> -->
+<!-- 		<dependency>
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-smallrye-jwt</artifactId>
-		</dependency>
+		</dependency> -->
 		<!-- WipfApp start -->
 		<dependency>
 			<groupId>com.mashape.unirest</groupId>
