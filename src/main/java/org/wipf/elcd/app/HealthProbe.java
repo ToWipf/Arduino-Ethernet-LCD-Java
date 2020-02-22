@@ -10,14 +10,9 @@ import org.eclipse.microprofile.health.HealthCheckResponse;
 @ApplicationScoped
 public class HealthProbe implements HealthCheck {
 
-    @Override
-    public HealthCheckResponse call() {
-        return HealthCheckResponse.
-        builder().
-        name("quarkee").
-        up().
-        build();
-    }
+	@Override
+	public HealthCheckResponse call() {
+		return HealthCheckResponse.builder().name("wipfapp").up().build();
+	}
 
-    
 }

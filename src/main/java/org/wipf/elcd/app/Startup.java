@@ -55,7 +55,7 @@ import io.quarkus.runtime.StartupEvent;
 public class Startup {
 
 	private static final Logger LOGGER = Logger.getLogger("ListenerBean");
-	public static final String VERSION = "2.19";
+	public static final String VERSION = "2.29";
 	public static final String DB_PATH = System.getProperty("user.home") + "/wipfapp/" + "wipfapp.db";
 	public static final String ELCD_PATH = "http://192.168.2.242/";
 	public static final String sKey = "superKey42";
@@ -87,6 +87,8 @@ public class Startup {
 	 */
 	void onStop(@Observes ShutdownEvent ev) {
 		LOGGER.info("The application is stopping...");
+		System.exit(0);
+		// TODO funktioniert nicht
 	}
 
 	/**

@@ -25,7 +25,6 @@ public class RestElcd {
 	@Path("/s")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String startLcd() {
-		System.out.println("s");
 		return melcdRun.startElcd();
 	}
 
