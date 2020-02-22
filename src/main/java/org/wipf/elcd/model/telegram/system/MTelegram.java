@@ -5,7 +5,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 
-import org.wipf.elcd.app.MainApp;
+import org.wipf.elcd.app.Startup;
 import org.wipf.elcd.model.base.MLogger;
 import org.wipf.elcd.model.base.MsqlLite;
 import org.wipf.elcd.model.struct.Telegram;
@@ -40,12 +40,12 @@ public class MTelegram {
 	 */
 	public static boolean loadConfig() {
 		// Auf 0 setzen -> definierter zustand
-		MainApp.TelegramOffsetID = 0;
+		Startup.TelegramOffsetID = 0;
 		// Load bot config
 		try {
 			Statement stmt = MsqlLite.getDB();
 			ResultSet rs = stmt.executeQuery("SELECT val FROM settings WHERE id = 'telegrambot';");
-			MainApp.BOTKEY = (rs.getString("val"));
+			Startup.BOTKEY = (rs.getString("val"));
 			rs.close();
 			return true;
 		} catch (Exception e) {
@@ -64,8 +64,8 @@ public class MTelegram {
 			Statement stmt = MsqlLite.getDB();
 			stmt.execute("DELETE FROM settings WHERE id = 'telegrambot'");
 			stmt.execute("INSERT INTO settings (id, val) VALUES ('telegrambot','" + sBot + "')");
-			MainApp.BOTKEY = sBot;
-			MLogger.info("Bot Key: " + MainApp.BOTKEY);
+			Startup.BOTKEY = sBot;
+			MLogger.info("Bot Key: " + Startup.BOTKEY);
 
 			return true;
 		} catch (Exception e) {
@@ -82,7 +82,7 @@ public class MTelegram {
 		try {
 			// HttpResponse<String> res;
 			// res =
-			Unirest.post("https://api.telegram.org/" + MainApp.BOTKEY + "/sendMessage?chat_id=" + t.getChatID()
+			Unirest.post("https://api.telegram.org/" + Startup.BOTKEY + "/sendMessage?chat_id=" + t.getChatID()
 					+ "&text=" + t.getAntwort()).asString();
 			// MLogger.info(res.getBody());
 		} catch (UnirestException e) {
@@ -94,15 +94,18 @@ public class MTelegram {
 	 * 
 	 */
 	public static void readUpdateFromTelegram() {
+		System.out.println("telup");
 		try {
 			String sJson;
-			if (MainApp.TelegramOffsetID == 0) {
-				sJson = Unirest.post("https://api.telegram.org/" + MainApp.BOTKEY + "/getUpdates").asString().getBody();
+			if (Startup.TelegramOffsetID == 0) {
+				sJson = Unirest.post("https://api.telegram.org/" + Startup.BOTKEY + "/getUpdates").asString().getBody();
 			} else {
 				sJson = Unirest.post(
-						"https://api.telegram.org/" + MainApp.BOTKEY + "/getUpdates?offset=" + MainApp.TelegramOffsetID)
+						"https://api.telegram.org/" + Startup.BOTKEY + "/getUpdates?offset=" + Startup.TelegramOffsetID)
 						.asString().getBody();
 			}
+
+			// TODO check auf ok {"ok":false,"error_code":404,"description":"Not Found"}
 
 			// parse josn
 			ObjectMapper mapper = new ObjectMapper();
@@ -114,7 +117,7 @@ public class MTelegram {
 				for (JsonNode nn : n) {
 					Telegram t = new Telegram();
 					try {
-						MainApp.TelegramOffsetID = nn.get("update_id").asInt() + 1; // Nachricht gelesen -> löschen am
+						Startup.TelegramOffsetID = nn.get("update_id").asInt() + 1; // Nachricht gelesen -> löschen am
 																					// Telegram server
 						JsonNode msg = nn.get("message");
 						t.setMid(msg.get("message_id").asInt());
@@ -131,7 +134,7 @@ public class MTelegram {
 			}
 			// ids zu db
 			if (li.size() > 5) {
-				MainApp.TelegramOffsetID = MainApp.TelegramOffsetID - li.size() + 5;
+				Startup.TelegramOffsetID = Startup.TelegramOffsetID - li.size() + 5;
 			}
 
 			Integer nMax = 0;
@@ -147,7 +150,7 @@ public class MTelegram {
 					}
 				}
 			}
-			MainApp.FailCountTelegram = 0;
+			Startup.FailCountTelegram = 0;
 
 		} catch (Exception e) {
 			MLogger.warn("readUpdateFromTelegram " + e);

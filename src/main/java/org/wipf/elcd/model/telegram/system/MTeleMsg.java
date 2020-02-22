@@ -5,7 +5,7 @@ import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.wipf.elcd.app.MainApp;
+import org.wipf.elcd.app.Startup;
 import org.wipf.elcd.model.base.MBlowfish;
 import org.wipf.elcd.model.base.MLogger;
 import org.wipf.elcd.model.base.MWipf;
@@ -44,7 +44,7 @@ public class MTeleMsg {
 	public static void sendDaylyInfo() {
 		Telegram t = new Telegram();
 		t.setAntwort(MWipf.dateTimeMs() + "\n" + MTeleMsg.countMsg() + "\n" + MTeleMsg.countMotd() + "\n"
-				+ MTelegram.contSend() + "\n\nVersion:" + MainApp.VERSION);
+				+ MTelegram.contSend() + "\n\nVersion:" + Startup.VERSION);
 		t.setChatID(798200105);
 
 		MTelegram.saveTelegramToDB(t);
@@ -126,7 +126,7 @@ public class MTeleMsg {
 		// Alle festen Antworten
 		switch (t.getMessageStringPart(0)) {
 		case "start":
-			return "Wipfbot Version:" + MainApp.VERSION + "\nInfos per 'info'";
+			return "Wipfbot Version:" + Startup.VERSION + "\nInfos per 'info'";
 		case "wipfbot":
 		case "help":
 		case "hlp":
@@ -135,7 +135,7 @@ public class MTeleMsg {
 		case "hilfe":
 		case "info":
 		case "about":
-			return "Wipfbot\nVersion " + MainApp.VERSION + "\nCreated by Tobias Fritsch\nwipf2@web.de";
+			return "Wipfbot\nVersion " + Startup.VERSION + "\nCreated by Tobias Fritsch\nwipf2@web.de";
 		case "r":
 		case "rnd":
 		case "zufall":
@@ -144,12 +144,12 @@ public class MTeleMsg {
 		case "cr":
 		case "en":
 		case "encrypt":
-			return MBlowfish.encrypt(t.getMessageStringFirst());
+			return MBlowfish.encrypt(t.getMessageStringFirst(), Startup.sKey);
 		case "d":
 		case "de":
 		case "dc":
 		case "decrypt":
-			return MBlowfish.decrypt(t.getMessageStringFirst());
+			return MBlowfish.decrypt(t.getMessageStringFirst(), Startup.sKey);
 		case "t":
 		case "ttt":
 		case "tictactoe":

@@ -12,7 +12,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.wipf.elcd.app.MainApp;
+import org.wipf.elcd.app.Startup;
 import org.wipf.elcd.model.base.MBlowfish;
 import org.wipf.elcd.model.base.MLogger;
 import org.wipf.elcd.model.base.MWipf;
@@ -64,14 +64,14 @@ public class Rest {
 	@Path("/cr/{txt}")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String cr(@PathParam("txt") String sIn) throws Exception {
-		return MBlowfish.encrypt(sIn);
+		return MBlowfish.encrypt(sIn, Startup.sKey);
 	}
 
 	@GET
 	@Path("/dc/{txt}")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String dc(@PathParam("txt") String sIn) throws Exception {
-		return MBlowfish.decrypt(sIn);
+		return MBlowfish.decrypt(sIn, Startup.sKey);
 	}
 
 	// Start Send to
@@ -119,7 +119,7 @@ public class Rest {
 	@Path("/status")
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response status() {
-		return MWipf.genResponse(MainApp.RunLock.toString());
+		return MWipf.genResponse(Startup.RunLock.toString());
 	}
 
 	@GET

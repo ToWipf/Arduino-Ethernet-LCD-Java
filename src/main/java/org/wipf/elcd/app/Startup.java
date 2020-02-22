@@ -4,6 +4,10 @@ import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.util.Timer;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Observes;
+
+import org.jboss.logging.Logger;
 import org.wipf.elcd.model.base.MLogger;
 import org.wipf.elcd.model.base.MsqlLite;
 import org.wipf.elcd.model.task.TaskInfoTelegram;
@@ -15,44 +19,79 @@ import org.wipf.elcd.model.telegram.apps.MTodoList;
 import org.wipf.elcd.model.telegram.system.MTeleMsg;
 import org.wipf.elcd.model.telegram.system.MTelegram;
 
+import io.quarkus.runtime.ShutdownEvent;
+import io.quarkus.runtime.StartupEvent;
+
+// TODO:
+/*
+ * //@formatter:off
+ * stringclass
+ * alle confs in db
+ * 4 gewinnt
+ * getmy ID
+ * add to motd for id
+ * set a new admin ?
+ * rm form db
+ * sende in Stunden nachricht
+ * rechner tage in stunden
+ * zeitgeplante nachrichten z.B send 10m Hallo Test
+ * motd für bestimmte Tage
+ * todo tabelle
+ * millisec in dayly msg
+ * rnd starten mit 1 nicht mit 0
+ * admin tabelle (Telegram ids nicht in code)
+ * morsecode
+ * sammelen aller user in tabelle mit rechten
+ * shell raw
+ * 
+ * //@formatter:on
+ */
+
 /**
  * @author wipf
  *
  */
+@ApplicationScoped
 public class Startup {
 
+	private static final Logger LOGGER = Logger.getLogger("ListenerBean");
+	public static final String VERSION = "2.05";
+	public static final String DB_PATH = System.getProperty("user.home") + "/wipfapp/" + "wipfapp.db";
+	public static final String ELCD_PATH = "http://192.168.2.242/";
+	public static final String sKey = "superKey42";
+
+	public static Integer FailCountElcd;
+	public static Integer FailCountTelegram;
+	public static Boolean RunLock;
+	public static Integer TelegramOffsetID;
+	public static String BOTKEY;
+
 	/**
-	 * 
+	 * @param ev
 	 */
-	public static void runRestApi() {
-//		try {
-//			MainApp.RunLock = false;
-//			Unirest.setTimeouts(3000, 5000);
-//
-//			final ResourceConfig resourceConfig = new ResourceConfig(Rest.class);
-//			final HttpServer server = GrizzlyHttpServerFactory.createHttpServer(MainApp.BASE_URI, resourceConfig,
-//					false);
-//			Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
-//				@Override
-//				public void run() {
-//					MLogger.warn(String.format("api beenden"));
-//					server.shutdownNow();
-//				}
-//			}));
-//			server.start();
-//
-//			MLogger.info(String.format("api aktiv: %s", MainApp.BASE_URI));
-//			Thread.currentThread().join();
-//		} catch (Exception ex) {
-//			Logger.getLogger(MainApp.class.getName()).log(Level.SEVERE, null, ex);
-//		}
+	void onStart(@Observes StartupEvent ev) {
+		LOGGER.info("The application is starting...");
+		MLogger.info("Starte WipfApp " + VERSION);
+
+		MsqlLite.startDB();
+		initDBs();
+		if (MTelegram.loadConfig()) {
+			Startup.startTelegramTask();
+		}
+	}
+
+	/**
+	 * @param ev
+	 */
+	void onStop(@Observes ShutdownEvent ev) {
+		LOGGER.info("The application is stopping...");
 	}
 
 	/**
 	 * 
 	 */
 	public static void startTelegramTask() {
-		MainApp.FailCountTelegram = 0;
+		FailCountTelegram = 0;
 		MLogger.info("Start Telegram Task");
 		Timer t = new Timer();
 		TaskTelegram mTask = new TaskTelegram();
@@ -72,13 +111,14 @@ public class Startup {
 	/**
 	 * Tabellen anlegen
 	 */
-	public static void initDBs() {
+	private static void initDBs() {
 		MTicTacToe.initDB();
 		MTelegram.initDB();
 		MTeleMsg.initDB();
 		MMumel.initDB();
 		MEssen.initDB();
 		MTodoList.initDB();
+
 		try {
 			Statement stmt = MsqlLite.getDB();
 			stmt.executeUpdate("CREATE TABLE IF NOT EXISTS settings (id, val);");

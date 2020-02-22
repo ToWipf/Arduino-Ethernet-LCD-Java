@@ -4,7 +4,6 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.codec.binary.Base32;
-import org.wipf.elcd.app.MainApp;
 
 /**
  * @author wipf
@@ -16,9 +15,9 @@ public class MBlowfish {
 	 * @param sIn
 	 * @return
 	 */
-	public static String encrypt(String sIn) {
+	public static String encrypt(String sIn, String sCryptKey) {
 		try {
-			SecretKeySpec secretKeySpec = new SecretKeySpec((MainApp.sKey).getBytes(), "Blowfish");
+			SecretKeySpec secretKeySpec = new SecretKeySpec((sCryptKey).getBytes(), "Blowfish");
 			Cipher cipher = Cipher.getInstance("Blowfish");
 			cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
 			byte[] hasil = cipher.doFinal(sIn.getBytes());
@@ -35,9 +34,9 @@ public class MBlowfish {
 	 * @param sIn
 	 * @return
 	 */
-	public static String decrypt(String sIn) {
+	public static String decrypt(String sIn, String sCryptKey) {
 		try {
-			SecretKeySpec secretKeySpec = new SecretKeySpec((MainApp.sKey).getBytes(), "Blowfish");
+			SecretKeySpec secretKeySpec = new SecretKeySpec((sCryptKey).getBytes(), "Blowfish");
 			Cipher cipher = Cipher.getInstance("Blowfish");
 			cipher.init(Cipher.DECRYPT_MODE, secretKeySpec);
 			// byte[] hasil = cipher.doFinal(Base64.getDecoder().decode(sIn));

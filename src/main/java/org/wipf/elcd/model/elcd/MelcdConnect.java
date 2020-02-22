@@ -2,7 +2,7 @@ package org.wipf.elcd.model.elcd;
 
 import javax.enterprise.context.RequestScoped;
 
-import org.wipf.elcd.app.MainApp;
+import org.wipf.elcd.app.Startup;
 
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
@@ -53,17 +53,17 @@ public class MelcdConnect {
 	private void restLcd(String sCall) {
 		HttpResponse<String> response;
 		try {
-			response = Unirest.put(MainApp.ELCD_PATH + sCall).asString();
+			response = Unirest.put(Startup.ELCD_PATH + sCall).asString();
 			if (response.getBody().indexOf("0") == -1) {
 				System.out.println(response.getBody());
 			}
 			// return (response.getBody().equals("{}"));
 			// TODO: setze taster
-			MainApp.FailCountElcd = 0;
+			Startup.FailCountElcd = 0;
 
 		} catch (UnirestException e) {
 			System.out.println("Sendefehler");
-			MainApp.FailCountElcd++;
+			Startup.FailCountElcd++;
 		}
 	}
 
