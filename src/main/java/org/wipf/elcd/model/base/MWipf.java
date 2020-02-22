@@ -7,13 +7,10 @@ import java.util.Random;
 
 import javax.ws.rs.core.Response;
 
-import org.glassfish.jersey.process.internal.RequestScoped;
-
 /**
  * @author wipf
  *
  */
-@RequestScoped
 public class MWipf {
 
 	/**
@@ -37,7 +34,7 @@ public class MWipf {
 	}
 
 	/**
-	 * @param i
+	 * @param i in millisec
 	 */
 	public static void sleep(Integer i) {
 		try {
