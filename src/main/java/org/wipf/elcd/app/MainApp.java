@@ -2,6 +2,7 @@ package org.wipf.elcd.app;
 
 import java.net.URI;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 
 import org.jboss.logging.Logger;
@@ -16,6 +17,7 @@ import io.quarkus.runtime.StartupEvent;
  * @author wipf
  *
  */
+@ApplicationScoped
 public class MainApp {
 
 	// TODO:
@@ -44,7 +46,7 @@ public class MainApp {
 	 */
 	private static final Logger LOGGER = Logger.getLogger("ListenerBean");
 	public static final URI BASE_URI = URI.create("http://0.0.0.0:8080/");
-	public static final String VERSION = "2.00";
+	public static final String VERSION = "2.05";
 	public static final String DB_PATH = System.getProperty("user.home") + "/wipfapp/" + "wipfapp.db";
 	public static final String ELCD_PATH = "http://192.168.2.242/";
 	public static final String sKey = "superKey42";

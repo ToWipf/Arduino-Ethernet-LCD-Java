@@ -3,6 +3,9 @@ package org.wipf.elcd.model.elcd;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
+
 import org.wipf.elcd.app.MainApp;
 import org.wipf.elcd.model.base.MLogger;
 import org.wipf.elcd.model.base.MWipf;
@@ -11,12 +14,17 @@ import org.wipf.elcd.model.base.MWipf;
  * @author wipf
  *
  */
-public class M_Run {
+@RequestScoped
+public class MelcdRun {
+
+	@Inject
+	MelcdConnect melcdConnect;
 
 	/**
 	 * Start
 	 */
-	public static String startElcd() {
+	public String startElcd() {
+		System.out.println("IN IN");
 		if (MainApp.RunLock) {
 			MLogger.info("Runlock is on");
 			return "F";
@@ -32,7 +40,7 @@ public class M_Run {
 				MLogger.info("Start send to Lcd");
 				MWipf.sleep(1000);
 				MainApp.FailCountElcd = 0;
-				MelcdConnect.clear();
+				melcdConnect.clear();
 				displayLoopRare();
 				if (MainApp.FailCountElcd > 0) {
 					MWipf.sleep(500);
@@ -57,28 +65,28 @@ public class M_Run {
 	/**
 	 * 
 	 */
-	public static void displayLoopRare() {
+	public void displayLoopRare() {
 		String sDayname = MWipf.dayName();
 		String sDate = MWipf.date();
 
-		MelcdConnect.write(1, ((20 - sDayname.length()) / 2), sDayname);
-		MelcdConnect.write(2, ((20 - sDate.length()) / 2), sDate);
+		melcdConnect.write(1, ((20 - sDayname.length()) / 2), sDayname);
+		melcdConnect.write(2, ((20 - sDate.length()) / 2), sDate);
 	}
 
 	/**
 	 * 
 	 */
-	public static void displayLoop() {
-		MelcdConnect.write(0, 6, MWipf.uhr());
+	public void displayLoop() {
+		melcdConnect.write(0, 6, MWipf.uhr());
 	}
 
 	/**
 	 * @param sMsg
 	 * @return
 	 */
-	public static Boolean sendMsg(String sMsg) {
+	public Boolean sendMsg(String sMsg) {
 		try {
-			MelcdConnect.write(3, 0, sMsg);
+			melcdConnect.write(3, 0, sMsg);
 			return true;
 		} catch (Exception e) {
 			return false;

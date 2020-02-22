@@ -1,5 +1,6 @@
 package org.wipf.elcd.rest;
 
+import javax.inject.Inject;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.OPTIONS;
@@ -15,8 +16,8 @@ import org.wipf.elcd.app.MainApp;
 import org.wipf.elcd.model.base.MBlowfish;
 import org.wipf.elcd.model.base.MLogger;
 import org.wipf.elcd.model.base.MWipf;
-import org.wipf.elcd.model.elcd.M_Run;
 import org.wipf.elcd.model.elcd.MelcdConnect;
+import org.wipf.elcd.model.elcd.MelcdRun;
 import org.wipf.elcd.model.telegram.apps.MOthers;
 import org.wipf.elcd.model.telegram.apps.MTodoList;
 import org.wipf.elcd.model.telegram.system.MTelegram;
@@ -24,8 +25,11 @@ import org.wipf.elcd.model.telegram.system.MTelegram;
 @Path("/")
 public class Rest {
 
-//	@Inject
-//	private MWipf mWipf;
+	@Inject
+	private MelcdRun melcdRun;
+
+	@Inject
+	private MelcdConnect melcdConnect;
 
 	@GET
 	@Path("/ping/{ip}")
@@ -49,7 +53,7 @@ public class Rest {
 	}
 
 	@GET
-	@Path("r/{bis}/{anzahl}")
+	@Path("/r/{bis}/{anzahl}")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String zufall(@PathParam("bis") Integer nBis, @PathParam("anzahl") Integer nAnzahl) {
 		return MOthers.zufall(nBis, nAnzahl);
@@ -72,58 +76,31 @@ public class Rest {
 
 	// Start Send to
 	@GET
-	@Path("s")
+	@Path("/s")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String startLcd() {
-		return M_Run.startElcd();
-	}
-
-	@GET
-	@Path("status")
-	@Produces(MediaType.TEXT_PLAIN)
-	public Response status() {
-		return MWipf.genResponse(MainApp.RunLock.toString());
-	}
-
-	@GET
-	@Path("telelog")
-	@Produces(MediaType.TEXT_PLAIN)
-	public Response telelog() {
-		return MWipf.genResponse(MTelegram.getTelegramLog(null));
-	}
-
-	@GET
-	@Path("telelogtf")
-	@Produces(MediaType.TEXT_PLAIN)
-	public Response telelogtf() {
-		return MWipf.genResponse(MTelegram.getTelegramLog("798200105"));
-	}
-
-	@GET
-	@Path("todolist")
-	@Produces(MediaType.TEXT_PLAIN)
-	public Response todolist() {
-		return MWipf.genResponse(MTodoList.getAllFull());
+		System.out.println("s");
+		return melcdRun.startElcd();
 	}
 
 	@PUT
-	@Path("cls")
+	@Path("/msg/{msg}")
 	@Produces(MediaType.TEXT_PLAIN)
-	public Response cls() {
-		Boolean bStatus = MelcdConnect.clear();
+	public Response sendMsg(@PathParam("msg") String sMsg) {
+		Boolean bStatus = melcdRun.sendMsg(sMsg);
 		return MWipf.genResponse(bStatus.toString());
 	}
 
 	@PUT
-	@Path("msg/{msg}")
+	@Path("/cls")
 	@Produces(MediaType.TEXT_PLAIN)
-	public Response sendMsg(@PathParam("msg") String sMsg) {
-		Boolean bStatus = M_Run.sendMsg(sMsg);
+	public Response cls() {
+		Boolean bStatus = melcdConnect.clear();
 		return MWipf.genResponse(bStatus.toString());
 	}
 
 	@OPTIONS
-	@Path("cls")
+	@Path("/cls")
 	public Response clsOptions() {
 		return Response.ok().header("Access-Control-Allow-Origin", "*")
 				.header("Access-Control-Allow-Methods", "POST, GET, PUT, UPDATE, OPTIONS")
@@ -131,16 +108,44 @@ public class Rest {
 	}
 
 	@OPTIONS
-	@Path("msg/{msg}")
+	@Path("/msg/{msg}")
 	public Response msgOptions() {
 		return Response.ok().header("Access-Control-Allow-Origin", "*")
 				.header("Access-Control-Allow-Methods", "POST, GET, PUT, UPDATE, OPTIONS")
 				.header("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With").build();
 	}
 
+	@GET
+	@Path("/status")
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response status() {
+		return MWipf.genResponse(MainApp.RunLock.toString());
+	}
+
+	@GET
+	@Path("/telelog")
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response telelog() {
+		return MWipf.genResponse(MTelegram.getTelegramLog(null));
+	}
+
+	@GET
+	@Path("/telelogtf")
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response telelogtf() {
+		return MWipf.genResponse(MTelegram.getTelegramLog("798200105"));
+	}
+
+	@GET
+	@Path("/todolist")
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response todolist() {
+		return MWipf.genResponse(MTodoList.getAllFull());
+	}
+
 	// System
 	@DELETE
-	@Path("sysHalt")
+	@Path("/sysHalt")
 	public void sysHalt() {
 		MLogger.info("SysHalt");
 		System.exit(0);

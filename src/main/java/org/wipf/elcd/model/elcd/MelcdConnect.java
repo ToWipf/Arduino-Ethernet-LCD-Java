@@ -1,5 +1,7 @@
 package org.wipf.elcd.model.elcd;
 
+import javax.enterprise.context.RequestScoped;
+
 import org.wipf.elcd.app.MainApp;
 
 import com.mashape.unirest.http.HttpResponse;
@@ -10,13 +12,14 @@ import com.mashape.unirest.http.exceptions.UnirestException;
  * @author wipf
  *
  */
+@RequestScoped
 public class MelcdConnect {
 
 	/**
 	 * @return
 	 * 
 	 */
-	public static boolean clear() {
+	public boolean clear() {
 		try {
 			restLcd("cls");
 			return true;
@@ -30,7 +33,7 @@ public class MelcdConnect {
 	 * @param nRow
 	 * @param Text
 	 */
-	public static void write(Integer nRow, Integer nCol, String sText) {
+	public void write(Integer nRow, Integer nCol, String sText) {
 		if (nCol > 20 || nCol < 0 || nRow < 0 || nRow > 4 || sText.length() > 20 || sText.indexOf(' ') == 0) {
 			return;
 		}
@@ -47,7 +50,7 @@ public class MelcdConnect {
 	/**
 	 * @param sCall
 	 */
-	private static void restLcd(String sCall) {
+	private void restLcd(String sCall) {
 		HttpResponse<String> response;
 		try {
 			response = Unirest.put(MainApp.ELCD_PATH + sCall).asString();
