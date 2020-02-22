@@ -10,9 +10,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.wipf.elcd.app.Startup;
 import org.wipf.elcd.model.base.MWipf;
 import org.wipf.elcd.model.elcd.MelcdRun;
+import org.wipf.elcd.model.main.Wipfapp;
 
 @Path("/elcd")
 public class RestElcd {
@@ -64,7 +64,7 @@ public class RestElcd {
 	@Path("/status")
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response status() {
-		return MWipf.genResponse(Startup.RunLock.toString());
+		return MWipf.genResponse(Wipfapp.RunLock.toString());
 	}
 
 }

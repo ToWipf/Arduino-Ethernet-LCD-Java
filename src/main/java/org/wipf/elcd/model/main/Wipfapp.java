@@ -1,4 +1,4 @@
-package org.wipf.elcd.app;
+package org.wipf.elcd.model.main;
 
 import java.sql.Statement;
 import java.time.LocalDateTime;
@@ -52,10 +52,10 @@ import io.quarkus.runtime.StartupEvent;
  *
  */
 @ApplicationScoped
-public class Startup {
+public class Wipfapp {
 
 	private static final Logger LOGGER = Logger.getLogger("ListenerBean");
-	public static final String VERSION = "2.29";
+	public static final String VERSION = "2.40";
 	public static final String DB_PATH = System.getProperty("user.home") + "/wipfapp/" + "wipfapp.db";
 	public static final String ELCD_PATH = "http://192.168.2.242/";
 	public static final String sKey = "superKey42";
@@ -76,7 +76,7 @@ public class Startup {
 		MsqlLite.startDB();
 		initDBs();
 		if (MTelegram.loadConfig()) {
-			Startup.startTelegramTask();
+			startTelegramTask();
 		}
 		System.gc();
 		LOGGER.info("Wipfapp ist gestartet");

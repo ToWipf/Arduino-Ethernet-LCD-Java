@@ -8,10 +8,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.wipf.elcd.app.Startup;
 import org.wipf.elcd.model.base.MBlowfish;
 import org.wipf.elcd.model.base.MLogger;
 import org.wipf.elcd.model.base.MWipf;
+import org.wipf.elcd.model.main.Wipfapp;
 import org.wipf.elcd.model.telegram.apps.MOthers;
 
 @Path("/wipf")
@@ -43,14 +43,14 @@ public class RestWipf {
 	@Path("/cr/{txt}")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String cr(@PathParam("txt") String sIn) throws Exception {
-		return MBlowfish.encrypt(sIn, Startup.sKey);
+		return MBlowfish.encrypt(sIn, Wipfapp.sKey);
 	}
 
 	@GET
 	@Path("/dc/{txt}")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String dc(@PathParam("txt") String sIn) throws Exception {
-		return MBlowfish.decrypt(sIn, Startup.sKey);
+		return MBlowfish.decrypt(sIn, Wipfapp.sKey);
 	}
 
 	// System

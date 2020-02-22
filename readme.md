@@ -1,10 +1,8 @@
-# ELCD / Tele2
-
-Create:
-> mvn archetype:generate -DarchetypeGroupId=com.airhacks -DarchetypeArtifactId=quarkee-archetype
+# Wipfapp
 
 Build:
 > mvn package -Dquarkus.package.uber-jar=true
 
-Live test:
+Run:
 > mvn compile quarkus:dev
+> java -jar target/wipfapp-1.0-SNAPSHOT-runner.jar 

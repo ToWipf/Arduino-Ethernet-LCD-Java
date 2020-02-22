@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import org.wipf.elcd.app.Startup;
+import org.wipf.elcd.model.main.Wipfapp;
 
 /**
  * @author wipf
@@ -61,8 +61,8 @@ public class MsqlLite {
 		try {
 			if (connection != null)
 				return;
-			MLogger.info("Connect to Database '" + Startup.DB_PATH + "'");
-			connection = DriverManager.getConnection("jdbc:sqlite:" + Startup.DB_PATH);
+			MLogger.info("Connect to Database '" + Wipfapp.DB_PATH + "'");
+			connection = DriverManager.getConnection("jdbc:sqlite:" + Wipfapp.DB_PATH);
 			if (!connection.isClosed())
 				MLogger.info("Connection OK");
 		} catch (SQLException e) {

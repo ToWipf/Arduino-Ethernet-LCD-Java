@@ -5,9 +5,9 @@ import java.util.concurrent.Executors;
 
 import javax.enterprise.context.RequestScoped;
 
-import org.wipf.elcd.app.Startup;
 import org.wipf.elcd.model.base.MLogger;
 import org.wipf.elcd.model.base.MWipf;
+import org.wipf.elcd.model.main.Wipfapp;
 
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
@@ -24,12 +24,12 @@ public class MelcdRun {
 	 * Start
 	 */
 	public String startElcd() {
-		if (Startup.RunLock) {
+		if (Wipfapp.RunLock) {
 			MLogger.info("Runlock is on");
 			return "F";
 		} else {
 			MLogger.info("Set Runlock on");
-			Startup.RunLock = true;
+			Wipfapp.RunLock = true;
 		}
 		ExecutorService service = Executors.newFixedThreadPool(4);
 		service.submit(new Runnable() {
@@ -38,14 +38,14 @@ public class MelcdRun {
 				Integer sendCounter = 0;
 				MLogger.info("Start send to Lcd");
 				MWipf.sleep(1000);
-				Startup.FailCountElcd = 0;
+				Wipfapp.FailCountElcd = 0;
 				clear();
 				displayLoopRare();
-				if (Startup.FailCountElcd > 0) {
+				if (Wipfapp.FailCountElcd > 0) {
 					MWipf.sleep(500);
 				}
 
-				while (Startup.FailCountElcd < 3) {
+				while (Wipfapp.FailCountElcd < 3) {
 					displayLoop();
 					if (sendCounter > 100) {
 						displayLoopRare();
@@ -55,7 +55,7 @@ public class MelcdRun {
 					sendCounter++;
 				}
 				MLogger.info("Set Runlock off");
-				Startup.RunLock = false;
+				Wipfapp.RunLock = false;
 			}
 		});
 		return "K";
@@ -130,17 +130,17 @@ public class MelcdRun {
 	private void restLcd(String sCall) {
 		HttpResponse<String> response;
 		try {
-			response = Unirest.put(Startup.ELCD_PATH + sCall).asString();
+			response = Unirest.put(Wipfapp.ELCD_PATH + sCall).asString();
 			if (response.getBody().indexOf("0") == -1) {
 				MLogger.warn(response.getBody());
 			}
 			// return (response.getBody().equals("{}"));
 			// TODO: setze taster
-			Startup.FailCountElcd = 0;
+			Wipfapp.FailCountElcd = 0;
 
 		} catch (UnirestException e) {
 			MLogger.warn("Sendefehler");
-			Startup.FailCountElcd++;
+			Wipfapp.FailCountElcd++;
 		}
 	}
 
