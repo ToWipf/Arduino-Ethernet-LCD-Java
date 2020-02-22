@@ -167,7 +167,7 @@ public class MTodoList {
 	private static String del(Telegram t) {
 		try {
 			Statement stmt = MsqlLite.getDB();
-			stmt.execute("DELETE FROM todolist WHERE id = " + t.getMessageInt(2));
+			stmt.execute("DELETE FROM todolist WHERE id = " + t.getMessageIntPart(2));
 			return "DEL";
 		} catch (Exception e) {
 			LOGGER.warn("delete todo" + e);

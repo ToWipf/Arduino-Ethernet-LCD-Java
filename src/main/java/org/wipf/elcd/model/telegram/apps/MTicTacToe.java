@@ -73,7 +73,7 @@ public class MTicTacToe {
 			}
 			ttt.setByTelegram(t);
 			// setze feld
-			if (!ttt.setByNummer(t.getMessageInt(2), 'X')) {
+			if (!ttt.setByNummer(t.getMessageIntPart(2), 'X')) {
 				return "Feld konnte nicht gesetzt werden";
 			} else {
 				saveTicTacToe(ttt); // save game
@@ -127,7 +127,7 @@ public class MTicTacToe {
 		case "setonly":
 			// setze feld ohne cpu
 			ttt.setByTelegram(t);
-			if (!ttt.setByNummer(t.getMessageInt(2), 'X')) {
+			if (!ttt.setByNummer(t.getMessageIntPart(2), 'X')) {
 				return "Feld konnte nicht gesetzt werden";
 			} else {
 				saveTicTacToe(ttt); // save game

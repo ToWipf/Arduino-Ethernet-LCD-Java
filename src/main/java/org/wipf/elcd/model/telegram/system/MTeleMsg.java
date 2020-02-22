@@ -41,31 +41,6 @@ public class MTeleMsg {
 	}
 
 	/**
-	 * 
-	 */
-	public static void sendDaylyInfo() {
-		Telegram t = new Telegram();
-		t.setAntwort(MWipf.dateTimeMs() + "\n" + MTeleMsg.countMsg() + "\n" + MTeleMsg.countMotd() + "\n"
-				+ MTelegram.contSend() + "\n\nVersion:" + Wipfapp.VERSION);
-		t.setChatID(798200105);
-
-		MTelegram.saveTelegramToDB(t);
-		MTelegram.sendToTelegram(t);
-	}
-
-	/**
-	 * 
-	 */
-	public static void sendDaylyMotd() {
-		Telegram t = new Telegram();
-		t.setAntwort(MTeleMsg.getMotd());
-		t.setChatID(-387871959);
-
-		MTelegram.saveTelegramToDB(t);
-		MTelegram.sendToTelegram(t);
-	}
-
-	/**
 	 * @param t
 	 * @return
 	 */
@@ -87,6 +62,7 @@ public class MTeleMsg {
 					"DelMotd" +  "\n" +
 					"DelMsg"+  "\n" +
 					"DoPing" + "\n" +
+					"send ID msg" + "\n" +
 					"Essen (Hilfe für essen)";
 				// @formatter:on
 
@@ -120,6 +96,9 @@ public class MTeleMsg {
 				return MWipf.ping(t.getMessageStringRawPart(1)).toString();
 			case "shell":
 				return MWipf.shell(t.getMessageStringFirst());
+
+			case "send":
+				return sendToId(t);
 
 			default:
 				break;
@@ -225,7 +204,7 @@ public class MTeleMsg {
 	private static String delMsg(Telegram t) {
 		try {
 			Statement stmt = MsqlLite.getDB();
-			stmt.execute("DELETE FROM telemsg WHERE id = " + t.getMessageInt(1));
+			stmt.execute("DELETE FROM telemsg WHERE id = " + t.getMessageIntPart(1));
 			return "DEL";
 		} catch (Exception e) {
 			LOGGER.warn("delete telemsg" + e);
@@ -240,7 +219,7 @@ public class MTeleMsg {
 	private static String delMotd(Telegram t) {
 		try {
 			Statement stmt = MsqlLite.getDB();
-			stmt.execute("DELETE FROM telemotd WHERE id = " + t.getMessageInt(1));
+			stmt.execute("DELETE FROM telemotd WHERE id = " + t.getMessageIntPart(1));
 			return "DEL";
 		} catch (Exception e) {
 			LOGGER.warn("delete telemotd " + e);
@@ -409,6 +388,46 @@ public class MTeleMsg {
 			LOGGER.warn("get all telemotd" + e);
 		}
 		return "Fehler";
+	}
+
+	/**
+	 * @param t
+	 * @return
+	 */
+	private static String sendToId(Telegram t) {
+		Telegram tSend = new Telegram();
+		tSend.setChatID(t.getMessageIntPart(1));
+		tSend.setAntwort(t.getMessageStringSecond());
+		tSend.setType("from: " + t.getChatID());
+
+		MTelegram.saveTelegramToDB(tSend);
+		MTelegram.sendToTelegram(tSend);
+		return "done";
+	}
+
+	/**
+	 * 
+	 */
+	public static void sendDaylyInfo() {
+		Telegram t = new Telegram();
+		t.setAntwort(MWipf.dateTimeMs() + "\n" + MTeleMsg.countMsg() + "\n" + MTeleMsg.countMotd() + "\n"
+				+ MTelegram.contSend() + "\n\nVersion:" + Wipfapp.VERSION);
+		t.setChatID(798200105);
+
+		MTelegram.saveTelegramToDB(t);
+		MTelegram.sendToTelegram(t);
+	}
+
+	/**
+	 * 
+	 */
+	public static void sendDaylyMotd() {
+		Telegram t = new Telegram();
+		t.setAntwort(MTeleMsg.getMotd());
+		t.setChatID(-387871959);
+
+		MTelegram.saveTelegramToDB(t);
+		MTelegram.sendToTelegram(t);
 	}
 
 }

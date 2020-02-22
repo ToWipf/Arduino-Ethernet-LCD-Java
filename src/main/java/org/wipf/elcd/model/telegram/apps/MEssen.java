@@ -128,7 +128,7 @@ public class MEssen {
 	private static String delEssen(Telegram t) {
 		try {
 			Statement stmt = MsqlLite.getDB();
-			stmt.execute("DELETE FROM essen WHERE id = " + t.getMessageInt(2));
+			stmt.execute("DELETE FROM essen WHERE id = " + t.getMessageIntPart(2));
 			return "DEL";
 		} catch (Exception e) {
 			LOGGER.warn("delete essen" + e);

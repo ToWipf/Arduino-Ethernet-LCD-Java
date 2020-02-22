@@ -92,7 +92,7 @@ public class Telegram {
 	 * @param nStelle
 	 * @return
 	 */
-	public Integer getMessageInt(int nStelle) {
+	public Integer getMessageIntPart(int nStelle) {
 		try {
 			return Integer.parseInt(getMessageStringPart(nStelle));
 		} catch (Exception e) {
