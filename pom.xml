@@ -4,8 +4,8 @@
 	xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.airhacks</groupId>
-	<artifactId>quarkee</artifactId>
+	<groupId>com.wipf</groupId>
+	<artifactId>tele2</artifactId>
 	<version>1.0-SNAPSHOT</version>
 	<dependencyManagement>
 		<dependencies>
@@ -99,11 +99,11 @@
 			<artifactId>sqlite-jdbc</artifactId>
 			<version>3.7.2</version>
 		</dependency>
-		<dependency>
+<!-- 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>2.10.0</version>
-		</dependency>
+			<version>2.10.1</version>
+		</dependency> -->
 		<!-- WipfApp end -->
 	</dependencies>
 	<!-- <dependency> <groupId>io.quarkus</groupId> <artifactId>quarkus-hibernate-orm</artifactId> 
