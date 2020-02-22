@@ -87,7 +87,7 @@ public class Startup {
 	 */
 	void onStop(@Observes ShutdownEvent ev) {
 		LOGGER.info("The application is stopping...");
-		System.exit(0);
+		// System.exit(0);
 		// TODO funktioniert nicht
 	}
 
