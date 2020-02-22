@@ -11,8 +11,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.wipf.elcd.model.base.MWipf;
+import org.wipf.elcd.model.base.Wipfapp;
 import org.wipf.elcd.model.elcd.MelcdRun;
-import org.wipf.elcd.model.main.Wipfapp;
 
 @Path("/elcd")
 public class RestElcd {

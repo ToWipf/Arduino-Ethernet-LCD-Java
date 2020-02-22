@@ -5,9 +5,9 @@ import java.util.concurrent.Executors;
 
 import javax.enterprise.context.RequestScoped;
 
-import org.wipf.elcd.model.base.MLogger;
+import org.jboss.logging.Logger;
 import org.wipf.elcd.model.base.MWipf;
-import org.wipf.elcd.model.main.Wipfapp;
+import org.wipf.elcd.model.base.Wipfapp;
 
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
@@ -20,15 +20,17 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 @RequestScoped
 public class MelcdRun {
 
+	private static final Logger LOGGER = Logger.getLogger("MelcdRun");
+
 	/**
 	 * Start
 	 */
 	public String startElcd() {
 		if (Wipfapp.RunLock) {
-			MLogger.info("Runlock is on");
+			LOGGER.info("Runlock is on");
 			return "F";
 		} else {
-			MLogger.info("Set Runlock on");
+			LOGGER.info("Set Runlock on");
 			Wipfapp.RunLock = true;
 		}
 		ExecutorService service = Executors.newFixedThreadPool(4);
@@ -36,7 +38,7 @@ public class MelcdRun {
 			@Override
 			public void run() {
 				Integer sendCounter = 0;
-				MLogger.info("Start send to Lcd");
+				LOGGER.info("Start send to Lcd");
 				MWipf.sleep(1000);
 				Wipfapp.FailCountElcd = 0;
 				clear();
@@ -54,7 +56,7 @@ public class MelcdRun {
 					MWipf.sleep(500);
 					sendCounter++;
 				}
-				MLogger.info("Set Runlock off");
+				LOGGER.info("Set Runlock off");
 				Wipfapp.RunLock = false;
 			}
 		});
@@ -132,14 +134,14 @@ public class MelcdRun {
 		try {
 			response = Unirest.put(Wipfapp.ELCD_PATH + sCall).asString();
 			if (response.getBody().indexOf("0") == -1) {
-				MLogger.warn(response.getBody());
+				LOGGER.warn(response.getBody());
 			}
 			// return (response.getBody().equals("{}"));
 			// TODO: setze taster
 			Wipfapp.FailCountElcd = 0;
 
 		} catch (UnirestException e) {
-			MLogger.warn("Sendefehler");
+			LOGGER.warn("Sendefehler");
 			Wipfapp.FailCountElcd++;
 		}
 	}

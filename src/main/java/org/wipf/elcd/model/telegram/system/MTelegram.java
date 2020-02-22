@@ -5,9 +5,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 
-import org.wipf.elcd.model.base.MLogger;
+import org.jboss.logging.Logger;
 import org.wipf.elcd.model.base.MsqlLite;
-import org.wipf.elcd.model.main.Wipfapp;
+import org.wipf.elcd.model.base.Wipfapp;
 import org.wipf.elcd.model.struct.Telegram;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -21,6 +21,8 @@ import com.mashape.unirest.http.exceptions.UnirestException;
  */
 public class MTelegram {
 
+	private static final Logger LOGGER = Logger.getLogger("MTelegram");
+
 	/**
 	 * 
 	 */
@@ -31,7 +33,7 @@ public class MTelegram {
 					"CREATE TABLE IF NOT EXISTS telegramlog (msgid INTEGER, msg TEXT, antw TEXT, chatid INTEGER, msgfrom TEXT, msgdate INTEGER, type TEXT);");
 
 		} catch (Exception e) {
-			MLogger.warn("initDB Telegram " + e);
+			LOGGER.warn("initDB Telegram " + e);
 		}
 	}
 
@@ -49,7 +51,7 @@ public class MTelegram {
 			rs.close();
 			return true;
 		} catch (Exception e) {
-			MLogger.warn("telegrambot nicht in db gefunden."
+			LOGGER.warn("telegrambot nicht in db gefunden."
 					+ " Setzen mit 'curl -X POST localhost:8080/setbot/bot2343242:ABCDEF348590247354352343345'");
 			return false;
 		}
@@ -65,11 +67,11 @@ public class MTelegram {
 			stmt.execute("DELETE FROM settings WHERE id = 'telegrambot'");
 			stmt.execute("INSERT INTO settings (id, val) VALUES ('telegrambot','" + sBot + "')");
 			Wipfapp.BOTKEY = sBot;
-			MLogger.info("Bot Key: " + Wipfapp.BOTKEY);
+			LOGGER.info("Bot Key: " + Wipfapp.BOTKEY);
 
 			return true;
 		} catch (Exception e) {
-			MLogger.warn("setbot " + e);
+			LOGGER.warn("setbot " + e);
 			return false;
 		}
 	}
@@ -86,7 +88,7 @@ public class MTelegram {
 					+ "&text=" + t.getAntwort()).asString();
 			// MLogger.info(res.getBody());
 		} catch (UnirestException e) {
-			MLogger.warn("Telegram senden " + e);
+			LOGGER.warn("Telegram senden " + e);
 		}
 	}
 
@@ -97,11 +99,11 @@ public class MTelegram {
 		try {
 			String sJson;
 			if (Wipfapp.TelegramOffsetID == 0) {
-				sJson = Unirest.post("https://api.telegram.org/" + Wipfapp.BOTKEY + "/getUpdates").asString()
-						.getBody();
+				sJson = Unirest.post("https://api.telegram.org/" + Wipfapp.BOTKEY + "/getUpdates").asString().getBody();
 			} else {
-				sJson = Unirest.post("https://api.telegram.org/" + Wipfapp.BOTKEY + "/getUpdates?offset="
-						+ Wipfapp.TelegramOffsetID).asString().getBody();
+				sJson = Unirest.post(
+						"https://api.telegram.org/" + Wipfapp.BOTKEY + "/getUpdates?offset=" + Wipfapp.TelegramOffsetID)
+						.asString().getBody();
 			}
 
 			// TODO check auf ok {"ok":false,"error_code":404,"description":"Not Found"}
@@ -117,7 +119,7 @@ public class MTelegram {
 					Telegram t = new Telegram();
 					try {
 						Wipfapp.TelegramOffsetID = nn.get("update_id").asInt() + 1; // Nachricht gelesen -> löschen
-																							// am
+																					// am
 						// Telegram server
 						JsonNode msg = nn.get("message");
 						t.setMid(msg.get("message_id").asInt());
@@ -146,14 +148,14 @@ public class MTelegram {
 						saveTelegramToDB(t);
 						sendToTelegram(t);
 					} catch (Exception e) {
-						MLogger.warn("bearbeiteMsg " + e);
+						LOGGER.warn("bearbeiteMsg " + e);
 					}
 				}
 			}
 			Wipfapp.FailCountTelegram = 0;
 
 		} catch (Exception e) {
-			MLogger.warn("readUpdateFromTelegram " + e);
+			LOGGER.warn("readUpdateFromTelegram " + e);
 		}
 	}
 
@@ -166,7 +168,7 @@ public class MTelegram {
 			ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM telegramlog;");
 			return rs.getString("COUNT(*)") + " Nachrichten gesendet";
 		} catch (Exception e) {
-			MLogger.warn("count Telegram " + e);
+			LOGGER.warn("count Telegram " + e);
 			return null;
 		}
 	}
@@ -182,7 +184,7 @@ public class MTelegram {
 					+ t.getFrom() + "','" + t.getDate() + "','" + t.getType() + "')");
 
 		} catch (Exception e) {
-			MLogger.warn("saveTelegramToDB " + e);
+			LOGGER.warn("saveTelegramToDB " + e);
 		}
 	}
 
@@ -219,7 +221,7 @@ public class MTelegram {
 			rs.close();
 			return slog.toString();
 		} catch (Exception e) {
-			MLogger.warn("getTelegram" + e);
+			LOGGER.warn("getTelegram" + e);
 			return "FAIL";
 		}
 

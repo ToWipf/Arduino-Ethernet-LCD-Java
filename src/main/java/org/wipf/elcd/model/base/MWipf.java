@@ -14,6 +14,13 @@ import javax.ws.rs.core.Response;
 public class MWipf {
 
 	/**
+	 * 
+	 */
+	public static void runGc() {
+		System.gc();
+	}
+
+	/**
 	 * @param sInput
 	 * @return
 	 */

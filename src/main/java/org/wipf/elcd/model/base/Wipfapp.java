@@ -1,4 +1,4 @@
-package org.wipf.elcd.model.main;
+package org.wipf.elcd.model.base;
 
 import java.sql.Statement;
 import java.time.LocalDateTime;
@@ -8,8 +8,6 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 
 import org.jboss.logging.Logger;
-import org.wipf.elcd.model.base.MLogger;
-import org.wipf.elcd.model.base.MsqlLite;
 import org.wipf.elcd.model.task.TaskInfoTelegram;
 import org.wipf.elcd.model.task.TaskTelegram;
 import org.wipf.elcd.model.telegram.apps.MEssen;
@@ -54,8 +52,8 @@ import io.quarkus.runtime.StartupEvent;
 @ApplicationScoped
 public class Wipfapp {
 
-	private static final Logger LOGGER = Logger.getLogger("ListenerBean");
-	public static final String VERSION = "2.40";
+	private static final Logger LOGGER = Logger.getLogger("wipfapp");
+	public static final String VERSION = "2.41";
 	public static final String DB_PATH = System.getProperty("user.home") + "/wipfapp/" + "wipfapp.db";
 	public static final String ELCD_PATH = "http://192.168.2.242/";
 	public static final String sKey = "superKey42";
@@ -70,8 +68,7 @@ public class Wipfapp {
 	 * @param ev
 	 */
 	void onStart(@Observes StartupEvent ev) {
-		LOGGER.info("Wipfapp startet ...");
-		MLogger.info("Starte WipfApp " + VERSION);
+		LOGGER.info("Starte WipfApp " + VERSION);
 
 		MsqlLite.startDB();
 		initDBs();
@@ -96,7 +93,7 @@ public class Wipfapp {
 	 */
 	public static void startTelegramTask() {
 		FailCountTelegram = 0;
-		MLogger.info("Start Telegram Task");
+		LOGGER.info("Start Telegram Task");
 		Timer t = new Timer();
 		TaskTelegram mTask = new TaskTelegram();
 		TaskInfoTelegram mInfoTask = new TaskInfoTelegram();
@@ -128,7 +125,7 @@ public class Wipfapp {
 			stmt.executeUpdate("CREATE TABLE IF NOT EXISTS settings (id, val);");
 
 		} catch (Exception e) {
-			MLogger.warn("createDBs " + e);
+			LOGGER.warn("createDBs " + e);
 		}
 	}
 }

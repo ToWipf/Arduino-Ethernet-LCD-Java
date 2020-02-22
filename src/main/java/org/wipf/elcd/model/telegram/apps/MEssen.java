@@ -3,7 +3,7 @@ package org.wipf.elcd.model.telegram.apps;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-import org.wipf.elcd.model.base.MLogger;
+import org.jboss.logging.Logger;
 import org.wipf.elcd.model.base.MsqlLite;
 import org.wipf.elcd.model.struct.Telegram;
 import org.wipf.elcd.model.telegram.system.MTelegram;
@@ -14,6 +14,8 @@ import org.wipf.elcd.model.telegram.system.MTelegram;
  */
 public class MEssen {
 
+	private static final Logger LOGGER = Logger.getLogger("MEssen");
+
 	/**
 	 * 
 	 */
@@ -23,7 +25,7 @@ public class MEssen {
 			stmt.executeUpdate(
 					"CREATE TABLE IF NOT EXISTS essen (id integer primary key autoincrement, type TEXT, name TEXT, options TEXT, editby TEXT, date INTEGER);");
 		} catch (Exception e) {
-			MLogger.warn("initDB essen " + e);
+			LOGGER.warn("initDB essen " + e);
 		}
 	}
 
@@ -100,7 +102,7 @@ public class MEssen {
 			//@formatter:on
 			return "gespeichert";
 		} catch (Exception e) {
-			MLogger.warn("add essen " + e);
+			LOGGER.warn("add essen " + e);
 			return "Fehler";
 		}
 	}
@@ -114,7 +116,7 @@ public class MEssen {
 			ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM essen;");
 			return rs.getString("COUNT(*)") + " Einträge in der DB";
 		} catch (Exception e) {
-			MLogger.warn("count essen " + e);
+			LOGGER.warn("count essen " + e);
 			return null;
 		}
 	}
@@ -129,7 +131,7 @@ public class MEssen {
 			stmt.execute("DELETE FROM essen WHERE id = " + t.getMessageInt(2));
 			return "DEL";
 		} catch (Exception e) {
-			MLogger.warn("delete essen" + e);
+			LOGGER.warn("delete essen" + e);
 			return "Fehler";
 		}
 	}
@@ -152,7 +154,7 @@ public class MEssen {
 			return sb.toString();
 
 		} catch (Exception e) {
-			MLogger.warn("get all essen" + e);
+			LOGGER.warn("get all essen" + e);
 		}
 		return "Fehler";
 	}
@@ -175,7 +177,7 @@ public class MEssen {
 			return s;
 
 		} catch (Exception e) {
-			MLogger.warn("get essen rnd " + e);
+			LOGGER.warn("get essen rnd " + e);
 			return "Fehler";
 		}
 	}

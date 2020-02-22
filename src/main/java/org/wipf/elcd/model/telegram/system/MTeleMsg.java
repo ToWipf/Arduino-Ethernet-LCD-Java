@@ -5,11 +5,11 @@ import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.jboss.logging.Logger;
 import org.wipf.elcd.model.base.MBlowfish;
-import org.wipf.elcd.model.base.MLogger;
 import org.wipf.elcd.model.base.MWipf;
 import org.wipf.elcd.model.base.MsqlLite;
-import org.wipf.elcd.model.main.Wipfapp;
+import org.wipf.elcd.model.base.Wipfapp;
 import org.wipf.elcd.model.struct.Telegram;
 import org.wipf.elcd.model.telegram.apps.MEssen;
 import org.wipf.elcd.model.telegram.apps.MMumel;
@@ -23,6 +23,8 @@ import org.wipf.elcd.model.telegram.apps.MTodoList;
  */
 public class MTeleMsg {
 
+	private static final Logger LOGGER = Logger.getLogger("MTeleMsg");
+
 	/**
 	 * 
 	 */
@@ -34,7 +36,7 @@ public class MTeleMsg {
 			stmt.executeUpdate(
 					"CREATE TABLE IF NOT EXISTS telemotd (id integer primary key autoincrement, text TEXT, editby TEXT, date INTEGER);");
 		} catch (Exception e) {
-			MLogger.warn("initDB telemsg " + e);
+			LOGGER.warn("initDB telemsg " + e);
 		}
 	}
 
@@ -226,7 +228,7 @@ public class MTeleMsg {
 			stmt.execute("DELETE FROM telemsg WHERE id = " + t.getMessageInt(1));
 			return "DEL";
 		} catch (Exception e) {
-			MLogger.warn("delete telemsg" + e);
+			LOGGER.warn("delete telemsg" + e);
 			return "Fehler";
 		}
 	}
@@ -241,7 +243,7 @@ public class MTeleMsg {
 			stmt.execute("DELETE FROM telemotd WHERE id = " + t.getMessageInt(1));
 			return "DEL";
 		} catch (Exception e) {
-			MLogger.warn("delete telemotd " + e);
+			LOGGER.warn("delete telemotd " + e);
 			return "Fehler";
 		}
 	}
@@ -257,7 +259,7 @@ public class MTeleMsg {
 					+ t.getFrom() + "','" + t.getDate() + "')");
 			return "OK: " + t.getMessageStringPart(1);
 		} catch (Exception e) {
-			MLogger.warn("add telemsg " + e);
+			LOGGER.warn("add telemsg " + e);
 			return "Fehler";
 		}
 
@@ -273,7 +275,7 @@ public class MTeleMsg {
 					+ t.getMessageStringFirst() + "','" + t.getFrom() + "','" + t.getDate() + "')");
 			return "IN";
 		} catch (Exception e) {
-			MLogger.warn("add telemotd " + e);
+			LOGGER.warn("add telemotd " + e);
 			return "Fehler";
 		}
 	}
@@ -287,7 +289,7 @@ public class MTeleMsg {
 			ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM telemsg;");
 			return rs.getString("COUNT(*)") + " Antworten in der DB";
 		} catch (Exception e) {
-			MLogger.warn("count Telegram " + e);
+			LOGGER.warn("count Telegram " + e);
 			return null;
 		}
 	}
@@ -301,7 +303,7 @@ public class MTeleMsg {
 			ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM telemotd;");
 			return rs.getString("COUNT(*)") + " Motds in der DB";
 		} catch (Exception e) {
-			MLogger.warn("count Telegram " + e);
+			LOGGER.warn("count Telegram " + e);
 			return null;
 		}
 	}
@@ -324,7 +326,7 @@ public class MTeleMsg {
 			return s;
 
 		} catch (Exception e) {
-			MLogger.warn("get telemotd " + e);
+			LOGGER.warn("get telemotd " + e);
 			return "Fehler";
 		}
 	}
@@ -358,7 +360,7 @@ public class MTeleMsg {
 			}
 
 		} catch (Exception e) {
-			MLogger.warn("get telemsg " + e);
+			LOGGER.warn("get telemsg " + e);
 		}
 		return t;
 	}
@@ -381,7 +383,7 @@ public class MTeleMsg {
 			return sb.toString();
 
 		} catch (Exception e) {
-			MLogger.warn("get all telemotd" + e);
+			LOGGER.warn("get all telemotd" + e);
 		}
 		return "Fehler";
 	}
@@ -404,7 +406,7 @@ public class MTeleMsg {
 			return sb.toString();
 
 		} catch (Exception e) {
-			MLogger.warn("get all telemotd" + e);
+			LOGGER.warn("get all telemotd" + e);
 		}
 		return "Fehler";
 	}

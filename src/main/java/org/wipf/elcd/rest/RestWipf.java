@@ -2,20 +2,23 @@ package org.wipf.elcd.rest;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.jboss.logging.Logger;
 import org.wipf.elcd.model.base.MBlowfish;
-import org.wipf.elcd.model.base.MLogger;
 import org.wipf.elcd.model.base.MWipf;
-import org.wipf.elcd.model.main.Wipfapp;
+import org.wipf.elcd.model.base.Wipfapp;
 import org.wipf.elcd.model.telegram.apps.MOthers;
 
 @Path("/wipf")
 public class RestWipf {
+
+	private static final Logger LOGGER = Logger.getLogger("RestWipf");
 
 	@GET
 	@Path("/ping/{ip}")
@@ -53,11 +56,19 @@ public class RestWipf {
 		return MBlowfish.decrypt(sIn, Wipfapp.sKey);
 	}
 
+	@PUT
+	@Path("/gc")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String gc() throws Exception {
+		MWipf.runGc();
+		return "get";
+	}
+
 	// System
 	@DELETE
 	@Path("/sysHalt")
 	public void sysHalt() {
-		MLogger.info("SysHalt");
+		LOGGER.info("SysHalt");
 		System.exit(0);
 	}
 

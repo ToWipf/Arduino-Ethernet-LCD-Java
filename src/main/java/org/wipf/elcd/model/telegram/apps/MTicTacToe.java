@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Random;
 
-import org.wipf.elcd.model.base.MLogger;
+import org.jboss.logging.Logger;
 import org.wipf.elcd.model.base.MsqlLite;
 import org.wipf.elcd.model.struct.Telegram;
 import org.wipf.elcd.model.struct.TicTacToe;
@@ -14,6 +14,8 @@ import org.wipf.elcd.model.struct.TicTacToe;
  *
  */
 public class MTicTacToe {
+
+	private static final Logger LOGGER = Logger.getLogger("MTicTacToe");
 
 	/**
 	 * 
@@ -25,7 +27,7 @@ public class MTicTacToe {
 					"CREATE TABLE IF NOT EXISTS tictactoe (chatid INTEGER UNIQUE, feld TEXT, msgdate INTEGER, type TEXT);");
 
 		} catch (Exception e) {
-			MLogger.warn("initDB tictactoe " + e);
+			LOGGER.warn("initDB tictactoe " + e);
 		}
 	}
 
@@ -166,7 +168,7 @@ public class MTicTacToe {
 							+ "','" + ttt.getFieldString() + "','" + ttt.getDate() + "','" + ttt.getType() + "')");
 			return true;
 		} catch (Exception e) {
-			MLogger.warn("setTicTacToe " + e);
+			LOGGER.warn("setTicTacToe " + e);
 			return false;
 		}
 	}

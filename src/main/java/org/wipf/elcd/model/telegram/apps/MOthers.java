@@ -5,11 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import org.wipf.elcd.model.base.MLogger;
+import org.jboss.logging.Logger;
 
 import com.mashape.unirest.http.Unirest;
 
 public class MOthers {
+
+	private static final Logger LOGGER = Logger.getLogger("MOthers");
 
 	/**
 	 * @param sWuerfelBis
@@ -86,7 +88,7 @@ public class MOthers {
 			return URLEncoder.encode(parseWitz(xml), "UTF-8");
 
 		} catch (Exception e) {
-			MLogger.warn("Witzfehler " + e);
+			LOGGER.warn("Witzfehler " + e);
 		}
 		return "Fail";
 	}

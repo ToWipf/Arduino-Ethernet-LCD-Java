@@ -3,13 +3,15 @@ package org.wipf.elcd.model.struct;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.wipf.elcd.model.base.MLogger;
+import org.jboss.logging.Logger;
 
 /**
  * @author wipf
  *
  */
 public class MumelSpiel extends Game {
+
+	private static final Logger LOGGER = Logger.getLogger("MumelSpiel");
 
 	private List<MumelSpieler> lmsp = new ArrayList<>();
 	private Integer nWerIstDran;
@@ -33,7 +35,7 @@ public class MumelSpiel extends Game {
 
 			// }
 		} catch (Exception e) {
-			MLogger.warn("sgetMessageWord " + e);
+			LOGGER.warn("sgetMessageWord " + e);
 		}
 
 	}

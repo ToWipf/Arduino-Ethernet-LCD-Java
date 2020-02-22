@@ -44,8 +44,6 @@
 		</dependency>
 		<!-- WipfApp end -->
 	</dependencies>
-	<!-- <dependency> <groupId>io.quarkus</groupId> <artifactId>quarkus-hibernate-orm</artifactId> 
-		</dependency> -->
 	<build>
 		<plugins>
 			<plugin>

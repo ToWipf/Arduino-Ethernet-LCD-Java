@@ -1,6 +1,6 @@
 package org.wipf.elcd.model.struct;
 
-import org.wipf.elcd.model.base.MLogger;
+import org.jboss.logging.Logger;
 import org.wipf.elcd.model.base.MWipf;
 
 /**
@@ -8,6 +8,9 @@ import org.wipf.elcd.model.base.MWipf;
  *
  */
 public class Telegram {
+
+	private static final Logger LOGGER = Logger.getLogger("Telegram");
+
 	private Integer nMid;
 	private String sMessage;
 	private String sAntwort;
@@ -65,7 +68,7 @@ public class Telegram {
 				n++;
 			}
 		} catch (Exception e) {
-			MLogger.warn("sgetMessageWord " + e);
+			LOGGER.warn("sgetMessageWord " + e);
 		}
 		return null;
 	}

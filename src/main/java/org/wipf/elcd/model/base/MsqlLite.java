@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import org.wipf.elcd.model.main.Wipfapp;
+import org.jboss.logging.Logger;
 
 /**
  * @author wipf
@@ -13,6 +13,7 @@ import org.wipf.elcd.model.main.Wipfapp;
  */
 public class MsqlLite {
 
+	private static final Logger LOGGER = Logger.getLogger("MsqlLite");
 	private static final MsqlLite dbcontroller = new MsqlLite();
 	private static Connection connection;
 
@@ -38,7 +39,7 @@ public class MsqlLite {
 		try {
 			return connection.createStatement();
 		} catch (SQLException e) {
-			MLogger.warn("getDB " + e);
+			LOGGER.warn("getDB " + e);
 			return null;
 		}
 	}
@@ -50,7 +51,7 @@ public class MsqlLite {
 		try {
 			Class.forName("org.sqlite.JDBC");
 		} catch (ClassNotFoundException e) {
-			MLogger.warn("Fehler beim Laden des JDBC-Treibers " + e);
+			LOGGER.warn("Fehler beim Laden des JDBC-Treibers " + e);
 		}
 	}
 
@@ -61,12 +62,12 @@ public class MsqlLite {
 		try {
 			if (connection != null)
 				return;
-			MLogger.info("Connect to Database '" + Wipfapp.DB_PATH + "'");
+			LOGGER.info("Connect to Database '" + Wipfapp.DB_PATH + "'");
 			connection = DriverManager.getConnection("jdbc:sqlite:" + Wipfapp.DB_PATH);
 			if (!connection.isClosed())
-				MLogger.info("Connection OK");
+				LOGGER.info("Connection OK");
 		} catch (SQLException e) {
-			MLogger.warn("initDBConnectionA " + e);
+			LOGGER.warn("initDBConnectionA " + e);
 			throw new RuntimeException(e);
 		}
 
@@ -77,10 +78,10 @@ public class MsqlLite {
 					if (!connection.isClosed() && connection != null) {
 						connection.close();
 						if (connection.isClosed())
-							MLogger.warn("Connection to Database closed");
+							LOGGER.warn("Connection to Database closed");
 					}
 				} catch (SQLException e) {
-					MLogger.warn("initDBConnectionB " + e);
+					LOGGER.warn("initDBConnectionB " + e);
 				}
 			}
 		});

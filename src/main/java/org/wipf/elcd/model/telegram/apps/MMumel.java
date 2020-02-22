@@ -3,7 +3,7 @@ package org.wipf.elcd.model.telegram.apps;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-import org.wipf.elcd.model.base.MLogger;
+import org.jboss.logging.Logger;
 import org.wipf.elcd.model.base.MsqlLite;
 import org.wipf.elcd.model.struct.MumelSpiel;
 import org.wipf.elcd.model.struct.MumelSpieler;
@@ -14,6 +14,8 @@ import org.wipf.elcd.model.struct.Telegram;
  *
  */
 public class MMumel {
+
+	private static final Logger LOGGER = Logger.getLogger("MMumel");
 
 	/**
 	 * 
@@ -30,7 +32,7 @@ public class MMumel {
 					+ " weristdran INTEGER, date TEXT);");
 
 		} catch (Exception e) {
-			MLogger.warn("initDB mumel " + e);
+			LOGGER.warn("initDB mumel " + e);
 		}
 	}
 
@@ -50,7 +52,7 @@ public class MMumel {
 			}
 
 		} catch (Exception e) {
-			MLogger.warn("play Mumel " + e);
+			LOGGER.warn("play Mumel " + e);
 		}
 		return "mumel is in build";
 	}
@@ -67,7 +69,7 @@ public class MMumel {
 					+ "')");
 			return true;
 		} catch (Exception e) {
-			MLogger.warn("savegame mumel " + e);
+			LOGGER.warn("savegame mumel " + e);
 			return false;
 		}
 	}
@@ -87,7 +89,7 @@ public class MMumel {
 					+ mspl.getGeld() + "','" + mspl.getHausBrennen() + "','" + mspl.getBunterStein() + "')");
 			return true;
 		} catch (Exception e) {
-			MLogger.warn("mumel save " + e);
+			LOGGER.warn("mumel save " + e);
 			return false;
 		}
 	}

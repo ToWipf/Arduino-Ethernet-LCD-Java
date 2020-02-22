@@ -1,4 +1,4 @@
-package org.wipf.elcd.model.struct;
+package org.wipf.elcd.model.telegram.apps;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;

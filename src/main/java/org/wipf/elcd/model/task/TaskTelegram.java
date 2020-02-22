@@ -2,8 +2,8 @@ package org.wipf.elcd.model.task;
 
 import java.util.TimerTask;
 
-import org.wipf.elcd.model.base.MLogger;
-import org.wipf.elcd.model.main.Wipfapp;
+import org.jboss.logging.Logger;
+import org.wipf.elcd.model.base.Wipfapp;
 import org.wipf.elcd.model.telegram.system.MTelegram;
 
 /**
@@ -11,6 +11,8 @@ import org.wipf.elcd.model.telegram.system.MTelegram;
  *
  */
 public class TaskTelegram extends TimerTask {
+
+	private static final Logger LOGGER = Logger.getLogger("TimerTask");
 
 	/**
 	 *
@@ -20,10 +22,10 @@ public class TaskTelegram extends TimerTask {
 		if (Wipfapp.FailCountTelegram > 6) {
 			// Bei viele Fehlern länger warten aber erneut versuchen (2 Minuten fehlerhaft)
 			Wipfapp.FailCountTelegram++;
-			MLogger.warn("Task Telegram wartet nun " + Wipfapp.FailCountTelegram + "/12");
+			LOGGER.warn("Task Telegram wartet nun " + Wipfapp.FailCountTelegram + "/12");
 			if (Wipfapp.FailCountTelegram > 12) {
 				// 4 Minuten warten
-				MLogger.warn("Task Telegram erneuter Verbindungsversuch");
+				LOGGER.warn("Task Telegram erneuter Verbindungsversuch");
 				Wipfapp.FailCountTelegram = 1;
 			}
 			return;
@@ -33,7 +35,7 @@ public class TaskTelegram extends TimerTask {
 
 		} catch (Exception e) {
 			Wipfapp.FailCountTelegram++;
-			MLogger.warn("TaskTelegram " + e);
+			LOGGER.warn("TaskTelegram " + e);
 		}
 	}
 }

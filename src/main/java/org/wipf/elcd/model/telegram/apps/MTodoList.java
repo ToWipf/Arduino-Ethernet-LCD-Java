@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Date;
 
-import org.wipf.elcd.model.base.MLogger;
+import org.jboss.logging.Logger;
 import org.wipf.elcd.model.base.MsqlLite;
 import org.wipf.elcd.model.struct.Telegram;
 import org.wipf.elcd.model.telegram.system.MTelegram;
@@ -15,6 +15,8 @@ import org.wipf.elcd.model.telegram.system.MTelegram;
  */
 public class MTodoList {
 
+	private static final Logger LOGGER = Logger.getLogger("MTodoList");
+
 	/**
 	 * 
 	 */
@@ -24,7 +26,7 @@ public class MTodoList {
 			stmt.executeUpdate(
 					"CREATE TABLE IF NOT EXISTS todolist (id integer primary key autoincrement, data TEXT, remind TEXT, active TEXT, editby TEXT, date INTEGER);");
 		} catch (Exception e) {
-			MLogger.warn("initDB todolist " + e);
+			LOGGER.warn("initDB todolist " + e);
 		}
 	}
 
@@ -95,7 +97,7 @@ public class MTodoList {
 			rs.close();
 			return slog.toString();
 		} catch (Exception e) {
-			MLogger.warn("getAllFull todolist" + e);
+			LOGGER.warn("getAllFull todolist" + e);
 			return "FAIL";
 		}
 
@@ -118,7 +120,7 @@ public class MTodoList {
 			return sb.toString();
 
 		} catch (Exception e) {
-			MLogger.warn("get all todolist" + e);
+			LOGGER.warn("get all todolist" + e);
 		}
 		return "Fehler";
 	}
@@ -139,7 +141,7 @@ public class MTodoList {
 			//@formatter:on
 			return "gespeichert";
 		} catch (Exception e) {
-			MLogger.warn("add todo " + e);
+			LOGGER.warn("add todo " + e);
 			return "Fehler";
 		}
 	}
@@ -153,7 +155,7 @@ public class MTodoList {
 			ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM todolist;");
 			return rs.getString("COUNT(*)") + " Einträge in der DB";
 		} catch (Exception e) {
-			MLogger.warn("count todolist " + e);
+			LOGGER.warn("count todolist " + e);
 			return null;
 		}
 	}
@@ -168,7 +170,7 @@ public class MTodoList {
 			stmt.execute("DELETE FROM todolist WHERE id = " + t.getMessageInt(2));
 			return "DEL";
 		} catch (Exception e) {
-			MLogger.warn("delete todo" + e);
+			LOGGER.warn("delete todo" + e);
 			return "Fehler";
 		}
 	}
