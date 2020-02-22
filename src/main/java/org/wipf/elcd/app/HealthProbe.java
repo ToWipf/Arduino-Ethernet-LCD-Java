@@ -6,6 +6,7 @@ import org.eclipse.microprofile.health.Health;
 import org.eclipse.microprofile.health.HealthCheck;
 import org.eclipse.microprofile.health.HealthCheckResponse;
 
+@SuppressWarnings("deprecation")
 @Health
 @ApplicationScoped
 public class HealthProbe implements HealthCheck {
