@@ -12,7 +12,6 @@ import javax.ws.rs.core.Response;
 
 import org.wipf.elcd.app.Startup;
 import org.wipf.elcd.model.base.MWipf;
-import org.wipf.elcd.model.elcd.MelcdConnect;
 import org.wipf.elcd.model.elcd.MelcdRun;
 
 @Path("/elcd")
@@ -20,9 +19,6 @@ public class RestElcd {
 
 	@Inject
 	MelcdRun melcdRun;
-
-	@Inject
-	MelcdConnect melcdConnect;
 
 	// Start Send to
 	@GET
@@ -45,7 +41,7 @@ public class RestElcd {
 	@Path("/cls")
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response cls() {
-		Boolean bStatus = melcdConnect.clear();
+		Boolean bStatus = melcdRun.clear();
 		return MWipf.genResponse(bStatus.toString());
 	}
 
