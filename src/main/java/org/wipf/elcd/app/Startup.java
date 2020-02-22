@@ -70,7 +70,7 @@ public class Startup {
 	 * @param ev
 	 */
 	void onStart(@Observes StartupEvent ev) {
-		LOGGER.info("The application is starting...");
+		LOGGER.info("Wipfapp startet ...");
 		MLogger.info("Starte WipfApp " + VERSION);
 
 		MsqlLite.startDB();
@@ -79,7 +79,7 @@ public class Startup {
 			Startup.startTelegramTask();
 		}
 		System.gc();
-		LOGGER.info("The application is started");
+		LOGGER.info("Wipfapp ist gestartet");
 	}
 
 	/**
