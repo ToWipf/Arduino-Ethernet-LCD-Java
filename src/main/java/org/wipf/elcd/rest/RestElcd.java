@@ -1,5 +1,6 @@
 package org.wipf.elcd.rest;
 
+import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.OPTIONS;
 import javax.ws.rs.PUT;
@@ -17,20 +18,26 @@ import org.wipf.elcd.model.elcd.MelcdRun;
 @Path("/elcd")
 public class RestElcd {
 
+	@Inject
+	MelcdRun melcdRun;
+
+	@Inject
+	MelcdConnect melcdConnect;
+
 	// Start Send to
 	@GET
 	@Path("/s")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String startLcd() {
 		System.out.println("s");
-		return MelcdRun.startElcd();
+		return melcdRun.startElcd();
 	}
 
 	@PUT
 	@Path("/msg/{msg}")
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response sendMsg(@PathParam("msg") String sMsg) {
-		Boolean bStatus = MelcdRun.sendMsg(sMsg);
+		Boolean bStatus = melcdRun.sendMsg(sMsg);
 		return MWipf.genResponse(bStatus.toString());
 	}
 
@@ -38,7 +45,7 @@ public class RestElcd {
 	@Path("/cls")
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response cls() {
-		Boolean bStatus = MelcdConnect.clear();
+		Boolean bStatus = melcdConnect.clear();
 		return MWipf.genResponse(bStatus.toString());
 	}
 
