@@ -94,7 +94,6 @@ public class MTelegram {
 	 * 
 	 */
 	public static void readUpdateFromTelegram() {
-		System.out.println("telup");
 		try {
 			String sJson;
 			if (Startup.TelegramOffsetID == 0) {

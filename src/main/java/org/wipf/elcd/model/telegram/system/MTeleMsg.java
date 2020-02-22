@@ -127,14 +127,15 @@ public class MTeleMsg {
 		switch (t.getMessageStringPart(0)) {
 		case "start":
 			return "Wipfbot Version:" + Startup.VERSION + "\nInfos per 'info'";
-		case "wipfbot":
-		case "help":
-		case "hlp":
+		case "v":
 		case "ver":
 		case "version":
-		case "hilfe":
 		case "info":
 		case "about":
+		case "hlp":
+		case "hilfe":
+		case "help":
+		case "wipfbot":
 			return "Wipfbot\nVersion " + Startup.VERSION + "\nCreated by Tobias Fritsch\nwipf2@web.de";
 		case "r":
 		case "rnd":
@@ -185,6 +186,7 @@ public class MTeleMsg {
 		case "whoami":
 		case "pwd":
 		case "me":
+		case "i":
 			return "From: " + t.getFrom() + "\n\nChat: " + t.getChatID() + " " + t.getType() + "\n\nM_id: "
 					+ t.getMid();
 		case "essen":

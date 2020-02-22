@@ -19,11 +19,12 @@ public class TaskTelegram extends TimerTask {
 	public void run() {
 		if (Startup.FailCountTelegram > 6) {
 			// Bei viele Fehlern länger warten aber erneut versuchen (2 Minuten fehlerhaft)
-			MLogger.warn("Task Telegram wartet nun");
+			Startup.FailCountTelegram++;
+			MLogger.warn("Task Telegram wartet nun " + Startup.FailCountTelegram + "/12");
 			if (Startup.FailCountTelegram > 12) {
-				// 2 Minuten warten
+				// 4 Minuten warten
 				MLogger.warn("Task Telegram erneuter Verbindungsversuch");
-				Startup.FailCountTelegram = 5;
+				Startup.FailCountTelegram = 1;
 			}
 			return;
 		}

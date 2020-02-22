@@ -19,7 +19,7 @@ public class MelcdConnect {
 	 * @return
 	 * 
 	 */
-	public boolean clear() {
+	public static boolean clear() {
 		try {
 			restLcd("cls");
 			return true;
@@ -33,7 +33,7 @@ public class MelcdConnect {
 	 * @param nRow
 	 * @param Text
 	 */
-	public void write(Integer nRow, Integer nCol, String sText) {
+	public static void write(Integer nRow, Integer nCol, String sText) {
 		if (nCol > 20 || nCol < 0 || nRow < 0 || nRow > 4 || sText.length() > 20 || sText.indexOf(' ') == 0) {
 			return;
 		}
@@ -50,7 +50,7 @@ public class MelcdConnect {
 	/**
 	 * @param sCall
 	 */
-	private void restLcd(String sCall) {
+	private static void restLcd(String sCall) {
 		HttpResponse<String> response;
 		try {
 			response = Unirest.put(Startup.ELCD_PATH + sCall).asString();

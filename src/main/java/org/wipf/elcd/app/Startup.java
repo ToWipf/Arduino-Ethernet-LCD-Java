@@ -62,7 +62,7 @@ public class Startup {
 
 	public static Integer FailCountElcd;
 	public static Integer FailCountTelegram;
-	public static Boolean RunLock;
+	public static Boolean RunLock = false;
 	public static Integer TelegramOffsetID;
 	public static String BOTKEY;
 
@@ -78,6 +78,8 @@ public class Startup {
 		if (MTelegram.loadConfig()) {
 			Startup.startTelegramTask();
 		}
+		System.gc();
+		LOGGER.info("The application is started");
 	}
 
 	/**

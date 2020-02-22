@@ -34,7 +34,7 @@ public class MWipf {
 	}
 
 	/**
-	 * @param i
+	 * @param i in millisec
 	 */
 	public static void sleep(Integer i) {
 		try {
