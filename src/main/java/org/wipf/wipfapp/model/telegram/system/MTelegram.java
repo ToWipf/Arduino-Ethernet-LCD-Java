@@ -105,14 +105,17 @@ public class MTelegram {
 						"https://api.telegram.org/" + Wipfapp.BOTKEY + "/getUpdates?offset=" + Wipfapp.TelegramOffsetID)
 						.asString().getBody();
 			}
-
-			// TODO check auf ok {"ok":false,"error_code":404,"description":"Not Found"}
-
 			// parse josn
 			ObjectMapper mapper = new ObjectMapper();
 			ArrayList<Telegram> li = new ArrayList<>();
 
 			JsonNode jn = mapper.readTree(sJson);
+
+			if (!jn.get("ok").asBoolean()) {
+				LOGGER.warn("API sagt fail:" + jn.asText());
+				Wipfapp.FailCountTelegram++;
+				return;
+			}
 
 			for (JsonNode n : jn) {
 				for (JsonNode nn : n) {

@@ -44,23 +44,23 @@ public class MTodoList {
 			}
 
 			switch (sAction) {
-			// case "a":
-			// case "add":
-			// return add(t);
-			case "d":
-			case "del":
-				return del(t);
-			case "l":
-			case "list":
-				return getAll();
-			case "lf":
-			case "listfull":
-				return getAllFull();
-			case "c":
-			case "count":
-				return count();
-			default:
-				return add(t);
+				// case "a":
+				// case "add":
+				// return add(t);
+				case "d":
+				case "del":
+					return del(t);
+				case "l":
+				case "list":
+					return getAll();
+				case "lf":
+				case "listfull":
+					return getAllFull();
+				case "c":
+				case "count":
+					return count();
+				default:
+					return add(t);
 			}
 
 		}
