@@ -12,6 +12,10 @@ import org.wipf.wipfapp.model.base.MWipf;
 import org.wipf.wipfapp.model.telegram.apps.MTodoList;
 import org.wipf.wipfapp.model.telegram.system.MTelegram;
 
+/**
+ * @author wipf
+ *
+ */
 @Path("/telegram")
 public class RestTelegram {
 
