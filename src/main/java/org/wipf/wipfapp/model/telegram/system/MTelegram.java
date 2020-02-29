@@ -13,7 +13,6 @@ import org.wipf.wipfapp.model.struct.Telegram;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
 
 /**
  * @author wipf
@@ -82,12 +81,18 @@ public class MTelegram {
 	 */
 	public static void sendToTelegram(Telegram t) {
 		try {
-			// HttpResponse<String> res;
-			// res =
-			Unirest.post("https://api.telegram.org/" + Wipfapp.BOTKEY + "/sendMessage?chat_id=" + t.getChatID()
-					+ "&text=" + t.getAntwort()).asString();
-			// MLogger.info(res.getBody());
-		} catch (UnirestException e) {
+			String sResJson = Unirest.post("https://api.telegram.org/" + Wipfapp.BOTKEY + "/sendMessage?chat_id="
+					+ t.getChatID() + "&text=" + t.getAntwort()).asString().getBody();
+
+			// parse josn
+			ObjectMapper mapper = new ObjectMapper();
+			JsonNode jn = mapper.readTree(sResJson);
+
+			if (!jn.get("ok").asBoolean()) {
+				LOGGER.warn("API fail:" + sResJson);
+			}
+
+		} catch (Exception e) {
 			LOGGER.warn("Telegram senden " + e);
 		}
 	}
@@ -112,7 +117,7 @@ public class MTelegram {
 			JsonNode jn = mapper.readTree(sJson);
 
 			if (!jn.get("ok").asBoolean()) {
-				LOGGER.warn("API sagt fail:" + jn.asText());
+				LOGGER.warn("API fail:" + sJson);
 				Wipfapp.FailCountTelegram++;
 				return;
 			}

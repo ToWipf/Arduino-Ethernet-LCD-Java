@@ -33,7 +33,6 @@ import io.quarkus.runtime.StartupEvent;
  * zeitgeplante nachrichten z.B send 10m Hallo Test
  * motd für bestimmte Tage
  * admin tabelle (Telegram ids nicht in code)
- * morsecode
  * sammelen aller user in tabelle mit rechten
  * shell raw
  * //@formatter:on
@@ -47,7 +46,7 @@ import io.quarkus.runtime.StartupEvent;
 public class Wipfapp {
 
 	private static final Logger LOGGER = Logger.getLogger("wipfapp");
-	public static final String VERSION = "2.51";
+	public static final String VERSION = "2.56";
 	public static final String DB_PATH = System.getProperty("user.home") + "/wipfapp/" + "wipfapp.db";
 	public static final String ELCD_PATH = "http://192.168.2.242/";
 	public static final String sKey = "superKey42";

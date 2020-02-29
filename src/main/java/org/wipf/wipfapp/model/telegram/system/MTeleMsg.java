@@ -62,6 +62,7 @@ public class MTeleMsg {
 					"DelMotd" +  "\n" +
 					"DelMsg"+  "\n" +
 					"DoPing" + "\n" +
+					"DoNmap" + "\n" +
 					"send ID msg" + "\n" +
 					"Essen (Hilfe für essen)";
 				// @formatter:on
@@ -99,6 +100,9 @@ public class MTeleMsg {
 
 			case "send":
 				return sendToId(t);
+
+			case "donmap":
+				return MWipf.donmap();
 
 			default:
 				break;
