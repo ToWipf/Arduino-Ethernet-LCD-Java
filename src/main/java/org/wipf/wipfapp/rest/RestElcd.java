@@ -14,6 +14,10 @@ import org.wipf.wipfapp.model.base.MWipf;
 import org.wipf.wipfapp.model.base.Wipfapp;
 import org.wipf.wipfapp.model.elcd.MelcdRun;
 
+/**
+ * @author wipf
+ *
+ */
 @Path("/elcd")
 public class RestElcd {
 

@@ -15,6 +15,10 @@ import org.wipf.wipfapp.model.base.MWipf;
 import org.wipf.wipfapp.model.base.Wipfapp;
 import org.wipf.wipfapp.model.telegram.apps.MOthers;
 
+/**
+ * @author wipf
+ *
+ */
 @Path("/wipf")
 public class RestWipf {
 

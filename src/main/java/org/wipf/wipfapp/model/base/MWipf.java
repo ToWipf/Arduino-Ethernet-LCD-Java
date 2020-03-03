@@ -1,5 +1,8 @@
 package org.wipf.wipfapp.model.base;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -172,6 +175,35 @@ public class MWipf {
 		 * } catch (IOException e) { e.printStackTrace(); } catch (InterruptedException
 		 * e) { e.printStackTrace(); } return sb.toString();
 		 */
+	}
+
+	/**
+	 * @param sCommand
+	 */
+	public static String donmap() {
+		ProcessBuilder processBuilder = new ProcessBuilder();
+
+		processBuilder.command("./nmap.sh");
+		StringBuilder sb = new StringBuilder();
+
+		try {
+			Process process = processBuilder.start();
+			BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+
+			String line;
+			while ((line = reader.readLine()) != null) { //
+				sb.append(line);
+			}
+			int exitCode = process.waitFor(); //
+			sb.append("\nExited with error code : " + exitCode);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		return sb.toString();
+
 	}
 
 }
