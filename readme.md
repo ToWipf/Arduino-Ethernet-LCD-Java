@@ -1,7 +1,7 @@
 # Wipfapp
 
 Build:
-> scripts/build.sh
+´scripts/build.sh´
 
 Run:
-> scripts/start.sh
+´scripts/start.sh´
