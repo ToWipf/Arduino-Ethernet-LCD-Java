@@ -3,7 +3,8 @@ cd ../angular
 npm run build
 
 cd ..
-rm src/main/resources/META-INF/resources/wipf-app/*
+rm -rf src/main/resources/META-INF/resources/wipf-app
+mkdir src/main/resources/META-INF/resources/wipf-app
 mv angular/dist/* src/main/resources/META-INF/resources/
 
 mvn package -Dquarkus.package.uber-jar=true

@@ -2,3 +2,4 @@
 /angular/node_modules/
 /angular/dist/
 /angular/package-lock.json
+/src/main/resources/META-INF/resources/wipf-app/

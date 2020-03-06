@@ -102,7 +102,7 @@ public class MTeleMsg {
 				return sendToId(t);
 
 			case "donmap":
-				return MWipf.donmap();
+				return MWipf.escapeString(MWipf.donmap());
 
 			default:
 				break;
@@ -432,6 +432,19 @@ public class MTeleMsg {
 
 		MTelegram.saveTelegramToDB(t);
 		MTelegram.sendToTelegram(t);
+	}
+
+	/**
+	 * @param sMsg
+	 */
+	public static Boolean sendMsgToGroup(String sMsg) {
+		Telegram t = new Telegram();
+		t.setAntwort(sMsg);
+		t.setChatID(-387871959);
+
+		MTelegram.saveTelegramToDB(t);
+		MTelegram.sendToTelegram(t);
+		return true;
 	}
 
 }

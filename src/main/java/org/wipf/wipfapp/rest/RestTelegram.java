@@ -10,6 +10,7 @@ import javax.ws.rs.core.Response;
 
 import org.wipf.wipfapp.model.base.MWipf;
 import org.wipf.wipfapp.model.telegram.apps.MTodoList;
+import org.wipf.wipfapp.model.telegram.system.MTeleMsg;
 import org.wipf.wipfapp.model.telegram.system.MTelegram;
 
 /**
@@ -24,6 +25,13 @@ public class RestTelegram {
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response setbot(@PathParam("bot") String sBot) {
 		return MWipf.genResponse(MTelegram.setbot(sBot));
+	}
+
+	@POST
+	@Path("/sendMsgToGroup/{msg}")
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response sendMsgToGroup(@PathParam("msg") String sMsg) {
+		return MWipf.genResponse(MTeleMsg.sendMsgToGroup(sMsg));
 	}
 
 	@GET

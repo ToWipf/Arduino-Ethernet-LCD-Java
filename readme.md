@@ -1,8 +1,7 @@
 # Wipfapp
 
 Build:
-> mvn package -Dquarkus.package.uber-jar=true
+`scripts/build.sh`
 
 Run:
-> mvn compile quarkus:dev
-> java -jar target/wipfapp-1.0-SNAPSHOT-runner.jar 
+`scripts/start.sh`
