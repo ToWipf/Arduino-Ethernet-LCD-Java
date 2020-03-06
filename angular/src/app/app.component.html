@@ -5,24 +5,29 @@
         <li (click)="selectSite('wipf')">Wipf</li>
         <li (click)="selectSite('elcd')">Elcd</li>
         <li (click)="selectSite('telegram')">Telegram</li>
-        <button (click)="toggleSidebar()">Menü Öffnen</button>
+        <button (click)="toggleSidebar()">Schließen</button>
       </ul>
     </div>
   </ng-sidebar>
 
+  
   <!-- Haupt Page content -->
-  <div ng-sidebar-content class="maincontainer">
-    <ng-container *ngIf="selectedSite==='elcd'">
-      <app-wipf></app-wipf>
-    </ng-container>
-    <ng-container *ngIf="selectedSite==='wipf'">
-      TODO:
-    </ng-container>
-    <ng-container *ngIf="selectedSite==='telegram'">
-      <app-telegram></app-telegram>
-    </ng-container>
+  <div ng-sidebar-content class="fullsite">
+    
+    <button class="mainMenueButton" (click)="toggleSidebar()">Menü Öffnen</button>
+    
+    <div class="maincontainer">
+      <ng-container *ngIf="selectedSite==='elcd'">
+        <app-wipf></app-wipf>
+      </ng-container>
+      <ng-container *ngIf="selectedSite==='wipf'">
+        TODO:
+      </ng-container>
+      <ng-container *ngIf="selectedSite==='telegram'">
+        <app-telegram></app-telegram>
+      </ng-container>
+    </div>
 
-    <app-footer></app-footer>
-    <button (click)="toggleSidebar()">Menü Öffnen</button>
+    <app-footer class="myfooter"></app-footer>
   </div>
 </ng-sidebar-container>
