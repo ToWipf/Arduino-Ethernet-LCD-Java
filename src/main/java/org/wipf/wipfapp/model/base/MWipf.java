@@ -4,17 +4,22 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
 
 import javax.ws.rs.core.Response;
 
+import org.jboss.logging.Logger;
+
 /**
  * @author wipf
  *
  */
 public class MWipf {
+
+	private static final Logger LOGGER = Logger.getLogger("MWipf");
 
 	/**
 	 * 
@@ -203,6 +208,24 @@ public class MWipf {
 			e.printStackTrace();
 		}
 		return sb.toString();
+
+	}
+
+	/**
+	 * @return
+	 */
+	public static String getExternalIp() {
+		try {
+			URL whatismyip = new URL("http://checkip.amazonaws.com");
+			BufferedReader in;
+			in = new BufferedReader(new InputStreamReader(whatismyip.openStream()));
+			String ip = in.readLine(); // you get the IP as a String
+			return ip;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			LOGGER.warn("getExternalIp" + e);
+			return null;
+		}
 
 	}
 

@@ -59,10 +59,11 @@ public class MTeleMsg {
 					"SendMotd" + "\n" + 
 					"SendInfo" + "\n" +
 					"GetMotd" + "\n" + 
-					"DelMotd" +  "\n" +
-					"DelMsg"+  "\n" +
-					"DoPing" + "\n" +
+					"DelMotd ID" +  "\n" +
+					"DelMsg ID"+  "\n" +
+					"DoPing IP" + "\n" +
 					"DoNmap" + "\n" +
+					"getIp" + "\n" +
 					"send ID msg" + "\n" +
 					"Essen (Hilfe für essen)";
 				// @formatter:on
@@ -103,6 +104,8 @@ public class MTeleMsg {
 
 			case "donmap":
 				return MWipf.escapeString(MWipf.donmap());
+			case "getip":
+				return MWipf.escapeString(MWipf.getExternalIp());
 
 			default:
 				break;
