@@ -2,7 +2,7 @@
 <hr>
 
 <div class="form-group">
-    <label for="formGroupExampleInput2">Nachricht {{sText}}</label>
-    <input type="text" class="form-control inbutton" (input)="sText=$event.target.value" placeholder="Another input">
-    <button type="button" class="btn btn-primary inbutton" (click)="sendMsgToGroup()" >Send</button>
+    <label for="formGroupExampleInput2">Nachricht: {{sText}}</label>
+    <input type="text" class="form-control inbutton" (input)="sText=$event.target.value" placeholder="Nachrichten Text">
+    <button type="button" class="btn btn-primary inbutton" (click)="sendMsgToGroup()">Senden</button>
 </div>
