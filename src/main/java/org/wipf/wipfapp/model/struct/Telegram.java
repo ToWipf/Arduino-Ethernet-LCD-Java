@@ -3,6 +3,9 @@ package org.wipf.wipfapp.model.struct;
 import org.jboss.logging.Logger;
 import org.wipf.wipfapp.model.base.MWipf;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 /**
  * @author wipf
  *
@@ -116,6 +119,20 @@ public class Telegram {
 			return sAntwort;
 		}
 		return null;
+	}
+
+	public Integer getFromIdOnly() {
+		// parse josn
+		try {
+			ObjectMapper mapper = new ObjectMapper();
+			JsonNode jn;
+			jn = mapper.readTree(sFrom);
+			return jn.get("id").asInt();
+		} catch (Exception e) {
+			LOGGER.warn("getFromIdOnly " + e);
+			return null;
+		}
+
 	}
 
 //	/**
