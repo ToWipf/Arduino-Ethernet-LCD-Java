@@ -165,6 +165,9 @@ public class MTelegram {
 					}
 				}
 			}
+			if (Wipfapp.FailCountElcd != 0) {
+				MTeleMsg.sendExtIp();
+			}
 			Wipfapp.FailCountTelegram = 0;
 
 		} catch (Exception e) {

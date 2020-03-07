@@ -64,6 +64,7 @@ public class MTeleMsg {
 					"DoPing IP" + "\n" +
 					"DoNmap" + "\n" +
 					"getIp" + "\n" +
+					"SendIp" + "\n" +
 					"send ID msg" + "\n" +
 					"Essen (Hilfe für essen)";
 				// @formatter:on
@@ -106,6 +107,10 @@ public class MTeleMsg {
 				return MWipf.escapeString(MWipf.donmap());
 			case "getip":
 				return MWipf.escapeString(MWipf.getExternalIp());
+			case "sendip": {
+				sendExtIp();
+				return "OK";
+			}
 
 			default:
 				break;
@@ -448,6 +453,18 @@ public class MTeleMsg {
 		MTelegram.saveTelegramToDB(t);
 		MTelegram.sendToTelegram(t);
 		return true;
+	}
+
+	/**
+	 * 
+	 */
+	public static void sendExtIp() {
+		Telegram t = new Telegram();
+		t.setAntwort("Neue IP: " + MWipf.getExternalIp());
+		t.setChatID(798200105);
+
+		MTelegram.saveTelegramToDB(t);
+		MTelegram.sendToTelegram(t);
 	}
 
 }
