@@ -27,6 +27,7 @@ import io.quarkus.runtime.StartupEvent;
  * alle confs in db
  * 4 gewinnt
  * add to motd for id
+ * set a new admin ?
  * sende in Stunden nachricht
  * rechner tage in stunden
  * zeitgeplante nachrichten z.B send 10m Hallo Test
@@ -45,7 +46,7 @@ import io.quarkus.runtime.StartupEvent;
 public class Wipfapp {
 
 	private static final Logger LOGGER = Logger.getLogger("wipfapp");
-	public static final String VERSION = "2.64";
+	public static final String VERSION = "2.57";
 	public static final String DB_PATH = System.getProperty("user.home") + "/wipfapp/" + "wipfapp.db";
 	public static final String ELCD_PATH = "http://192.168.2.242/";
 	public static final String sKey = "superKey42";
