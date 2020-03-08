@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
-  selector: 'app-wipf',
-  templateUrl: './wipf.component.html',
-  styleUrls: ['./wipf.component.less']
+  selector: 'app-elcd',
+  templateUrl: './elcd.component.html',
+  styleUrls: ['./elcd.component.less']
 })
-export class WipfComponent implements OnInit {
+export class ElcdComponent implements OnInit {
 
   constructor(
     private http: HttpClient,

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-footer',
@@ -7,9 +8,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FooterComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private http: HttpClient,
+  ) { }
+
+  public sVersion: string = "<Laden ...>";
 
   ngOnInit() {
-  }
+    this.getVersion();
+   }
 
+  private getVersion(): void {
+    this.http.get("http://192.168.2.10:8080/wipf/ver")
+      .subscribe((resdata) => {
+        this.sVersion = resdata.toString();
+      });
+  }
 }

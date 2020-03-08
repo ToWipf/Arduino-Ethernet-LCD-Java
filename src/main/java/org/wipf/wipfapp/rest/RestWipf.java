@@ -1,6 +1,5 @@
 package org.wipf.wipfapp.rest;
 
-import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -68,12 +67,19 @@ public class RestWipf {
 		return "get";
 	}
 
-	// System
-	@DELETE
-	@Path("/sysHalt")
-	public void sysHalt() {
-		LOGGER.info("SysHalt");
-		System.exit(0);
+	@GET
+	@Path("/ver")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String getver() {
+		return Wipfapp.VERSION;
 	}
+
+	// System
+//	@DELETE
+//	@Path("/sysHalt")
+//	public void sysHalt() {
+//		LOGGER.info("SysHalt");
+//		System.exit(0);
+//	}
 
 }
