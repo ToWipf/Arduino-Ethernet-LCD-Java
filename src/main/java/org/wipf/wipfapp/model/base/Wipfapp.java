@@ -46,7 +46,7 @@ import io.quarkus.runtime.StartupEvent;
 public class Wipfapp {
 
 	private static final Logger LOGGER = Logger.getLogger("wipfapp");
-	public static final String VERSION = "2.57";
+	public static final String VERSION = "2.58";
 	public static final String DB_PATH = System.getProperty("user.home") + "/wipfapp/" + "wipfapp.db";
 	public static final String ELCD_PATH = "http://192.168.2.242/";
 	public static final String sKey = "superKey42";
