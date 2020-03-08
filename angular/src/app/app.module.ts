@@ -8,13 +8,15 @@ import { FooterComponent } from './components/footer/footer.component';
 import { TelegramComponent } from './components/telegram/telegram.component';
 import { FormsModule } from '@angular/forms';
 import { SidebarModule } from 'ng-sidebar';
+import { ToDoLiComponent } from './components/todolist/todol.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TelegramComponent,
     FooterComponent,
-    ElcdComponent
+    ElcdComponent,
+    ToDoLiComponent,
   ],
   imports: [
     BrowserModule,

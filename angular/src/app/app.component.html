@@ -2,8 +2,9 @@
     <ng-sidebar [(opened)]="opened" position="left">
         <div class="sidebar">
             <ul class="menueli">
-                <li (click)="selectSite('wipf')">Wipf</li>
-                <li (click)="selectSite('elcd')">Elcd</li>
+                <li (click)="selectSite('default')">Hauptseite</li>
+                <li (click)="selectSite('todol')">ToDoListe</li>
+                <li (click)="selectSite('elcd')">E-Lcd</li>
                 <li (click)="selectSite('telegram')">Telegram</li>
                 <button (click)="toggleSidebar()">Schließen</button>
             </ul>
@@ -17,11 +18,14 @@
         <button class="mainMenueButton" (click)="toggleSidebar()">Menü Öffnen</button>
 
         <div class="maincontainer">
+            <ng-container *ngIf="selectedSite==='default'">
+                <!-- TODO: -->
+            </ng-container>
             <ng-container *ngIf="selectedSite==='elcd'">
                 <app-elcd></app-elcd>
             </ng-container>
-            <ng-container *ngIf="selectedSite==='wipf'">
-                TODO:
+            <ng-container *ngIf="selectedSite==='todol'">
+                <app-todoli></app-todoli>
             </ng-container>
             <ng-container *ngIf="selectedSite==='telegram'">
                 <app-telegram></app-telegram>
