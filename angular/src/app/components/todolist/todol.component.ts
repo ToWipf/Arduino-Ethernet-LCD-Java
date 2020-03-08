@@ -20,6 +20,7 @@ export class ToDoLiComponent implements OnInit {
     this.http.get("http://192.168.2.10:8080/todolist/getAllJson")
       .subscribe((resdata) => {
         const list = JSON.parse(resdata.toString());
+        console.log(list);
         //TODO:
         list.forEach((item) => {
           console.log(item);

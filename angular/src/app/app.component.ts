@@ -15,7 +15,6 @@ export class AppComponent {
   }
 
   public selectSite(s: string) {
-    console.log(s);
     this.selectedSite = s;
     this.opened = false;
   }
