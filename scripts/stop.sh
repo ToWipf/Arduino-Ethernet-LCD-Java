@@ -1,5 +1,5 @@
 #!/bin/bash
-pkill -f 'java -jar /root/wipfapp/wipfapp-1.0-SNAPSHOT-runner.jar'
+ps -ef | grep 'wipfapp' | grep -v grep | awk '{print $2}' | xargs -r kill -9
 echo $?
 
 
