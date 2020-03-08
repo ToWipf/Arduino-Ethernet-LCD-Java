@@ -37,6 +37,14 @@ public class RestTodoList {
 	public Response todolist() {
 		return MWipf.genResponse(MTodoList.getAllFull());
 	}
+
+	@GET
+	@Path("/getAllJson")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getAllJson() {
+		return MWipf.genResponse(MTodoList.getAllAsJson());
+	}
+
 //	
 //	// TODO
 //	@POST

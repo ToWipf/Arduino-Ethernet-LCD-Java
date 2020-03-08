@@ -13,6 +13,17 @@ export class ToDoLiComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.getAll();
   }
-
+  
+  private getAll(): void {
+    this.http.get("http://192.168.2.10:8080/todolist/getAllJson")
+      .subscribe((resdata) => {
+        const list = JSON.parse(resdata.toString());
+        //TODO:
+        list.forEach((item) => {
+          console.log(item);
+        });
+      });
+  }
 }
