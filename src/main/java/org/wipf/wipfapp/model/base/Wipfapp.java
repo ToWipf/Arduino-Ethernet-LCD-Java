@@ -27,7 +27,6 @@ import io.quarkus.runtime.StartupEvent;
  * alle confs in db
  * 4 gewinnt
  * add to motd for id
- * set a new admin ?
  * sende in Stunden nachricht
  * rechner tage in stunden
  * zeitgeplante nachrichten z.B send 10m Hallo Test
