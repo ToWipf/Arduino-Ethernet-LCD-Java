@@ -35,34 +35,55 @@ public class MTodoList {
 	 * @return
 	 */
 	public static String menueTodoList(Telegram t) {
-
 		// Admin Befehle
 		if (MTelegram.isAdminUser(t)) {
 			String sAction = t.getMessageStringPart(1);
 			if (sAction == null) {
-				return "add, del, list, count";
+				// @formatter:off
+				return 
+					"text (add)" + "\n" + 
+					"done ID" + "\n" + 
+					"undone ID" + "\n" +
+					"delete ID" + "\n" +
+					"list" +  "\n" +
+					"listall" + "\n" +
+					"listfull" + "\n" +
+					"count" + "\n" +
+					"countall";
+				// @formatter:on
 			}
 
 			switch (sAction) {
-				// case "a":
-				// case "add":
-				// return add(t);
-				case "d":
-				case "del":
-					return del(t);
-				case "l":
-				case "list":
-					return getAll();
-				case "lf":
-				case "listfull":
-					return getAllFull();
-				case "c":
-				case "count":
-					return count();
-				default:
-					return add(t);
+			// case "a":
+			// case "add":
+			// return add(t);
+			case "d":
+			case "done":
+				return markDone(t.getMessageIntPart(2));
+			case "u":
+			case "undone":
+				return markUnDone(t.getMessageIntPart(2));
+			case "del":
+			case "delete":
+				return delByID(t.getMessageIntPart(2));
+			case "l":
+			case "list":
+				return getAllByUser(t.getFromIdOnly());
+			case "la":
+			case "listall":
+				return getAll();
+			case "lf":
+			case "listfull":
+				return getAllFull();
+			case "c":
+			case "count":
+				return count(t.getFromIdOnly());
+			case "ca":
+			case "countall":
+				return countAll();
+			default:
+				return addByTelegram(t);
 			}
-
 		}
 		return "Du kannst keine Todo-Liste anlegen";
 	}
@@ -106,7 +127,7 @@ public class MTodoList {
 	/**
 	 * @return
 	 */
-	private static String getAll() {
+	public static String getAll() {
 		try {
 			StringBuilder sb = new StringBuilder();
 
@@ -126,17 +147,41 @@ public class MTodoList {
 	}
 
 	/**
+	 * @param nTeleID
+	 * @return
+	 */
+	public static String getAllByUser(Integer nTeleID) {
+		try {
+			StringBuilder sb = new StringBuilder();
+
+			Statement stmt = MsqlLite.getDB();
+			ResultSet rs = stmt.executeQuery("select * from todolist WHERE editby = " + nTeleID + ";");
+			while (rs.next()) {
+				sb.append(rs.getString("id") + "\t");
+				sb.append(rs.getString("data") + "\n");
+			}
+			rs.close();
+			return sb.toString();
+
+		} catch (Exception e) {
+			LOGGER.warn("get all todolist" + e);
+		}
+		return "Fehler";
+	}
+
+	/**
 	 * @param t
 	 * @return
 	 */
-	private static String add(Telegram t) {
+	private static String addByTelegram(Telegram t) {
 		try {
 			Statement stmt = MsqlLite.getDB();
 			//@formatter:off
-			stmt.execute("INSERT OR REPLACE INTO todolist (data, editby, date) VALUES " +
+			stmt.execute("INSERT OR REPLACE INTO todolist (data, editby, date, active) VALUES " +
 					"('" + t.getMessageStringFirst() +
-					"','" + t.getFrom() +
+					"','" + t.getFromIdOnly() +
 					"','"+ t.getDate() +
+					"','"+ "NEW" +
 					"')");
 			//@formatter:on
 			return "gespeichert";
@@ -149,10 +194,21 @@ public class MTodoList {
 	/**
 	 * @return
 	 */
-	private static String count() {
+	private static String countAll() {
 		try {
 			Statement stmt = MsqlLite.getDB();
 			ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM todolist;");
+			return rs.getString("COUNT(*)") + " Einträge in der DB";
+		} catch (Exception e) {
+			LOGGER.warn("count todolist " + e);
+			return null;
+		}
+	}
+
+	private static String count(Integer nTeleID) {
+		try {
+			Statement stmt = MsqlLite.getDB();
+			ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM todolist WHERE editby = " + nTeleID + ";");
 			return rs.getString("COUNT(*)") + " Einträge in der DB";
 		} catch (Exception e) {
 			LOGGER.warn("count todolist " + e);
@@ -164,11 +220,43 @@ public class MTodoList {
 	 * @param t
 	 * @return
 	 */
-	private static String del(Telegram t) {
+	private static String delByID(Integer nID) {
 		try {
 			Statement stmt = MsqlLite.getDB();
-			stmt.execute("DELETE FROM todolist WHERE id = " + t.getMessageIntPart(2));
+			stmt.execute("DELETE FROM todolist WHERE id = " + nID);
 			return "DEL";
+		} catch (Exception e) {
+			LOGGER.warn("delete todo" + e);
+			return "Fehler";
+		}
+	}
+
+	/**
+	 * @param t
+	 * @return
+	 */
+	private static String markDone(Integer nID) {
+		return mark("DONE", nID);
+	}
+
+	/**
+	 * @param t
+	 * @return
+	 */
+	private static String markUnDone(Integer nID) {
+		return mark("UNDONE", nID);
+	}
+
+	/**
+	 * @param sMark
+	 * @param nID
+	 * @return
+	 */
+	private static String mark(String sMark, Integer nID) {
+		try {
+			Statement stmt = MsqlLite.getDB();
+			stmt.execute("UPDATE todolist SET active ='" + sMark + "' WHERE id = " + nID);
+			return "OK";
 		} catch (Exception e) {
 			LOGGER.warn("delete todo" + e);
 			return "Fehler";

@@ -9,7 +9,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.wipf.wipfapp.model.base.MWipf;
-import org.wipf.wipfapp.model.telegram.apps.MTodoList;
 import org.wipf.wipfapp.model.telegram.system.MTeleMsg;
 import org.wipf.wipfapp.model.telegram.system.MTelegram;
 
@@ -46,13 +45,6 @@ public class RestTelegram {
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response telelogtf() {
 		return MWipf.genResponse(MTelegram.getTelegramLog("798200105"));
-	}
-
-	@GET
-	@Path("/todolist")
-	@Produces(MediaType.TEXT_PLAIN)
-	public Response todolist() {
-		return MWipf.genResponse(MTodoList.getAllFull());
 	}
 
 }

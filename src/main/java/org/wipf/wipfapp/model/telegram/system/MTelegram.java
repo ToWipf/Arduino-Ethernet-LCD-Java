@@ -81,15 +81,20 @@ public class MTelegram {
 	 */
 	public static void sendToTelegram(Telegram t) {
 		try {
+			String sAntwort = t.getAntwort();
+			if (sAntwort == null || sAntwort.equals("")) {
+				sAntwort = "Leere%20Antwort";
+			}
+
 			String sResJson = Unirest.post("https://api.telegram.org/" + Wipfapp.BOTKEY + "/sendMessage?chat_id="
-					+ t.getChatID() + "&text=" + t.getAntwort()).asString().getBody();
+					+ t.getChatID() + "&text=" + sAntwort).asString().getBody();
 
 			// parse josn
 			ObjectMapper mapper = new ObjectMapper();
 			JsonNode jn = mapper.readTree(sResJson);
 
 			if (!jn.get("ok").asBoolean()) {
-				LOGGER.warn("API fail:" + sResJson);
+				LOGGER.warn("API fail:" + sResJson + " Antworttext: '" + sAntwort + "'");
 			}
 
 		} catch (Exception e) {
@@ -159,6 +164,9 @@ public class MTelegram {
 						LOGGER.warn("bearbeiteMsg " + e);
 					}
 				}
+			}
+			if (Wipfapp.FailCountElcd != 0) {
+				MTeleMsg.sendExtIp();
 			}
 			Wipfapp.FailCountTelegram = 0;
 
