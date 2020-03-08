@@ -80,6 +80,7 @@ public class Wipfapp {
 		LOGGER.info("The application is stopping...");
 		// System.exit(0);
 		// TODO funktioniert nicht
+		// https://github.com/quarkusio/quarkus/issues/2150
 	}
 
 	/**
