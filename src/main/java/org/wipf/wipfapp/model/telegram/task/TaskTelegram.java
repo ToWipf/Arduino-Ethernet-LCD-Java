@@ -1,4 +1,4 @@
-package org.wipf.wipfapp.model.task;
+package org.wipf.wipfapp.model.telegram.task;
 
 import java.util.TimerTask;
 
