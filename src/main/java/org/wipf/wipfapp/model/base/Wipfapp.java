@@ -34,7 +34,6 @@ import io.quarkus.runtime.StartupEvent;
  * motd für bestimmte Tage
  * admin tabelle (Telegram ids nicht in code)
  * sammelen aller user in tabelle mit rechten
- * shell raw
  * //@formatter:on
  */
 
