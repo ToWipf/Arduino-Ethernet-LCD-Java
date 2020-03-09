@@ -5,6 +5,7 @@ import java.sql.Statement;
 import java.util.Date;
 
 import org.jboss.logging.Logger;
+import org.json.JSONObject;
 import org.wipf.wipfapp.model.base.MsqlLite;
 import org.wipf.wipfapp.model.struct.Telegram;
 import org.wipf.wipfapp.model.telegram.system.MTelegram;
@@ -14,6 +15,8 @@ import org.wipf.wipfapp.model.telegram.system.MTelegram;
  *
  */
 public class MTodoList {
+
+	// TODO: edit entry
 
 	private static final Logger LOGGER = Logger.getLogger("MTodoList");
 
@@ -165,6 +168,32 @@ public class MTodoList {
 
 		} catch (Exception e) {
 			LOGGER.warn("get all todolist" + e);
+		}
+		return "Fehler";
+	}
+
+	/**
+	 * @return
+	 */
+	public static String getAllAsJson() {
+		try {
+			JSONObject json = new JSONObject();
+
+			Statement stmt = MsqlLite.getDB();
+			ResultSet rs = stmt.executeQuery("select * from todolist;");
+			while (rs.next()) {
+				JSONObject entry = new JSONObject();
+				entry.put("data", rs.getString("data"));
+				entry.put("editby", rs.getString("editby"));
+				entry.put("active", rs.getString("active"));
+				entry.put("remind", rs.getString("remind"));
+				json.put(rs.getString("id"), entry);
+			}
+			rs.close();
+			return json.toString();
+
+		} catch (Exception e) {
+			LOGGER.warn("get all json todolist" + e);
 		}
 		return "Fehler";
 	}

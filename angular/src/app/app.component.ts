@@ -8,14 +8,13 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'Wipf';
   public opened = false;
-  public selectedSite: string = null;
+  public selectedSite: string = "default";
 
   public toggleSidebar() {
     this.opened = !this.opened;
   }
 
   public selectSite(s: string) {
-    console.log(s);
     this.selectedSite = s;
     this.opened = false;
   }

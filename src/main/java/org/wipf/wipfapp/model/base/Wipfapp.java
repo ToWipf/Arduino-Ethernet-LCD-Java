@@ -45,7 +45,7 @@ import io.quarkus.runtime.StartupEvent;
 public class Wipfapp {
 
 	private static final Logger LOGGER = Logger.getLogger("wipfapp");
-	public static final String VERSION = "2.64";
+	public static final String VERSION = "2.65";
 	public static final String DB_PATH = System.getProperty("user.home") + "/wipfapp/" + "wipfapp.db";
 	public static final String ELCD_PATH = "http://192.168.2.242/";
 	public static final String sKey = "superKey42";
@@ -79,6 +79,7 @@ public class Wipfapp {
 		LOGGER.info("The application is stopping...");
 		// System.exit(0);
 		// TODO funktioniert nicht
+		// https://github.com/quarkusio/quarkus/issues/2150
 	}
 
 	/**

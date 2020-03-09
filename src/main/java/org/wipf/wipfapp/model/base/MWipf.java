@@ -188,7 +188,7 @@ public class MWipf {
 	public static String donmap() {
 		ProcessBuilder processBuilder = new ProcessBuilder();
 
-		processBuilder.command("./nmap.sh");
+		processBuilder.command("/root/wipfapp/nmap.sh");
 		StringBuilder sb = new StringBuilder();
 
 		try {
