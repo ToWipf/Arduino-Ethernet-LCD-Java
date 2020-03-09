@@ -8,14 +8,14 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 
 import org.jboss.logging.Logger;
-import org.wipf.wipfapp.model.task.TaskInfoTelegram;
-import org.wipf.wipfapp.model.task.TaskTelegram;
 import org.wipf.wipfapp.model.telegram.apps.MEssen;
 import org.wipf.wipfapp.model.telegram.apps.MMumel;
 import org.wipf.wipfapp.model.telegram.apps.MTicTacToe;
 import org.wipf.wipfapp.model.telegram.apps.MTodoList;
 import org.wipf.wipfapp.model.telegram.system.MTeleMsg;
 import org.wipf.wipfapp.model.telegram.system.MTelegram;
+import org.wipf.wipfapp.model.telegram.task.TaskInfoTelegram;
+import org.wipf.wipfapp.model.telegram.task.TaskTelegram;
 
 import io.quarkus.runtime.ShutdownEvent;
 import io.quarkus.runtime.StartupEvent;
