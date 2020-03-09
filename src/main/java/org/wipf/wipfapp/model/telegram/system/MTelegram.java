@@ -131,9 +131,8 @@ public class MTelegram {
 				for (JsonNode nn : n) {
 					Telegram t = new Telegram();
 					try {
-						Wipfapp.TelegramOffsetID = nn.get("update_id").asInt() + 1; // Nachricht gelesen -> löschen
-																					// am
-						// Telegram server
+						// Nachricht gelesen -> löschen am Telegram server
+						Wipfapp.TelegramOffsetID = nn.get("update_id").asInt() + 1;
 						JsonNode msg = nn.get("message");
 						t.setMid(msg.get("message_id").asInt());
 						t.setMessage(msg.get("text").asText());
@@ -147,11 +146,13 @@ public class MTelegram {
 					}
 				}
 			}
-			// ids zu db
+
+			// Maximal 5 MSG abarbeiten
 			if (li.size() > 5) {
 				Wipfapp.TelegramOffsetID = Wipfapp.TelegramOffsetID - li.size() + 5;
 			}
 
+			// ids zu db
 			Integer nMax = 0;
 			for (Telegram t : li) {
 				nMax++;
@@ -170,8 +171,11 @@ public class MTelegram {
 			}
 			Wipfapp.FailCountTelegram = 0;
 
-		} catch (Exception e) {
-			LOGGER.warn("readUpdateFromTelegram " + e);
+		} catch (
+
+		Exception e) {
+			Wipfapp.FailCountTelegram++;
+			LOGGER.warn("readUpdateFromTelegram fails: " + Wipfapp.FailCountTelegram + " " + e);
 		}
 	}
 

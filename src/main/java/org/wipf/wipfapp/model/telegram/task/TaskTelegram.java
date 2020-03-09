@@ -12,7 +12,7 @@ import org.wipf.wipfapp.model.telegram.system.MTelegram;
  */
 public class TaskTelegram extends TimerTask {
 
-	private static final Logger LOGGER = Logger.getLogger("TimerTask");
+	private static final Logger LOGGER = Logger.getLogger("TaskTelegram");
 
 	/**
 	 *
@@ -35,7 +35,7 @@ public class TaskTelegram extends TimerTask {
 
 		} catch (Exception e) {
 			Wipfapp.FailCountTelegram++;
-			LOGGER.warn("TaskTelegram " + e);
+			LOGGER.warn("TaskTelegram fails:" + Wipfapp.FailCountTelegram + " " + e);
 		}
 	}
 }

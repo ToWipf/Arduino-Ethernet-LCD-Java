@@ -1,8 +1,6 @@
 package org.wipf.wipfapp.model.base;
 
 import java.sql.Statement;
-import java.time.LocalDateTime;
-import java.util.Timer;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
@@ -14,8 +12,7 @@ import org.wipf.wipfapp.model.telegram.apps.MTicTacToe;
 import org.wipf.wipfapp.model.telegram.apps.MTodoList;
 import org.wipf.wipfapp.model.telegram.system.MTeleMsg;
 import org.wipf.wipfapp.model.telegram.system.MTelegram;
-import org.wipf.wipfapp.model.telegram.task.TaskInfoTelegram;
-import org.wipf.wipfapp.model.telegram.task.TaskTelegram;
+import org.wipf.wipfapp.model.telegram.task.MStartTelegramTask;
 
 import io.quarkus.runtime.ShutdownEvent;
 import io.quarkus.runtime.StartupEvent;
@@ -66,7 +63,7 @@ public class Wipfapp {
 		MsqlLite.startDB();
 		initDBs();
 		if (MTelegram.loadConfig()) {
-			startTelegramTask();
+			MStartTelegramTask.startTelegramTask();
 		}
 		System.gc();
 		LOGGER.info("Wipfapp ist gestartet");
@@ -80,27 +77,6 @@ public class Wipfapp {
 		// System.exit(0);
 		// TODO funktioniert nicht
 		// https://github.com/quarkusio/quarkus/issues/2150
-	}
-
-	/**
-	 * 
-	 */
-	public static void startTelegramTask() {
-		FailCountTelegram = 0;
-		LOGGER.info("Start Telegram Task");
-		Timer t = new Timer();
-		TaskTelegram mTask = new TaskTelegram();
-		TaskInfoTelegram mInfoTask = new TaskInfoTelegram();
-
-		LocalDateTime localDateTime = LocalDateTime.now();
-
-		Integer nSekundenBisMitternacht = (86400
-				- (localDateTime.getHour() * 60 * 60 + localDateTime.getMinute() * 60 + localDateTime.getSecond()));
-
-		// This task is scheduled to run every 20 seconds
-		t.scheduleAtFixedRate(mTask, 0, 20000);
-		// This task is scheduled to run every 1 day at 00:00
-		t.scheduleAtFixedRate(mInfoTask, nSekundenBisMitternacht * 1000, 86400000);
 	}
 
 	/**
