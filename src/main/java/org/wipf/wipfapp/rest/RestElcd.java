@@ -10,9 +10,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.wipf.wipfapp.model.base.MWipf;
-import org.wipf.wipfapp.model.base.Wipfapp;
-import org.wipf.wipfapp.model.elcd.MelcdRun;
+import org.wipf.wipfapp.logic.base.MWipf;
+import org.wipf.wipfapp.logic.base.Wipfapp;
+import org.wipf.wipfapp.logic.elcd.MelcdRun;
 
 /**
  * @author wipf

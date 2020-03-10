@@ -8,9 +8,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.wipf.wipfapp.model.base.MWipf;
-import org.wipf.wipfapp.model.telegram.system.MTeleMsg;
-import org.wipf.wipfapp.model.telegram.system.MTelegram;
+import org.wipf.wipfapp.logic.base.MWipf;
+import org.wipf.wipfapp.logic.telegram.system.MTeleMsg;
+import org.wipf.wipfapp.logic.telegram.system.MTelegram;
 
 /**
  * @author wipf

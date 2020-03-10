@@ -7,8 +7,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.wipf.wipfapp.model.base.MWipf;
-import org.wipf.wipfapp.model.telegram.apps.MTodoList;
+import org.wipf.wipfapp.logic.base.MWipf;
+import org.wipf.wipfapp.logic.telegram.apps.MTodoList;
 
 /**
  * @author wipf

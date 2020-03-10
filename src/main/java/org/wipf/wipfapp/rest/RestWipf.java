@@ -9,10 +9,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.jboss.logging.Logger;
-import org.wipf.wipfapp.model.base.MBlowfish;
-import org.wipf.wipfapp.model.base.MWipf;
-import org.wipf.wipfapp.model.base.Wipfapp;
-import org.wipf.wipfapp.model.telegram.apps.MOthers;
+import org.wipf.wipfapp.logic.base.MBlowfish;
+import org.wipf.wipfapp.logic.base.MWipf;
+import org.wipf.wipfapp.logic.base.Wipfapp;
+import org.wipf.wipfapp.logic.telegram.apps.MOthers;
 
 /**
  * @author wipf
