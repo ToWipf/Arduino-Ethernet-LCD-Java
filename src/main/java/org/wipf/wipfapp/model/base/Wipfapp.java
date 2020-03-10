@@ -23,6 +23,7 @@ import io.quarkus.runtime.StartupEvent;
 // TODO:
 /*
  * //@formatter:off
+ * 
  * stringclass
  * alle confs in db
  * 4 gewinnt
@@ -35,6 +36,7 @@ import io.quarkus.runtime.StartupEvent;
  * admin tabelle (Telegram ids nicht in code)
  * sammelen aller user in tabelle mit rechten
  * shell raw
+ * 
  * //@formatter:on
  */
 
