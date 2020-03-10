@@ -20,7 +20,6 @@ import io.quarkus.runtime.StartupEvent;
 // TODO:
 /*
  * //@formatter:off
- * 
  * stringclass
  * alle confs in db
  * 4 gewinnt
@@ -32,11 +31,6 @@ import io.quarkus.runtime.StartupEvent;
  * motd für bestimmte Tage
  * admin tabelle (Telegram ids nicht in code)
  * sammelen aller user in tabelle mit rechten
-<<<<<<< HEAD
- * shell raw
- * 
-=======
->>>>>>> branch 'master' of https://github.com/ToWipf/wipfapp.git
  * //@formatter:on
  */
 
