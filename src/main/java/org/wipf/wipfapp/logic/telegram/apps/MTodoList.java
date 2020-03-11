@@ -216,6 +216,7 @@ public class MTodoList {
 				entry.put("editby", rs.getString("editby"));
 				entry.put("active", rs.getString("active"));
 				entry.put("remind", rs.getString("remind"));
+				entry.put("date", rs.getString("date"));
 				json.put(entry);
 			}
 			rs.close();

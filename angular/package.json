@@ -20,6 +20,7 @@
     "help": "^3.0.2",
     "jquery": "^3.4.1",
     "ng-sidebar": "^9.2.0",
+    "ngx-perfect-scrollbar": "^9.0.0",
     "popper.js": "^1.16.1",
     "rxjs": "~6.4.0",
     "tslib": "^1.11.0",

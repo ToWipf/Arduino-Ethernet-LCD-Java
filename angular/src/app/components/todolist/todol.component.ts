@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ElementRef, ViewChild } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 
 @Component({
@@ -8,7 +8,10 @@ import { HttpClient } from "@angular/common/http";
 })
 export class ToDoLiComponent implements OnInit {
   constructor(private http: HttpClient) {}
-  public toarry: [{ id: number, data: string, active: string, editby: string }];
+
+  public toarry: [
+    { id: number; data: string; active: string; editby: string; date: number }
+  ];
 
   ngOnInit() {
     this.getAll();

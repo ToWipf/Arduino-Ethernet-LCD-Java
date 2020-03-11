@@ -9,6 +9,7 @@ import { TelegramComponent } from './components/telegram/telegram.component';
 import { FormsModule } from '@angular/forms';
 import { SidebarModule } from 'ng-sidebar';
 import { ToDoLiComponent } from './components/todolist/todol.component';
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar'; 
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { ToDoLiComponent } from './components/todolist/todol.component';
     BrowserModule,
     HttpClientModule,
     FormsModule,
-    SidebarModule.forRoot()
+    SidebarModule.forRoot(),
+    PerfectScrollbarModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

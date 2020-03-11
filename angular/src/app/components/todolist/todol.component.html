@@ -1,3 +1,33 @@
 <div>
     <h3>ToDo Liste</h3>
+
+    <div class="todolist">
+
+        <perfect-scrollbar style="max-width: 600px; max-height: 400px;">
+
+            <ng-container *ngIf="toarry">
+                Liste
+                <table class="table table-striped">
+                    <tr>
+                        <th>Id</th>
+                        <th>Data</th>
+                        <th>EditBy</th>
+                        <th>Active</th>
+                        <th>Date</th>
+                    </tr>
+                    <tbody *ngFor="let item of toarry">
+                        <tr>
+                            <td>{{item.id}}</td>
+                            <td>{{item.data}}</td>
+                            <td>{{item.editby}}</td>
+                            <td>{{item.active}}</td>
+                            <td>{{item.date}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </ng-container>
+
+        </perfect-scrollbar>
+    </div>
+
 </div>
