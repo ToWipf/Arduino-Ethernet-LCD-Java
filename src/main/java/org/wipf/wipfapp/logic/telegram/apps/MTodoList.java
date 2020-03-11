@@ -5,6 +5,7 @@ import java.sql.Statement;
 import java.util.Date;
 
 import org.jboss.logging.Logger;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.wipf.wipfapp.datatypes.Telegram;
 import org.wipf.wipfapp.logic.base.MsqlLite;
@@ -71,9 +72,12 @@ public class MTodoList {
 				return delByID(t.getMessageIntPart(2));
 			case "l":
 			case "list":
-				return getAllByUser(t.getFromIdOnly());
+				return getAllUnDoneByUser(t.getFromIdOnly());
 			case "la":
 			case "listall":
+				return getAllByUser(t.getFromIdOnly());
+			case "ev":
+			case "everything":
 				return getAll();
 			case "lf":
 			case "listfull":
@@ -173,21 +177,46 @@ public class MTodoList {
 	}
 
 	/**
+	 * @param nTeleID
+	 * @return
+	 */
+	public static String getAllUnDoneByUser(Integer nTeleID) {
+		try {
+			StringBuilder sb = new StringBuilder();
+
+			Statement stmt = MsqlLite.getDB();
+			ResultSet rs = stmt
+					.executeQuery("select * from todolist WHERE editby = " + nTeleID + " AND active NOT LIKE 'DONE';");
+			while (rs.next()) {
+				sb.append(rs.getString("id") + "\t");
+				sb.append(rs.getString("data") + "\n");
+			}
+			rs.close();
+			return sb.toString();
+
+		} catch (Exception e) {
+			LOGGER.warn("get all todolist" + e);
+		}
+		return "Fehler";
+	}
+
+	/**
 	 * @return
 	 */
 	public static String getAllAsJson() {
 		try {
-			JSONObject json = new JSONObject();
+			JSONArray json = new JSONArray();
 
 			Statement stmt = MsqlLite.getDB();
 			ResultSet rs = stmt.executeQuery("select * from todolist;");
 			while (rs.next()) {
 				JSONObject entry = new JSONObject();
+				entry.put("id", rs.getString("id"));
 				entry.put("data", rs.getString("data"));
 				entry.put("editby", rs.getString("editby"));
 				entry.put("active", rs.getString("active"));
 				entry.put("remind", rs.getString("remind"));
-				json.put(rs.getString("id"), entry);
+				json.put(entry);
 			}
 			rs.close();
 			return json.toString();
