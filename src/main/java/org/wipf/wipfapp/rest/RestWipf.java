@@ -66,9 +66,9 @@ public class RestWipf {
 
 	@GET
 	@Path("/ver")
-	@Produces(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
 	public String getver() {
-		return Wipfapp.VERSION;
+		return "{\"ver\":\"" + Wipfapp.VERSION + "\"}";
 	}
 
 	// System
