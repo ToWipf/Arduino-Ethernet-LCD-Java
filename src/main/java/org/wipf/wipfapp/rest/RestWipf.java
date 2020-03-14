@@ -8,7 +8,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.jboss.logging.Logger;
 import org.wipf.wipfapp.logic.base.MBlowfish;
 import org.wipf.wipfapp.logic.base.MWipf;
 import org.wipf.wipfapp.logic.base.Wipfapp;
@@ -20,8 +19,6 @@ import org.wipf.wipfapp.logic.telegram.apps.MOthers;
  */
 @Path("/wipf")
 public class RestWipf {
-
-	private static final Logger LOGGER = Logger.getLogger("RestWipf");
 
 	@GET
 	@Path("/ping/{ip}")
