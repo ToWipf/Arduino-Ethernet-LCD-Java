@@ -1,5 +1,6 @@
-import { Component, OnInit, ElementRef, ViewChild } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
+import { MatTableDataSource } from "@angular/material/table";
 
 @Component({
   selector: "app-todoli",
@@ -23,9 +24,6 @@ export class ToDoLiComponent implements OnInit {
       .subscribe((resdata: any) => {
         this.toarry = resdata;
 
-        this.toarry.forEach(item => {
-          console.log(item);
-        });
       });
   }
 }
