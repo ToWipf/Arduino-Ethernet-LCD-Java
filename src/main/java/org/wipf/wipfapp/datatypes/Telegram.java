@@ -52,7 +52,7 @@ public class Telegram {
 		String s = getMessageStringRawPart(nStelle);
 		if (s != null) {
 			// Satzzeichen ignorieren
-			return s.toLowerCase().replace("/", "").replace(".", "").replace("?", "").replace("!", "");
+			return s.toLowerCase().replace("/", "").replace(".", "").replace("?", "").replace("!", "").trim();
 		}
 		return null;
 	}
@@ -66,7 +66,7 @@ public class Telegram {
 			int n = 0;
 			for (String part : sMessage.split(" ")) {
 				if (n == nStelle) {
-					return part;
+					return part.trim();
 				}
 				n++;
 			}
@@ -81,14 +81,14 @@ public class Telegram {
 	 */
 	public String getMessageStringSecond() {
 		String s = sMessage.substring(sMessage.indexOf(' ') + 1);
-		return s.substring(s.indexOf(' '));
+		return s.substring(s.indexOf(' ')).trim();
 	}
 
 	/**
 	 * @return mgs ohne das erste wort
 	 */
 	public String getMessageStringFirst() {
-		return sMessage.substring(sMessage.indexOf(' ') + 1);
+		return sMessage.substring(sMessage.indexOf(' ') + 1).trim();
 	}
 
 	/**

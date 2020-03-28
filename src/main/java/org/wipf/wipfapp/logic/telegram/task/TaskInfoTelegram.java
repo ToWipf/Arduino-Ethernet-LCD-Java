@@ -2,7 +2,6 @@ package org.wipf.wipfapp.logic.telegram.task;
 
 import java.util.TimerTask;
 
-import org.wipf.wipfapp.logic.telegram.apps.MEssen;
 import org.wipf.wipfapp.logic.telegram.system.MTeleMsg;
 
 /**
@@ -19,6 +18,6 @@ public class TaskInfoTelegram extends TimerTask {
 		// Senden
 		MTeleMsg.sendDaylyInfo();
 		MTeleMsg.sendDaylyMotd();
-		MEssen.sendDaylyEssen();
+		// MEssen.sendDaylyEssen();
 	}
 }
