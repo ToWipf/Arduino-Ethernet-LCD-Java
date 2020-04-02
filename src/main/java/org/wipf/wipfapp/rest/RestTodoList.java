@@ -20,7 +20,7 @@ public class RestTodoList {
 	@GET
 	@Path("/getAll")
 	@Produces(MediaType.TEXT_PLAIN)
-	public Response getall(@PathParam("bot") String sBot) {
+	public Response getall() {
 		return MWipf.genResponse(MTodoList.getAll());
 	}
 
