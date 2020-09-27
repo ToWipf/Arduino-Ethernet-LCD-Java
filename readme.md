@@ -1,7 +1,3 @@
-# Wipfapp
+# New repository:
 
-Build:
-`scripts/build.sh`
-
-Run:
-`scripts/start.sh`
+https://github.com/ToWipf/jasmarty
